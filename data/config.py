@@ -1,6 +1,15 @@
-BOT_TOKEN = '1688138526:AAFlcUBIw6jdhOOohZeQewX1ciWhKUwpnOE'
+import os
+from dotenv import load_dotenv
 
-ADMIN_ID = 59677456
+load_dotenv()
+
+BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
+
+ADMIN_ID = str(os.getenv('ADMIN_ID'))
+
+# BOT_TOKEN = '1688138526:AAFlcUBIw6jdhOOohZeQewX1ciWhKUwpnOE'
+
+# ADMIN_ID = 59677456
 
 # from environs import Env
 
