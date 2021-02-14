@@ -3,9 +3,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-BOT_TOKEN = str(os.getenv('BOT_TOKEN'))
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
-ADMIN_ID = str(os.getenv('ADMIN_ID'))
+ADMIN_ID = os.getenv('ADMIN_ID')
 
 # BOT_TOKEN = '1688138526:AAFlcUBIw6jdhOOohZeQewX1ciWhKUwpnOE'
 
