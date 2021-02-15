@@ -5,7 +5,12 @@ load_dotenv()
 
 BOT_TOKEN = os.getenv('BOT_TOKEN')
 
-ADMIN_ID = os.getenv('ADMIN_ID')
+super_admins = [
+    59677456,
+    # 1637852195
+]
+
+# ADMIN_ID = os.getenv('ADMIN_ID')
 
 # BOT_TOKEN = '1688138526:AAFlcUBIw6jdhOOohZeQewX1ciWhKUwpnOE'
 
