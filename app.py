@@ -1,5 +1,8 @@
+from loader import db
+
 async def on_startup(dispatcher):
     # Уведомляет про запуск бота
+    print(db.select_all_users())
 
     from utils.notify_admins import on_startup_notify
 
