@@ -88,12 +88,6 @@ class Database:
     def delete_all_users(self):
         self.execute("DELETE FROM Users WHERE TRUE", commit=True)
 
-    # def check_user(self, id):
-    #     sql = 'SELECT * FROM user WHERE id = ?'
-
-    #     return
-
-
 
 def logger(statement):
     print (
@@ -111,25 +105,25 @@ def logger(statement):
 def test():
     
     db = Database()
-#     db.delete_user(154253)
-    db.delete_all_users()
+    # db.delete_user(154253)
+    # db.delete_all_users()
     
-#     #db.create_table_users()
-#     #db.add_user(452145, "Konstantine", "andmin")
-#     #db.add_user(154253, "Vasily", "permit")
-#     db.update_status('admin', 154253)
+    # db.create_table_users()
+    # db.add_user(1637852195, "myTestUser", "admin")
+    db.add_user(154253, "Vasily", "permit")
+    db.update_status('block', 1637852195)
     
 
     # users = db.select_all_users()
     # print(f"Получил всех пользователей: {users}")
 
-    
+    # user = db.select_user(status='admin')
+    # print(f"Получил пользователя: {user}")
 
     users = db.select_all_users()
     print(f"Получил всех пользователей: {users}")
 
-    # user = db.select_user(name="John", id=5)
-    # print(f"Получил пользователя: {user}")
+    
 
 
 test()

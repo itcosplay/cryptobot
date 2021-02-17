@@ -8,4 +8,6 @@ bot = Bot(token=config.BOT_TOKEN, parse_mode=types.ParseMode.HTML)
 # storage = MemoryStorage()
 dp = Dispatcher(bot)
 db = Database()
+
+# admins = db.select_user()
 # dp = Dispather(bot, storage=storage)
