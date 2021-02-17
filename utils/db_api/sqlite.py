@@ -73,6 +73,18 @@ class Database:
         sql = 'SELECT * FROM users WHERE '
         sql, parameters = self.format_args(sql, kwargs)
 
+        return self.execute(sql, parameters, fetchall=True)
+
+    def select_id_users(self, **kwargs):
+        sql = 'SELECT id FROM users WHERE '
+        sql, parameters = self.format_args(sql, kwargs)
+
+        return self.execute(sql, parameters, fetchall=True)
+
+    def select_status_user(self, **kwargs):
+        sql = 'SELECT status FROM users WHERE '
+        sql, parameters = self.format_args(sql, kwargs)
+
         return self.execute(sql, parameters, fetchone=True)
 
     def update_status(self, status, id):
@@ -102,28 +114,36 @@ def logger(statement):
 
 
 
-def test():
+# def test():
     
-    db = Database()
+    # db = Database()
     # db.delete_user(154253)
     # db.delete_all_users()
     
     # db.create_table_users()
     # db.add_user(1637852195, "myTestUser", "admin")
-    db.add_user(154253, "Vasily", "permit")
-    db.update_status('block', 1637852195)
+    # db.add_user(12121212, "Vasily", "block")
+    # db.update_status('request', 1637852195)
+    # print(db.select_status_user(id=12121212)[0])
     
+    # user = db.select_user(id=12121212)
+
+    # превращаем список кортежей в список элементов
+    # users - some [(tuple),...()()()]
+    # user = [item for t in users for item in t][2]
+
+    # print(user)
 
     # users = db.select_all_users()
     # print(f"Получил всех пользователей: {users}")
 
-    # user = db.select_user(status='admin')
-    # print(f"Получил пользователя: {user}")
+    # bloked_users = db.select_id_users(status='block')
+    # print(f"Получил пользователя: {bloked_users}")
 
-    users = db.select_all_users()
-    print(f"Получил всех пользователей: {users}")
+    # db.delete_user(id=59677456)
+    # users = db.select_all_users()
+    # print(f"Получил всех пользователей: {users}")
 
-    
 
 
-test()
+# test()

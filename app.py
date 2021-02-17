@@ -1,11 +1,15 @@
+from aiogram.dispatcher import middlewares
 from loader import db
 
 async def on_startup(dispatcher):
-    # Уведомляет про запуск бота
+    import filters
+    # import middlewares
+    filters.setup(dp)
+    # middlewares.setup(dp)   
     print(db.select_all_users())
 
     from utils.notify_admins import on_startup_notify
-
+    # Уведомляет про запуск бота
     await on_startup_notify(dispatcher)
 
 

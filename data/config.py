@@ -8,7 +8,6 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 super_admins = [
     59677456,
-    # 1637852195
 ]
 
 

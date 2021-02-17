@@ -1,10 +1,10 @@
+from filters.bloked_user import BlokedUser
 from aiogram import types
 
-from loader import dp, db
-
-ban_list = db.
+from loader import dp
 
 
-@dp.message_handler()
+@dp.message_handler(BlokedUser())
 async def ban(message: types.Message):
-    user_id = message.from_user.id
+    return True
+
