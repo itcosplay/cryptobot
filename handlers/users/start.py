@@ -3,16 +3,16 @@ from aiogram.dispatcher.filters.builtin import CommandStart
 
 import sqlite3
 
-from loader import dp, db
+from loader import dp, db, bot
 from data.config import super_admins
+
+from keyboards.default import admin_keyboard
+# from loader import bot
 
 @dp.message_handler(CommandStart(), user_id=super_admins)
 async def bot_start(message:types.Message):
     user_id = message.from_user.id
     text = 'Здравствуйте, Владыка!'
-
-    from loader import bot
-    from keyboards.default import admin_keyboard
 
     await bot.send_message(chat_id=user_id, text=text, reply_markup=admin_keyboard.main_menu)
 
@@ -22,8 +22,6 @@ async def bot_start(message:types.Message):
     user_id = message.from_user.id
     name = message.from_user.full_name
     user_in_db = db.select_user(id=user_id)
-
-    from loader import bot
 
     if user_in_db is None:
         text = f'''
@@ -40,19 +38,41 @@ async def bot_start(message:types.Message):
     else:
         status = [item for t in user_in_db for item in t][2]
         list_rights = {
-            'admin': 'ваши права  - администратор.',
-            'changer': 'ваши права - чейнджер.',
-            'operator': 'ваши права - оператор.',
-            'secretary': 'ваши права - секретарь.',
-            'executor': 'ваши права - исполнитель.',
-            'permit': 'вы можете заказать пропуск.',
-            'request': 'ваш запрос в обработке.'
+            'admin': {
+                'message': 'ваши права  - администратор. Используйте меню.',
+                'keyboard': admin_keyboard.main_menu
+            },
+            'changer': {
+                'message': 'ваши права - чейнджер.',
+                'keyboard': None
+            },
+            'operator': {
+                'message': 'ваши права - оператор.',
+                'keyboard': None
+            },
+            'secretary': {
+                'message': 'ваши права - секретарь.',
+                'keyboard': None
+            },
+            'executor': {
+                'message': 'ваши права - исполнитель.',
+                'keyboard': None
+            },
+            'permit': {
+                'message': 'вы можете заказать пропуск.',
+                'keyboard': None
+            },
+            'request': {
+                'message': 'ваш запрос в обработке.',
+                'keyboard': None
+            }
         }
         
         for item in list_rights.keys():
             if item == status:
-                text = f'{name}, {list_rights[status]}'
+                text = f'{name}, {list_rights[status]["message"]}'
+                reply_markup = list_rights[status]['keyboard']
 
                 break
 
-        await bot.send_message(chat_id=user_id, text=text)
+        await bot.send_message(chat_id=user_id, text=text, reply_markup=reply_markup)

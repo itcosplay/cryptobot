@@ -5,7 +5,7 @@ main_menu = ReplyKeyboardMarkup (
 
     keyboard = [
         [
-            KeyboardButton(text='управление'),
+            KeyboardButton(text='права пользователей'),
             KeyboardButton(text='информация о смс')
         ],
         [
