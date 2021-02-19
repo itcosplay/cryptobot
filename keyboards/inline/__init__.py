@@ -1,1 +1,1 @@
-from .group_users_buttons import group_users_buttons
+from . import group_users_buttons

@@ -6,7 +6,7 @@ async def on_startup(dispatcher):
     # import middlewares
     filters.setup(dp)
     # middlewares.setup(dp)   
-    print(db.select_all_users())
+    # print(db.select_all_users())
 
     from utils.notify_admins import on_startup_notify
     # Уведомляет про запуск бота

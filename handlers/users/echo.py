@@ -5,7 +5,10 @@ from loader import dp
 @dp.message_handler()
 async def bot_echo(message: types.Message):
     chat_id = message.from_user.id
-    text = 'Я тибя не понимать...'
+    text = '''
+    Используйте команду:\n
+    /start
+    ''' 
 
     from loader import bot
 

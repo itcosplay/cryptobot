@@ -75,11 +75,33 @@ class Database:
 
         return self.execute(sql, parameters, fetchall=True)
 
+    def get_group_users(self):
+        pass
+
     def select_id_users(self, **kwargs):
         sql = 'SELECT id FROM users WHERE '
         sql, parameters = self.format_args(sql, kwargs)
 
         return self.execute(sql, parameters, fetchall=True)
+
+    def select_all_statuses(self):
+        '''
+        returns list of tuples with statuses
+        [(status_1,), (status_2), ...]
+        '''
+        sql = 'SELECT DISTINCT status FROM users'
+
+        return self.execute(sql, fetchall=True)
+
+    def get_all_statuses(self):
+        '''
+        returns list of statuses
+        ['status_1', 'status_2', ...]
+        '''
+        statuses = self.select_all_statuses()
+        statuses = [item for t in statuses for item in t]
+        
+        return statuses
 
     def select_status_user(self, **kwargs):
         sql = 'SELECT status FROM users WHERE '
@@ -100,6 +122,8 @@ class Database:
     def delete_all_users(self):
         self.execute("DELETE FROM Users WHERE TRUE", commit=True)
 
+    
+
 
 def logger(statement):
     print (
@@ -114,16 +138,16 @@ def logger(statement):
 
 
 
-def test():
+# def test():
     
-    db = Database()
+    # db = Database()
     # db.delete_user(154253)
     # db.delete_all_users()
     
     # db.create_table_users()
     # db.add_user(1637852195, "myTestUser", "admin")
-    # db.add_user(12121212, "Vasily", "block")
-    db.update_status('admin', 1637852195)
+    # db.add_user(111111, "Inna", "admin")
+    # db.update_status('admin', 1637852195)
     # print(db.select_status_user(id=12121212)[0])
     
     # user = db.select_user(id=12121212)
@@ -133,6 +157,7 @@ def test():
     # user = [item for t in users for item in t][2]
 
     # print(user)
+    # print(db.select_user(status='admin'))
 
     # users = db.select_all_users()
     # print(f"Получил всех пользователей: {users}")
@@ -141,9 +166,11 @@ def test():
     # print(f"Получил пользователя: {bloked_users}")
 
     # db.delete_user(id=59677456)
-    users = db.select_all_users()
-    print(f"Получил всех пользователей: {users}")
+    # users = db.select_all_users()
+    # print(f"Получил всех пользователей: {users}")
+
+    # print(db.get_all_statuses())
 
 
 
-test()
+# test()
