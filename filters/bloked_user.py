@@ -5,6 +5,7 @@ from loader import db
 
 class BlokedUser(BoundFilter):
     async def check(self, message:types.Message):
+        print('filter: BlokedUser')
         bloked_users = db.select_id_users(status='block')
         list_bloked_id = []
 

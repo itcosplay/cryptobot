@@ -5,6 +5,7 @@ from loader import db
 
 class IsAdmin(BoundFilter):
     async def check(self, message:types.Message):
+        print('filter: IsAdmin')
         admins = db.select_id_users(status='admin')
         list_admins_id = []
 

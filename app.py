@@ -1,5 +1,6 @@
-from aiogram.dispatcher import middlewares
+# from aiogram.dispatcher import middlewares
 from loader import db
+
 
 async def on_startup(dispatcher):
     import filters
@@ -21,7 +22,6 @@ async def on_shutdown(dispatcher):
 
 
 if __name__ == '__main__':
-
     from aiogram import executor
     # from loader import dp
     from handlers import dp

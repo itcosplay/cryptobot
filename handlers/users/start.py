@@ -21,6 +21,7 @@ async def bot_start(message:types.Message):
 async def bot_start(message:types.Message):
     user_id = message.from_user.id
     name = message.from_user.full_name
+    print('@dp.message_handler(CommandStart())')
     user_in_db = db.select_user(id=user_id)
 
     if user_in_db is None:

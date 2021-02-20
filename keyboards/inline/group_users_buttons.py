@@ -1,45 +1,61 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
 from loader import db
+from keyboards.inline.callback_data import change_button_data
+from keyboards.inline.callback_data import group_users_data
 
-users_groups = db.get_all_statuses()
+def create_kb_groups_users():
+    print('function: create_kb_groups_users')
+    current_statuses = db.get_all_statuses()
 
-list_rights = {
-    'admin': 'администраторы',
-    'changer': 'чейнджи',
-    'operator': 'операторы',
-    'secretary': 'секретари',
-    'executor': 'исполнители',
-    'permit': 'на пропуск',
-    'request': 'в статусе "запрос"',
-    'block': 'заблокированны'
-}
+    all_statuses = {
+        'admin': 'администраторы',
+        'changer': 'чейнджи',
+        'operator': 'операторы',
+        'secretary': 'секретари',
+        'executor': 'исполнители',
+        'permit': 'на пропуск',
+        'request': 'в статусе "запрос"',
+        'block': 'заблокированны'
+    }
 
-group_users_buttons = InlineKeyboardMarkup()
+    kb_groups_users = InlineKeyboardMarkup()
 
-for group in users_groups:
-    if group in list_rights:
-        text = list_rights[group]
-    else:
-        text = group
+    for status in current_statuses:
+        if status in all_statuses.keys():
+            text = all_statuses[status]
+        else:
+            text = 'Тут какая-то хуйня...'
 
-    group_users_buttons.add(InlineKeyboardButton(text=text, callback_data=group))
+        kb_groups_users.add (
+            InlineKeyboardButton (
+                text = text,
+                callback_data = group_users_data.new (
+                    group = status,
+                    handler = 'statuses'
+                )
+            )
+        )
 
-
-
-admin_users = InlineKeyboardMarkup()
-
-admin_users_list = db.select_user(status='admin')
-
-for user in admin_users_list:
-    # admin_users.insert(InlineKeyboardButton(text=user[1], callback_data=user[1]))
-    # admin_users.insert(InlineKeyboardButton(text=user[1], callback_data=user[1]))
-    admin_users.add(InlineKeyboardButton(text=user[1], callback_data=user[1]))
-    admin_users.insert(InlineKeyboardButton(text='изменить', callback_data=user[1]))
-
-
-
-# button_1 = InlineKeyboardButton(text='Первая кнопка!', callback_data='button1')
+    return kb_groups_users
 
 
 
-# group_users_buttons = InlineKeyboardMarkup().add(button_1)
+# admin_users = InlineKeyboardMarkup()
+# admin_users_list = db.select_user(status='admin')
+
+# for user in admin_users_list:
+#     admin_users.add (
+#         InlineKeyboardButton(text=user[1], callback_data=user[1])
+#     )
+#     admin_users.insert (
+#         InlineKeyboardButton (
+#             text = 'изменить',
+#             callback_data = change_button_data.new (
+#                 user_id = user[0],
+#                 user_name = user[1],
+#                 user_status = user[2],
+#                 type_button = 'change_button'
+#             )
+#         )
+#     )
