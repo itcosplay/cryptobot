@@ -12,7 +12,8 @@ def create_kb_change_status_handler(user_data):
         'executor': 'исполнитель',
         'permit': 'на пропуск',
         'request': 'в статус "запрос"',
-        'block': 'заблокировать'
+        'block': 'заблокировать',
+        'delete': 'удалить'
     }
 
     avalible_rights_users_kb = InlineKeyboardMarkup()

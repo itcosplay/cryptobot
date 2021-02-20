@@ -23,8 +23,11 @@ async def bot_start(message:types.Message):
     name = message.from_user.full_name
     print('@dp.message_handler(CommandStart())')
     user_in_db = db.select_user(id=user_id)
+    print('============================')
+    print(user_in_db)
+    print('============================')
 
-    if user_in_db is None:
+    if len(user_in_db) == 0:
         text = f'''
             Здравствуйте, {name}! Ваш запрос в обработке.
         '''

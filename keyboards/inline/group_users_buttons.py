@@ -40,22 +40,25 @@ def create_kb_groups_users():
     return kb_groups_users
 
 
+def create_kb_particular_group(status):
+    print('function: create_kb_particular_group')
+    particular_group_users = db.select_user(status = status)
+    kb_particular_group = InlineKeyboardMarkup()
 
-# admin_users = InlineKeyboardMarkup()
-# admin_users_list = db.select_user(status='admin')
-
-# for user in admin_users_list:
-#     admin_users.add (
-#         InlineKeyboardButton(text=user[1], callback_data=user[1])
-#     )
-#     admin_users.insert (
-#         InlineKeyboardButton (
-#             text = 'изменить',
-#             callback_data = change_button_data.new (
-#                 user_id = user[0],
-#                 user_name = user[1],
-#                 user_status = user[2],
-#                 type_button = 'change_button'
-#             )
-#         )
-#     )
+    for user in particular_group_users:
+        kb_particular_group.add (
+            InlineKeyboardButton(text=user[1], callback_data=user[1])
+        )      
+        kb_particular_group.insert (
+            InlineKeyboardButton (
+                text = 'изменить',
+                callback_data = change_button_data.new (
+                    user_id = user[0],
+                    user_name = user[1],
+                    user_status = user[2],
+                    type_button = 'change_button'
+                )
+            )
+        )
+    
+    return kb_particular_group

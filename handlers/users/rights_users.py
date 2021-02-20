@@ -17,44 +17,70 @@ async def rights_users(message:Message):
 
     kb_groups_users = create_kb_groups_users()
 
-    await message.answer('ТЕКУЩИЕ ГРУППЫ ПОЛЬЗОВАТЕЛЕЙ:', reply_markup=kb_groups_users)
+    await message.answer('ГРУППЫ ПОЛЬЗОВАТЕЛЕЙ:', reply_markup=kb_groups_users)
 
 
 @dp.callback_query_handler(group_users_data.filter(handler='statuses'))
 async def get_admins(call:CallbackQuery):
+    from keyboards.inline.group_users_buttons import create_kb_particular_group
     await call.answer()
 
-    text = 'Администраторы:'
+    user_data = group_users_data.parse(call.data)
+    # Example of result group_users_data.parse(call.data):
+    # {'@': 'gud', 'group': 'admin', 'handler': 'statuses'}
+
+    all_statuses = {
+        'admin': 'АДМИНИСТРАТОРЫ:',
+        'changer': 'ЧЕЙНДЖИ:',
+        'operator': 'ОПЕРАТОРЫ:',
+        'secretary': 'СЕКРЕТАРИ:',
+        'executor': 'ИСПОЛНИТЕЛИ:',
+        'permit': 'НА ПРОПУСК:',
+        'request': 'В СТАТУСЕ "ЗАПРОС":',
+        'block': 'ЗАБЛОКИРОВАННЫ:'
+    }
+
+    for status in all_statuses.keys():
+        if user_data['group'] == status:
+            text = all_statuses[status]
     
-    # from keyboards.inline.group_users_buttons import admin_users
+    kb_particular_group = create_kb_particular_group(user_data['group'])
 
-    # await call.message.reply(text, reply_markup=admin_users)
-    await call.message.reply(text)
-
-
-# @dp.callback_query_handler(change_button_data.filter(type_button='change_button'))
-# async def change_status(call:CallbackQuery):
-#     await call.answer()
-
-#     user_data = change_button_data.parse(call.data)
-#     # Example of result change_button_data.parse(call.data):
-#     # {'@': 'change_button', 'user_id': '1637852195', 'user_name': 'myTestUser', 'type_button': 'change_button'}
-
-#     from keyboards.inline.avalible_rights_users_kb import create_kb_change_status_handler
-
-#     keyboard = create_kb_change_status_handler(user_data)
-
-#     await call.message.answer(f'Выбрать новые права для {user_data["user_name"]}:', reply_markup=keyboard)
+    await call.message.answer(text, reply_markup=kb_particular_group)
 
 
-# @dp.callback_query_handler(set_status_data.filter(type_button='set_status_btn'))
-# async def set_status(call:CallbackQuery):
-#     await call.answer()
+@dp.callback_query_handler(change_button_data.filter(type_button='change_button'))
+async def change_status(call:CallbackQuery):
+    await call.answer()
 
-#     user_data = set_status_data.parse(call.data)
-#     # Example of result set_status_data.parse(call.data):
-#     # {'@': 'set_status_button', 'user_id': '1637852195', 'user_name': 'myTestUser', 'new_status': 'changer', 'type_button': 'set_status_btn'}
+    user_data = change_button_data.parse(call.data)
+    # Example of result change_button_data.parse(call.data):
+    # {'@': 'change_button', 'user_id': '1637852195', 'user_name': 'myTestUser', 'type_button': 'change_button'}
 
-#     db.update_status(user_data['new_status'], user_data['user_id'])
+    from keyboards.inline.avalible_rights_users_kb import create_kb_change_status_handler
 
-#     await call.message.answer(f'статус установлен')
+    keyboard = create_kb_change_status_handler(user_data)
+
+    await call.message.answer(f'НОВЫЕ ПРАВА {user_data["user_name"]}:', reply_markup=keyboard)
+
+
+@dp.callback_query_handler(set_status_data.filter(type_button='set_status_btn'))
+async def set_status(call:CallbackQuery):
+    from keyboards.default.admin_keyboard import main_menu
+
+    user_data = set_status_data.parse(call.data)
+    # Example of result set_status_data.parse(call.data):
+    # {'@': 'set_status_button', 'user_id': '1637852195', 'user_name': 'myTestUser', 'new_status': 'changer', 'type_button': 'set_status_btn'}
+    
+    if user_data['new_status'] == 'delete':
+        print('@dp.callback_query_handler(set_status_data.filter(type_button=\'set_status_btn\'))')
+        db.delete_user(user_data['user_id'])
+
+        await call.answer(f'пользователь {user_data["user_name"]} удален', show_alert=True)
+        await call.message.answer(f'Используйте главное меню для дальнейшей работы', reply_markup=main_menu)
+    else:
+        print('@dp.callback_query_handler(set_status_data.filter(type_button=\'set_status_btn\'))')
+        db.update_status(user_data['new_status'], user_data['user_id'])
+
+        await call.answer(f'статус {user_data["new_status"]} для {user_data["user_name"]} установлен', show_alert=True)
+        await call.message.answer(f'Используйте главное меню для дальнейшей работы', reply_markup=main_menu)
