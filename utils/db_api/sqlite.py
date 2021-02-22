@@ -75,6 +75,11 @@ class Database:
 
         return self.execute(sql, parameters, fetchall=True)
 
+    def get_user_name(self, id):
+        user = self.select_user(id=id)
+
+        return user[0][1]
+
     def get_group_users(self):
         pass
 
@@ -141,16 +146,16 @@ def logger(statement):
 # def test():
     
     # db = Database()
-    # db.delete_user(154253)
+    # db.delete_user(439453169)
     # db.delete_all_users()
     
     # db.create_table_users()
     # db.add_user(1637852195, "myTestUser", "admin")
     # db.add_user(111111, "Inna", "admin")
     # db.update_status('admin', 1637852195)
-    # print(db.select_status_user(id=12121212)[0])
+    # print(db.select_status_user(id=1637852195)[0])
     
-    # user = db.select_user(id=12121212)
+    # print(db.get_user_name(1637852195))
 
     # превращаем список кортежей в список элементов
     # users - some [(tuple),...()()()]

@@ -19,7 +19,7 @@ async def rights_users(message:Message):
 
 
 @dp.callback_query_handler(IsAdmin(), group_users_data.filter(handler='statuses'))
-async def get_admins(call:CallbackQuery):
+async def get_groups(call:CallbackQuery):
     from keyboards.inline.group_users_buttons import create_kb_particular_group
     await call.answer()
 
@@ -53,13 +53,14 @@ async def change_status(call:CallbackQuery):
 
     user_data = change_button_data.parse(call.data)
     # Example of result change_button_data.parse(call.data):
-    # {'@': 'change_button', 'user_id': '1637852195', 'user_name': 'myTestUser', 'type_button': 'change_button'}
+    # {'@': 'change_button', 'user_id': '1637852195', 'type_button': 'change_button'}
 
     from keyboards.inline.avalible_rights_users_kb import create_kb_change_status_handler
 
     keyboard = create_kb_change_status_handler(user_data)
 
-    await call.message.answer(f'НОВЫЕ ПРАВА {user_data["user_name"]}:', reply_markup=keyboard)
+    user_name = db.get_user_name(user_data['user_id'])
+    await call.message.answer(f'НОВЫЕ ПРАВА для {user_name}:', reply_markup=keyboard)
 
 
 @dp.callback_query_handler(IsAdmin(), set_status_data.filter(type_button='set_status_btn'))

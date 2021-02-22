@@ -9,15 +9,15 @@ group_users_data = CallbackData (
 change_button_data = CallbackData (
     'change_button', 
     'user_id', 
-    'user_name',
-    'user_status', 
+    # 'user_name',
+    # 'user_status', 
     'type_button'
 )
 
 set_status_data = CallbackData (
     'set_status_button',
     'user_id',
-    'user_name',
-    'new_status',
+    # 'user_name',
+    # 'new_status',
     'type_button'
 )

@@ -54,8 +54,8 @@ def create_kb_particular_group(status):
                 text = 'изменить',
                 callback_data = change_button_data.new (
                     user_id = user[0],
-                    user_name = user[1],
-                    user_status = user[2],
+                    # user_name = user[1],
+                    # user_status = user[2],
                     type_button = 'change_button'
                 )
             )
