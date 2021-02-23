@@ -4,3 +4,4 @@ class Request(StatesGroup):
     executor = State()
     type_of_operation = State()
     type_of_card = State()
+    how_much = State()

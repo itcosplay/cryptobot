@@ -36,6 +36,9 @@ async def bot_start(message:types.Message):
             db.add_user(id=user_id, name=name)
         except sqlite3.IntegrityError as err:
             print(err)
+        
+        for admin in super_admins:
+            await bot.send_message(chat_id=admin, text=f'поступил новый запрос от {name}')
 
         await bot.send_message(chat_id=user_id, text=text)
 

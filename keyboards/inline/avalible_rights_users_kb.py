@@ -6,6 +6,7 @@ from keyboards.inline.callback_data import set_status_data
 def create_kb_change_status_handler(user_data):
     print('create_kb_change_status_handler(user_data)')
     user_status = db.select_status_user(id=user_data['user_id'])[0]
+
     list_rights = {
         'admin': 'администратор',
         'changer': 'чейндж',
@@ -26,10 +27,10 @@ def create_kb_change_status_handler(user_data):
                 InlineKeyboardButton (
                     text = list_rights[status],
                     callback_data = set_status_data.new (
-                        user_id = user_data['user_id'],
+                        id = user_data['user_id'],
                         # user_name = user_data['user_name'],
-                        # new_status = status,
-                        type_button = 'set_status_btn'
+                        new_st = status,
+                        type_btn = 'set_st_btn'
                     )
                 )
             )

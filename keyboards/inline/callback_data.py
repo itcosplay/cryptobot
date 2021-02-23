@@ -15,9 +15,9 @@ change_button_data = CallbackData (
 )
 
 set_status_data = CallbackData (
-    'set_status_button',
-    'user_id',
+    'ssb',
+    'id',
     # 'user_name',
-    # 'new_status',
-    'type_button'
+    'new_st',
+    'type_btn'
 )

@@ -19,6 +19,7 @@ main_menu = ReplyKeyboardMarkup (
         [
             KeyboardButton(text='пропуска за текущие сутки'),
         ]
-    ]
-
+    ],
+    resize_keyboard=True,
+    one_time_keyboard=True
 )
