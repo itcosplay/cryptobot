@@ -48,7 +48,7 @@ def create_kp_operation_type():
     keyboard.add (
         InlineKeyboardButton (
             text = 'кэшин',
-            callback_data = 'cachein'
+            callback_data = 'cache_in'
         )
     )
     keyboard.add (

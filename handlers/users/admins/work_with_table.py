@@ -47,18 +47,39 @@ async def set_request_from(call:types.CallbackQuery, state:FSMContext):
 
 @dp.callback_query_handler(state=Request.type_of_operation)
 async def set_type_of_operation(call:types.CallbackQuery, state:FSMContext):
-    if call.data == 'exit':
-        await call.answer()
-        await call.message.answer(f'Создание заявки отменено')
-        await state.finish()
-
-    else:
+    if call.data == 'recive' or call.data == 'takeout' or call.data == 'delivery':
         await call.answer()
         await state.update_data(type_of_operation=call.data)
         await call.message.delete()
 
-        await call.message.answer(f'укажите сумму:')
+        await call.message.answer(f'укажите сумму:') # message handler
+        await Request.how_much.set()
 
+    elif call.data == 'cache_in':
+        await call.answer()
+        await state.update_data(type_of_operation=call.data)
+        await call.message.delete()
+        await call.message.answer(f'Выберете с какой карты:') # needs kb
+        await Request.type_of_card.set()
+
+    elif call.data == 'change':
+        await call.answer()
+        await state.update_data(type_of_operation=call.data)
+        await call.message.delete()
+        await call.message.answer(f'Выберете с какой карты:') # message handler
+        await Request.how_much_recive.set()
+
+    elif call.data == 'cache_atm':
+        await call.answer()
+        await state.update_data(type_of_operation=call.data)
+        await call.message.delete()
+        await call.message.answer(f'Тут должны быть данные с таблицы')
+        # await Request.how_much_recive.set()
+
+    else:
+        await call.answer()
+        await call.message.answer(f'Создание заявки отменено')
+        await state.finish()
 
 # @dp.message_handler(state=Request.type_of_operation)
 # async def set_type_of_operation(message:types.Message, state:FSMContext):
