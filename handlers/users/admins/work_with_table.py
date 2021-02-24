@@ -6,7 +6,7 @@ from aiogram.dispatcher.filters import state
 from aiogram.types import chat, message
 from aiogram.types.callback_query import CallbackQuery
 
-from loader import dp
+from loader import dp, bot
 from states import Request
 
 
@@ -31,6 +31,7 @@ async def set_request_from(call:types.CallbackQuery, state:FSMContext):
     if call.data == 'exit':
         await call.answer()
         await call.message.answer(f'Создание заявки отменено')
+        await call.message.delete()
         
         await state.finish()
 
@@ -47,19 +48,24 @@ async def set_request_from(call:types.CallbackQuery, state:FSMContext):
 
 @dp.callback_query_handler(state=Request.type_of_operation)
 async def set_type_of_operation(call:types.CallbackQuery, state:FSMContext):
+    chat_id = call.message.chat.id
     if call.data == 'recive' or call.data == 'takeout' or call.data == 'delivery':
         await call.answer()
         await state.update_data(type_of_operation=call.data)
         await call.message.delete()
-
-        await call.message.answer(f'укажите сумму:') # message handler
+        
+        # await call.message.answer(f'укажите сумму:')
+        await bot.send_message(chat_id=chat_id, text='укажите сумму:')
         await Request.how_much.set()
 
     elif call.data == 'cache_in':
+        from keyboards.inline.request_kb import create_kb_choose_card
+
         await call.answer()
         await state.update_data(type_of_operation=call.data)
         await call.message.delete()
-        await call.message.answer(f'Выберете с какой карты:') # needs kb
+        keyboard = create_kb_choose_card()
+        await call.message.answer(f'Выберете с какой карты:', reply_markup=keyboard)
         await Request.type_of_card.set()
 
     elif call.data == 'change':
@@ -80,6 +86,78 @@ async def set_type_of_operation(call:types.CallbackQuery, state:FSMContext):
         await call.answer()
         await call.message.answer(f'Создание заявки отменено')
         await state.finish()
+        await call.message.delete()
+
+
+@dp.callback_query_handler(state=Request.type_of_card)
+async def set_type_of_card(call:types.CallbackQuery, state:FSMContext):
+    await call.answer()
+    card = call.data
+    await state.update_data(type_of_card=card)
+
+    await call.message.delete()
+    await call.message.answer(f'укажите сумму:')
+    await Request.how_much.set()
+
+
+@dp.message_handler(state=Request.how_much)
+async def set_how_much(message:types.Message, state:FSMContext):
+    from keyboards.inline.request_kb import create_kb_choose_currency
+    try:
+        summ = float(message.text)
+        await state.update_data(how_much=summ)
+        # print(message)
+        # await message.delete()
+        # chat_id = message.chat.id
+        # message_id = message.message_id
+        # message_id_new = message.message_id - 2
+        # print('==========')
+        # print('CHAT_ID: ', chat_id)
+        # print('MESSAGE_ID : ', message_id)
+        # print('MESSAGE_ID_NEW :', message_id_new)
+        # print('==========')
+        await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id - 1)
+        await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+        keyboard = create_kb_choose_currency()
+        
+        
+        await message.answer(f'Выберете валюту:', reply_markup=keyboard)
+        await Request.how_much_curr.set()
+
+    except Exception:
+        await message.answer(f'Формат суммы неправильный. Создание заявки отменено.')
+        await state.finish()
+        await message.delete()
+
+
+@dp.callback_query_handler(state=Request.how_much_curr)
+async def set_how_much_curr(call:types.CallbackQuery, state:FSMContext):
+    from keyboards.inline.request_kb import create_kb_send_request
+
+    await call.answer()
+    currency = call.data
+    await state.update_data(how_much_curr=currency)
+
+    data = await state.get_data()
+    
+    print(data)
+
+    keyboard = create_kb_send_request()
+    await call.message.delete()
+    await call.message.answer(f'заявка сформированна со след параметрами {data}:', reply_markup=keyboard)
+    await Request.comment.set()
+
+
+@dp.callback_query_handler(state=Request.comment)
+async def set_comm_or_else(call:types.CallbackQuery, state:FSMContext):
+    await call.answer()
+    await state.finish()
+    pass
+    # await call.answer()
+    # comm = ''
+    # await state.update_data(comment=comm)
+
+
 
 # @dp.message_handler(state=Request.type_of_operation)
 # async def set_type_of_operation(message:types.Message, state:FSMContext):

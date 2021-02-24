@@ -72,6 +72,25 @@ def create_kp_operation_type():
 
     return keyboard
 
+
+def create_kb_choose_card():
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'альфа',
+            callback_data = 'alfa'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'сбер',
+            callback_data = 'sber'
+        )
+    )
+
+    return keyboard
+
+
 def create_kb_choose_currency():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
@@ -95,3 +114,32 @@ def create_kb_choose_currency():
 
     return keyboard
     
+
+def create_kb_send_request():
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'добавить сумму',
+            callback_data = 'add_summ'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отправить',
+            callback_data = 'send_btn'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'комментарий',
+            callback_data = 'comment'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'заказать пропуск',
+            callback_data = 'order_permit'
+        )
+    )
+
+    return keyboard
