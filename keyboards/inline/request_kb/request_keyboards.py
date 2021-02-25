@@ -113,7 +113,7 @@ def create_kb_choose_currency():
     )
 
     return keyboard
-    
+
 
 def create_kb_send_request():
     keyboard = InlineKeyboardMarkup()
