@@ -11,4 +11,3 @@ class Request(StatesGroup):
     how_much_give = State()
     how_much_give_curr = State()
     comment = State()
-

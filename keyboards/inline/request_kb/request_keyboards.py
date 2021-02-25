@@ -142,4 +142,11 @@ def create_kb_send_request():
         )
     )
 
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить заявку',
+            callback_data = 'exit'
+        )
+    )
+
     return keyboard
