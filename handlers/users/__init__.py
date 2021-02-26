@@ -5,7 +5,7 @@ from .start import dp
 from .rights_users import dp
 
 
-from .admins import dp
+from .order_request import dp
 
 
 from .echo import dp

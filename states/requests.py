@@ -14,3 +14,6 @@ class Request(StatesGroup):
     permit = State() # ФИО для пропуска
     type_of_end = State()
     summ_plus_minus = State() # Приход или Расход(+/-)
+    adding_summ = State()
+    adding_summ_currency = State()
+
