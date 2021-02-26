@@ -150,3 +150,20 @@ def create_kb_send_request():
     )
 
     return keyboard
+
+def create_kb_plus_minus():
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add (
+        InlineKeyboardButton (
+            text = '+',
+            callback_data = 'summ_plus'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = '-',
+            callback_data = 'summ_minus'
+        )
+    )
+
+    return keyboard

@@ -78,10 +78,24 @@ async def set_type_of_operation (
         await Request.how_much_recive.set()
 
     elif call.data == 'cache_atm':
+        from keyboards.inline.request_kb import create_kb_send_request
+
+        await state.update_data(type_of_operation=call.data)
+
+        data = await state.get_data()
+        print(data)
+
         await call.answer()
         await state.update_data(type_of_operation=call.data)
         await call.message.delete()
-        await call.message.answer(f'Тут должны быть данные с таблицы')
+
+        keyboard = create_kb_send_request()
+        text = 'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
+        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + \
+        'исполнитель - ' + data['executor'] + '\n' + \
+        'тип операции - ' + data['type_of_operation']
+
+        await call.message.answer(text, reply_markup=keyboard)
     else:
         await call.answer()
         await call.message.answer(f'Создание заявки отменено')
@@ -267,7 +281,7 @@ async def set_how_much_curr (
         'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + result_data_to_show,
         reply_markup = keyboard
     )
-    await Request.comment.set()
+    await Request.type_of_end.set()
 
 
 @dp.callback_query_handler(state=Request.how_much_recive_curr)
@@ -358,14 +372,35 @@ async def set_how_much_give_curr (
         'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + result_data_to_show,
         reply_markup = keyboard
     )
-    await Request.comment.set()
+    await Request.type_of_end.set()
 
 
-@dp.callback_query_handler(state=Request.comment)
-async def set_comm_or_else(call:types.CallbackQuery, state:FSMContext):
+@dp.callback_query_handler(state=Request.type_of_end)
+async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
     await call.answer()
-    await state.finish()
-    pass
+    await call.message.delete()
+
+    if call.data == 'add_summ':
+        from keyboards.inline.request_kb import create_kb_plus_minus
+
+        await state.update_data(type_of_end=call.data)
+
+        keyboard = create_kb_plus_minus()
+
+        await call.message.answer (
+            f'Приход / Расход ?',
+            reply_markup=keyboard
+        )
+        await Request.summ_plus_minus.set()
+    elif call.data == 'send_btn':
+        pass
+    elif call.data == 'comment':
+        pass
+    elif call.data == 'order_permit':
+        pass
+    else:
+        await call.message.answer(f'Создание заявки отменено')
+        await state.finish()
     # await call.answer()
     # comm = ''
     # await state.update_data(comment=comm)
