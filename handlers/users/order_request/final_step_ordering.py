@@ -1,29 +1,42 @@
-from os import waitpid
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import state
 
 from loader import dp, bot
 from states import Request
+from keyboards import create_kb_plus_minus
 
-
-@dp.callback_query_handler(state=Request.type_of_end)
+# from currency__how_much.py
+@dp.callback_query_handler(state=Request.type_end)
 async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
     await call.answer()
     await call.message.delete()
 
-    if call.data == 'add_summ':
-        from keyboards.inline.request_kb import create_kb_plus_minus
-
-        await state.update_data(type_of_end=call.data)
-
-        keyboard = create_kb_plus_minus()
-
-        await call.message.answer (
-            f'Приход / Расход ?',
-            reply_markup=keyboard
+    if call.data == 'add_currency':
+        
+        await state.update_data(type_end=call.data)
+        await bot.send_message (
+            chat_id = call.message.chat.id,
+            text='введите сумму:'
         )
-        await Request.summ_plus_minus.set()
+
+        ### for logs ### delete later
+        request_data = await state.get_data()
+        print('=== state: ===')
+        print(request_data)
+        print('==============')
+        ### for logs ### delete later
+
+        await Request.temp_sum_state.set()
+        # to temp_sum_message_handler.py
+
+
+        ### for logs ### delete later
+        request_data = await state.get_data()
+        print('=== state: ===')
+        print(request_data)
+        print('==============')
+        ### for logs ### delete later
+
     elif call.data == 'send_btn':
         pass
     elif call.data == 'comment':

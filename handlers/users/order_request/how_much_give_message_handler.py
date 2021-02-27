@@ -28,7 +28,8 @@ async def set_how_much_give(message:types.Message, state:FSMContext):
             f'Выберете валюту:',
             reply_markup=keyboard
         )    
-        await Request.how_much_give_curr.set()
+        await Request.temp_summ_state.set()
+        # currensy_for_how_much.py
     except Exception:
         await message.answer (
             f'Формат суммы неправильный. Создание заявки отменено.'

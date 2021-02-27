@@ -1,31 +1,31 @@
-from os import stat
-from aiogram import types
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import state
+# from os import stat
+# from aiogram import types
+# from aiogram.dispatcher import FSMContext
+# from aiogram.dispatcher.filters import state
 
-from loader import dp
-from states import Request
+# from loader import dp
+# from states import Request
 
-@dp.callback_query_handler(state=Request.adding_summ_currency)
-async def set_currency_for_adding_summ (
-    call:types.CallbackQuery,
-    state:FSMContext
-):
-    # from keyboards.inline.request_kb import create_kb_send_request
+# @dp.callback_query_handler(state=Request.adding_summ_currency)
+# async def set_currency_for_adding_summ (
+#     call:types.CallbackQuery,
+#     state:FSMContext
+# ):
+#     # from keyboards.inline.request_kb import create_kb_send_request
 
-    await call.answer()
+#     await call.answer()
 
-    currency = call.data
-    data = await state.get_data()
-    print(data)
+#     currency = call.data
+#     data = await state.get_data()
+#     print(data)
 
-    if data['type_of_operation'] in \
-    ['recive', 'takeout', 'delivery', 'cache_in']:
-        if currency == data['how_much_curr']:
-            await state.update_data(how_much=data['adding_summ'])
-        else:
-            await state.update_data(how_much_add_1=data['adding_summ'])
-            await state.update_data(how_much_add_1_currency=currency)
+#     if data['type_of_operation'] in \
+#     ['recive', 'takeout', 'delivery', 'cache_in']:
+#         if currency == data['how_much_curr']:
+#             await state.update_data(how_much=data['adding_summ'])
+#         else:
+#             await state.update_data(how_much_add_1=data['adding_summ'])
+#             await state.update_data(how_much_add_1_currency=currency)
 
 
     # await state.update_data(how_much_give_curr=currency)

@@ -1,30 +1,6 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
-def create_kb_request_from():
-    keyboard = InlineKeyboardMarkup()
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'чейндж',
-            callback_data = 'changer'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'оператор',
-            callback_data = 'operator'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'отмена',
-            callback_data = 'exit'
-        )
-    )
-
-    return keyboard
-
-
 def create_kp_operation_type():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
@@ -48,7 +24,7 @@ def create_kp_operation_type():
     keyboard.add (
         InlineKeyboardButton (
             text = 'кэшин',
-            callback_data = 'cache_in'
+            callback_data = 'cashin'
         )
     )
     keyboard.add (
@@ -114,15 +90,33 @@ def create_kb_choose_currency():
 
     return keyboard
 
-
-def create_kb_send_request():
+def create_kb_smart_choose_curr(list):
     keyboard = InlineKeyboardMarkup()
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'добавить сумму',
-            callback_data = 'add_summ'
+    default_list = {
+        'rub': 'рубли', 
+        'usd': 'доллары',
+        'eur': 'евро'
+    }
+    for curr_name in default_list.keys():
+        if curr_name not in list:
+            keyboard.add (
+                InlineKeyboardButton (
+                    text = default_list[curr_name],
+                    callback_data = curr_name
+                )
+            )
+
+    return keyboard
+
+def create_kb_send_request(currencies):
+    keyboard = InlineKeyboardMarkup()
+    if len(currencies) < 3:
+        keyboard.add (
+            InlineKeyboardButton (
+                text = 'добавить cумму в другой валюте',
+                callback_data = 'add_currency'
+            )
         )
-    )
     keyboard.add (
         InlineKeyboardButton (
             text = 'отправить',
@@ -156,13 +150,13 @@ def create_kb_plus_minus():
     keyboard.add (
         InlineKeyboardButton (
             text = '+',
-            callback_data = 'summ_plus'
+            callback_data = 'sum_plus'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
             text = '-',
-            callback_data = 'summ_minus'
+            callback_data = 'sum_minus'
         )
     )
 
