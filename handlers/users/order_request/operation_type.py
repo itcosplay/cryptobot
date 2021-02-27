@@ -3,6 +3,8 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from states import Request
+from keyboards import create_kb_choose_card
+
 
 # from create_request.py
 @dp.callback_query_handler(state=Request.operation_type)
@@ -37,24 +39,32 @@ async def set_operation_type (
         await Request.temp_sum_state.set()
         # to temp_sum_message_handler.py
 
-
-
-
-
     elif call.data == 'cashin':
-        from keyboards.inline.request_kb import create_kb_choose_card
-
-        await call.answer()
         await state.update_data(operation_type=call.data)
-        await call.message.delete()
 
-        keyboard = create_kb_choose_card()
+        currencies__how_much = []
+
+        await state.update_data (
+            currencies__how_much = currencies__how_much
+        )
+
+        ### for logs ### delete later
+        request_data = await state.get_data()
+        print('=== state: ===')
+        print(request_data)
+        print('==============')
+        ### for logs ### delete later
 
         await call.message.answer (
-            f'Выберете с какой карты:',
-            reply_markup=keyboard
+            f'Выберете карточку:',
+            reply_markup=create_kb_choose_card()
         )
         await Request.type_of_card.set()
+        # to type_of_card_if_cash_in.py
+
+
+
+
 
     elif call.data == 'change':
         await call.answer()
@@ -63,7 +73,7 @@ async def set_operation_type (
         await call.message.answer(f'Сколько принимаем?')
         await Request.how_much_recive.set()
 
-    elif call.data == 'cache_atm':
+    elif call.data == 'cash_atm':
         from keyboards.inline.request_kb import create_kb_send_request
 
         await state.update_data(operation_type=call.data)

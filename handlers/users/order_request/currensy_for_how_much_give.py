@@ -20,14 +20,6 @@ async def set_how_much_give_curr (
     await state.update_data(how_much_give_curr=currency)
 
     data = await state.get_data()
-    # print(data) # example:
-    # {
-    # 'executor': 'changer',
-    # 'type_of_operation': 'cache_in',
-    # 'type_of_card': 'alfa',
-    # 'how_much': 100.0,
-    # 'how_much_curr': 'usd'
-    # }
 
     translate_keys_request = {
         'executor': 'исполнитель - ',

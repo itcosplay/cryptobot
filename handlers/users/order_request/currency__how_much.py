@@ -47,10 +47,7 @@ async def set_currency__how_much (
         'sum_RUB__how_much' : 'СУММА(RUB): ',
         'sum_USD__how_much' : 'СУММА(USD): ',
         'sum_EUR__how_much' : 'СУММА(EUR): ',
-        'sum_plus_minus': '--доп. суммы--',
-        'addition': 'приход',
-        'substraction': 'расход',
-
+        'type_of_card': 'карточка: ',
         'how_much_recive': 'cумма - ',
         'how_much_give': 'сумма - ',
         'how_much_curr': 'валюта - ',

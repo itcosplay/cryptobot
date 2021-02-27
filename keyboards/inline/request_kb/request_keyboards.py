@@ -36,7 +36,7 @@ def create_kp_operation_type():
     keyboard.add (
         InlineKeyboardButton (
             text = 'снятие с карт',
-            callback_data = 'cache_atm'
+            callback_data = 'cash_atm'
         )
     )
     keyboard.add (
