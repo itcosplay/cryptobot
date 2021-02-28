@@ -7,6 +7,7 @@ class Request(StatesGroup):
     operation_type = State()
     type_of_card = State() # альфа или сбер
     how_much = State() # сумма для прием/выдача/доставка/кэшин
+
     currencies__how_much = State()
 
     temp_sum_state = State() #
@@ -14,22 +15,25 @@ class Request(StatesGroup):
     sum_USD__how_much = State()
     sum_EUR__how_much = State()
 
-    sum_plus_minus = State() # Приход или Расход(+/-)
-    addition = State()
-    substraction = State()
+    sum_recive_RUB = State()
+    sum_recive_USD = State()
+    sum_recive_EUR = State()
 
+    sum_give_RUB = State()
+    sum_give_USD = State()
+    sum_give_EUR = State()
 
-    how_much_recive = State() # сколько принимаем при обмене
-    how_much_recive_curr = State()
-    how_much_give = State() # сколько выдаем при обмене
+    plus_minus = State() # Приход или Расход(+/-)
 
-    
+    how_much_recive = State() 
+    how_much_give = State()
 
-    how_much_give_curr = State()
+    currencies__recive = State()
+    currencies__give = State()
+    currency__how_much__recive = State()
+    currency__how_much__give = State()
+
     comment = State()
     permit = State() # ФИО для пропуска
     type_end = State()
-    
-    adding_sum = State()
-    adding_sum_currency = State()
 

@@ -4,6 +4,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_choose_card
+from keyboards import create_kb_send_request_atm
 
 
 # from create_request.py
@@ -62,36 +63,34 @@ async def set_operation_type (
         await Request.type_of_card.set()
         # to type_of_card_if_cash_in.py
 
-
-
-
-
     elif call.data == 'change':
-        await call.answer()
         await state.update_data(operation_type=call.data)
-        await call.message.delete()
+        await state.update_data(currencies__recive=[])
+        await state.update_data(currencies__give=[])
+        await state.update_data(plus_minus='no')
         await call.message.answer(f'Сколько принимаем?')
         await Request.how_much_recive.set()
+        # to how_much_recive.py
 
     elif call.data == 'cash_atm':
-        from keyboards.inline.request_kb import create_kb_send_request
-
         await state.update_data(operation_type=call.data)
 
         data = await state.get_data()
         print(data)
 
-        await call.answer()
         await state.update_data(operation_type=call.data)
-        await call.message.delete()
 
-        keyboard = create_kb_send_request()
+        keyboard = create_kb_send_request_atm()
+
         text = 'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
         'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + \
-        'исполнитель - ' + data['executor'] + '\n' + \
-        'тип операции - ' + data['type_of_operation']
+        'заявитель - ' + data['applicant'] + '\n' + \
+        'тип операции - ' + data['operation_type']
 
         await call.message.answer(text, reply_markup=keyboard)
+        await Request.type_end.set()
+        # to final_step_ordering.py
+
     else:
         await call.answer()
         await call.message.answer(f'Создание заявки отменено')

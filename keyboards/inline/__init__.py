@@ -4,3 +4,5 @@ from .request_kb import create_kb_choose_card
 from .request_kb import create_kb_send_request
 from .request_kb import create_kb_plus_minus
 from .request_kb import create_kb_smart_choose_curr
+from .request_kb import create_kb_send_request_for_change
+from .request_kb import create_kb_send_request_atm

@@ -108,9 +108,78 @@ def create_kb_smart_choose_curr(list):
 
     return keyboard
 
+
+def create_kb_send_request_atm():
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отправить',
+            callback_data = 'send_btn'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'комментарий',
+            callback_data = 'comment'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'заказать пропуск',
+            callback_data = 'order_permit'
+        )
+    )
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить заявку',
+            callback_data = 'exit'
+        )
+    )
+
+    return keyboard
+
 def create_kb_send_request(currencies):
     keyboard = InlineKeyboardMarkup()
     if len(currencies) < 3:
+        keyboard.add (
+            InlineKeyboardButton (
+                text = 'добавить cумму в другой валюте',
+                callback_data = 'add_currency'
+            )
+        )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отправить',
+            callback_data = 'send_btn'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'комментарий',
+            callback_data = 'comment'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'заказать пропуск',
+            callback_data = 'order_permit'
+        )
+    )
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить заявку',
+            callback_data = 'exit'
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_send_request_for_change(currencies_recive, currencies_give):
+    keyboard = InlineKeyboardMarkup()
+    if len(currencies_recive) < 3 and len(currencies_give) < 3:
         keyboard.add (
             InlineKeyboardButton (
                 text = 'добавить cумму в другой валюте',
