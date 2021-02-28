@@ -2,7 +2,7 @@
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
 from filters import IsAdmin
-from loader import dp, db
+from loader import dp, db, bot
 
 from keyboards.inline.callback_data import change_button_data
 from keyboards.inline.callback_data import set_status_data
@@ -63,6 +63,10 @@ async def change_status(call:CallbackQuery):
     print('user_name = db.get_user_name(user_data["user_id"])')
     user_name = db.get_user_name(user_data['user_id'])
     await call.message.answer(f'НОВЫЕ ПРАВА для {user_name}:', reply_markup=keyboard)
+    # await bot.send_message (
+    #     chat_id = call.message.chat.id,
+    #     text='введите сумму:'
+    # )
 
 
 @dp.callback_query_handler(IsAdmin(), set_status_data.filter(type_btn='set_st_btn'))
@@ -101,3 +105,7 @@ async def set_status(call:CallbackQuery):
         }
         # await call.answer(f'статус установлен', show_alert=True)
         await call.message.reply(f'пользователь {user_name} теперь -  {list_rights[user_data["new_st"]].upper()}', reply_markup=main_menu)
+        await bot.send_message (
+            chat_id = user_data['id'],
+            text=f'Ваш запрос обработан. Ваши права - {list_rights[user_data["new_st"]].upper()}'
+        )

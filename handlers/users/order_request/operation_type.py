@@ -1,3 +1,4 @@
+from handlers.users.order_request.permit import permit
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -79,6 +80,8 @@ async def set_operation_type (
         print(data)
 
         await state.update_data(operation_type=call.data)
+        await state.update_data(comment='')
+        await state.update_data(permit='')
 
         keyboard = create_kb_send_request_atm()
 

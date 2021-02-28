@@ -1,3 +1,4 @@
+from os import stat
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -25,6 +26,8 @@ async def create_request(message:types.Message, state:FSMContext):
         'Создаем заявку! Выберите тип операции:',
         reply_markup = create_kp_operation_type()
     )
+
+
 
     ### for logs ### delete later
     request_data = await state.get_data()

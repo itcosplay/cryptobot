@@ -40,7 +40,8 @@ async def permit(message:types.Message, state:FSMContext):
         'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + \
         'заявитель: ' + data['applicant'] + '\n' + \
         'тип операции: ' + data['operation_type'] + '\n' + \
-        'комментарий: ' + data['comment']
+        'комментарий: ' + data['comment'] + '\n' + \
+        'пропуск на:' + data['permit'] + '\n'
 
         await message.answer(text, reply_markup=keyboard)
         await Request.type_end.set()
