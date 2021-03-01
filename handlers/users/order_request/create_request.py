@@ -22,12 +22,25 @@ async def create_request(message:types.Message, state:FSMContext):
     else:
         await state.update_data(applicant='changer')
     
+    # set state
+    await state.update_data(operation_type='')
+    await state.update_data(type_of_card='')
+    await state.update_data(sum_RUB__how_much='')
+    await state.update_data(sum_USD__how_much='')
+    await state.update_data(sum_EUR__how_much='')
+    await state.update_data(sum_recive_RUB='')
+    await state.update_data(sum_recive_USD='')
+    await state.update_data(sum_recive_EUR='')
+    await state.update_data(sum_give_RUB='')
+    await state.update_data(sum_give_USD='')
+    await state.update_data(sum_give_EUR='')
+    # await state.update_data(comment='')
+    # await state.update_data(permit='')
+    
     await message.answer (
         'Создаем заявку! Выберите тип операции:',
         reply_markup = create_kp_operation_type()
     )
-
-
 
     ### for logs ### delete later
     request_data = await state.get_data()
