@@ -109,6 +109,8 @@ def create_kb_smart_choose_curr(list):
     return keyboard
 
 
+
+
 def create_kb_send_request_atm():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (

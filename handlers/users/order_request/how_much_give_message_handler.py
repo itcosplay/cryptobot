@@ -4,6 +4,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_smart_choose_curr
+from keyboards import create_kb_choose_currency
 
 @dp.message_handler(state=Request.how_much_give)
 async def set_how_much_give(message:types.Message, state:FSMContext):
@@ -22,6 +23,7 @@ async def set_how_much_give(message:types.Message, state:FSMContext):
         await message.answer (
             f'Выберете валюту:',
             reply_markup=create_kb_smart_choose_curr(request_data['currencies__give'])
+            # reply_markup=create_kb_choose_currency()
         )    
         ### for logs ### delete later
         request_data = await state.get_data()

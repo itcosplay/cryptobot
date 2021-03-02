@@ -6,6 +6,7 @@ from aiohttp.client import request
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_smart_choose_curr
+from keyboards import create_kb_choose_currency
 
 
 # from operation_type.py
@@ -27,6 +28,7 @@ async def set_how_much_recive(message:types.Message, state:FSMContext):
         await message.answer (
             f'Выберете валюту:',
             reply_markup=create_kb_smart_choose_curr(request_data['currencies__recive'])
+            # reply_markup=create_kb_choose_currency()
         )
         await Request.currency__how_much__recive.set()
         # to currency__how_much__recive.py

@@ -38,12 +38,12 @@ async def set_how_much_recive_curr (
         translate_keys_request = {
             'applicant': 'заявитель: ',
             'operation_type': 'тип операции: ',
-            'sum_recive_RUB': 'СУММА ВЫДАЧИ(RUB): ',
-            'sum_recive_USD': 'СУММА ВЫДАЧИ(USD): ',
-            'sum_recive_EUR': 'СУММА ВЫДАЧИ(EUR): ',
-            'sum_give_RUB': 'СУММА ПРИЕМА(RUB): ',
-            'sum_give_USD': 'СУММА ПРИЕМА(USD): ',
-            'sum_give_EUR': 'СУММА ПРИЕМА(EUR): ',
+            'sum_recive_RUB': 'СУММА ПРИЕМА(RUB): ',
+            'sum_recive_USD': 'СУММА ПРИЕМА(USD): ',
+            'sum_recive_EUR': 'СУММА ПРИЕМА(EUR): ',
+            'sum_give_RUB': 'СУММА ВЫДАЧИ(RUB): ',
+            'sum_give_USD': 'СУММА ВЫДАЧИ(USD): ',
+            'sum_give_EUR': 'СУММА ВЫДАЧИ(EUR): ',
             'comment': 'комментарий: ',
             'permit': 'пропуск на '
         }
@@ -68,26 +68,29 @@ async def set_how_much_recive_curr (
 
         result_data_to_show = []
         for key in request_data.keys():
-            if key in translate_keys_request:
-                if (type(request_data[key]) == int or type(request_data[key]) == float):
-                    result_data_to_show.append (
-                        translate_keys_request[key] + str(request_data[key]) + '\n'
-                    )
-                elif key == 'comment':
-                    temp_1 = translate_keys_request[key]
-                    temp_2 = request_data[key] + '\n'
+            if request_data[key] == '':
+                pass
+            else:
+                if key in translate_keys_request:
+                    if (type(request_data[key]) == int or type(request_data[key]) == float):
+                        result_data_to_show.append (
+                            translate_keys_request[key] + str(request_data[key]) + '\n'
+                        )
+                    elif key == 'comment':
+                        temp_1 = translate_keys_request[key]
+                        temp_2 = request_data[key] + '\n'
 
-                    result_data_to_show.append(temp_1 + temp_2)
-                elif key == 'permit':
-                    temp_1 = translate_keys_request[key]
-                    temp_2 = request_data[key] + '\n'
+                        result_data_to_show.append(temp_1 + temp_2)
+                    elif key == 'permit':
+                        temp_1 = translate_keys_request[key]
+                        temp_2 = request_data[key] + '\n'
 
-                    result_data_to_show.append(temp_1 + temp_2)
-                else:
-                    temp_1 = translate_keys_request[key]
-                    temp_2 = translate_values_request[request_data[key]] + '\n'
-                    
-                    result_data_to_show.append(temp_1 + temp_2)
+                        result_data_to_show.append(temp_1 + temp_2)
+                    else:
+                        temp_1 = translate_keys_request[key]
+                        temp_2 = translate_values_request[request_data[key]] + '\n'
+                        
+                        result_data_to_show.append(temp_1 + temp_2)
 
         result_data_to_show = ''.join(result_data_to_show)
 

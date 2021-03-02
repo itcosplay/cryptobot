@@ -61,12 +61,12 @@ async def comment(message:types.Message, state:FSMContext):
         'sum_RUB__how_much':'СУММА(RUB): ',
         'sum_USD__how_much':'СУММА(USD): ',
         'sum_EUR__how_much':'СУММА(EUR): ',
-        'sum_recive_RUB': 'СУММА ВЫДАЧИ(RUB): ',
-        'sum_recive_USD': 'СУММА ВЫДАЧИ(USD): ',
-        'sum_recive_EUR': 'СУММА ВЫДАЧИ(EUR): ',
-        'sum_give_RUB': 'СУММА ПРИЕМА(RUB): ',
-        'sum_give_USD': 'СУММА ПРИЕМА(USD): ',
-        'sum_give_EUR': 'СУММА ПРИЕМА(EUR): ',
+        'sum_recive_RUB': 'СУММА ПРИЕМА(RUB): ',
+        'sum_recive_USD': 'СУММА ПРИЕМА(USD): ',
+        'sum_recive_EUR': 'СУММА ПРИЕМА(EUR): ',
+        'sum_give_RUB': 'СУММА ВЫДАЧИ(RUB): ',
+        'sum_give_USD': 'СУММА ВЫДАЧИ(USD): ',
+        'sum_give_EUR': 'СУММА ВЫДАЧИ(EUR): ',
         'comment': 'комментарий: ',
         'permit': 'данные пропуска: '
     } 
