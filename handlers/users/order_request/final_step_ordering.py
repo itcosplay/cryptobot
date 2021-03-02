@@ -4,6 +4,8 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_plus_minus
+from utils import send_to_google
+
 
 # from currency__how_much.py
 @dp.callback_query_handler(state=Request.type_end)
@@ -50,6 +52,8 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
     elif call.data == 'send_btn':
         await call.message.answer('Заявка отправленна!')
+        send_to_google()
+
         await state.finish()
     elif call.data == 'comment':
         await call.message.answer('Напишите коментарий:')
