@@ -24,5 +24,8 @@ def send_to_google():
     # pprint(data)
 
     data = sheet.col_values(1)
-    pprint(data)
+    # pprint(data)
     print(len(data))
+
+
+send_to_google()
