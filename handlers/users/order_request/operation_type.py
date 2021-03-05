@@ -6,7 +6,7 @@ from loader import dp, bot
 from states import Request
 from keyboards import create_kb_choose_card
 from keyboards import create_kb_send_request_atm
-
+from keyboards.default.admin_keyboard import main_menu
 
 # from create_request.py
 @dp.callback_query_handler(state=Request.operation_type)
@@ -96,6 +96,5 @@ async def set_operation_type (
 
     else:
         await call.answer()
-        await call.message.answer(f'Создание заявки отменено')
+        await call.message.answer(f'Создание заявки отменено. Испльзуйте меню.', reply_markup=main_menu)
         await state.finish()
-        await call.message.delete()

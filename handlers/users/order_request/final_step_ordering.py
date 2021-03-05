@@ -5,7 +5,7 @@ from loader import dp, bot
 from states import Request
 from keyboards import create_kb_plus_minus
 from utils import send_to_google
-
+from keyboards.default.admin_keyboard import main_menu
 
 # from currency__how_much.py
 @dp.callback_query_handler(state=Request.type_end)
@@ -51,9 +51,9 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             ### for logs ### delete later
 
     elif call.data == 'send_btn':
-        await call.message.answer('Заявка отправленна!')
-        send_to_google()
-
+        data = await state.get_data()
+        send_to_google(data)
+        await call.answer(f'заявка создана')
         await state.finish()
     elif call.data == 'comment':
         await call.message.answer('Напишите коментарий:')
@@ -62,7 +62,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         await call.message.answer('Напишите Ф.И.О. для пропуска:')
         await Request.permit.set()
     else:
-        await call.message.answer(f'Создание заявки отменено')
+        await call.message.answer(f'Создание заявки отменено', reply_markup=main_menu)
         await state.finish()
     # await call.answer()
     # comm = ''

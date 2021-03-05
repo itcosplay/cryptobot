@@ -71,10 +71,10 @@ async def comment(message:types.Message, state:FSMContext):
         'permit': 'данные пропуска: '
     } 
     translate_values_request = {
-        'changer': 'чейнджер',
+        'changer': 'change',
         'operator': 'оператор',
-        'recive': 'прием',
-        'takeout': 'выдача',
+        'recive': 'прием кэша',
+        'takeout': 'выдача в офисе',
         'delivery': 'доставка',
         'cashin': 'кэшин',
         'change': 'обмен',
@@ -114,13 +114,13 @@ async def comment(message:types.Message, state:FSMContext):
                     
                     result_data_to_show.append(temp_1 + temp_2)
 
-    result_data_to_show = ''.join(result_data_to_show)
+    result_data_to_show = '-----------\n'.join(result_data_to_show)
 
     
 
     await message.answer (
-        text = 'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
-        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + result_data_to_show,
+        text = 'БУДЕТ СОЗДАНА ЗАЯВКА ' + \
+        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + '===========\n' + result_data_to_show,
         reply_markup = keyboard
     )
     await Request.type_end.set()

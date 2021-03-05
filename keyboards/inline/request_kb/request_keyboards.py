@@ -41,7 +41,7 @@ def create_kp_operation_type():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отмена',
+            text = 'отменить >> главное меню',
             callback_data = 'exit'
         )
     )
@@ -134,7 +134,7 @@ def create_kb_send_request_atm():
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить заявку',
+            text = 'отменить >> главное меню',
             callback_data = 'exit'
         )
     )
@@ -171,7 +171,7 @@ def create_kb_send_request(currencies):
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить заявку',
+            text = 'отменить >> главное меню',
             callback_data = 'exit'
         )
     )
@@ -209,7 +209,7 @@ def create_kb_send_request_for_change(currencies_recive, currencies_give):
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить заявку',
+            text = 'отменить >> главное меню',
             callback_data = 'exit'
         )
     )

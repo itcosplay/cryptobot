@@ -14,7 +14,7 @@ from keyboards import create_kb_choose_currency
 @dp.message_handler(state=Request.how_much_recive)
 async def set_how_much_recive(message:types.Message, state:FSMContext):
     try:
-        summ = float(message.text)
+        summ = int(message.text)
         await state.update_data(how_much_recive=summ)
         request_data = await state.get_data()
         await bot.delete_message (

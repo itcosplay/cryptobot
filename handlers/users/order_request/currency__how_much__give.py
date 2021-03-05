@@ -50,10 +50,10 @@ async def set_how_much_give_curr (
         'permit': 'пропуск на '
     } 
     translate_values_request = {
-        'changer': 'чейнджер',
+        'changer': 'change',
         'operator': 'оператор',
-        'recive': 'прием',
-        'takeout': 'выдача',
+        'recive': 'прием кэша',
+        'takeout': 'выдача в офисе',
         'delivery': 'доставка',
         'cashin': 'кэшин',
         'change': 'обмен',
@@ -93,13 +93,13 @@ async def set_how_much_give_curr (
                     
                     result_data_to_show.append(temp_1 + temp_2)
 
-    result_data_to_show = ''.join(result_data_to_show)
+    result_data_to_show = '-----------\n'.join(result_data_to_show)
 
     keyboard = create_kb_send_request_for_change(request_data['currencies__recive'], request_data['currencies__give'])
     
     await call.message.answer (
-        text = 'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
-        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + result_data_to_show,
+        text = 'БУДЕТ СОЗДАНА ЗАЯВКА ' + \
+        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + '===========\n' + result_data_to_show,
         reply_markup = keyboard
     )
     await Request.type_end.set()

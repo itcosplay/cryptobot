@@ -13,7 +13,7 @@ async def set_how_much(message:types.Message, state:FSMContext):
     
     # try:
     
-    summ = float(message.text)
+    summ = int(message.text)
 
     await state.update_data(temp_sum_state=summ)
 

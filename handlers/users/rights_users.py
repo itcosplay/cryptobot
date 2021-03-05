@@ -107,5 +107,6 @@ async def set_status(call:CallbackQuery):
         await call.message.reply(f'пользователь {user_name} теперь -  {list_rights[user_data["new_st"]].upper()}', reply_markup=main_menu)
         await bot.send_message (
             chat_id = user_data['id'],
-            text=f'Ваш запрос обработан. Ваши права - {list_rights[user_data["new_st"]].upper()}'
+            text=f'Ваш запрос обработан. Ваши права - {list_rights[user_data["new_st"]].upper()}. Используйте меню.',
+            reply_markup=main_menu
         )

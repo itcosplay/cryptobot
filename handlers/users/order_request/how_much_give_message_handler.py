@@ -9,7 +9,7 @@ from keyboards import create_kb_choose_currency
 @dp.message_handler(state=Request.how_much_give)
 async def set_how_much_give(message:types.Message, state:FSMContext):
     try:
-        summ = float(message.text)
+        summ = int(message.text)
         await state.update_data(how_much_give=summ)
         await bot.delete_message (
             chat_id=message.chat.id,

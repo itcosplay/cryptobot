@@ -57,10 +57,10 @@ async def set_currency__how_much (
         'permit': 'пропуск на '
     } 
     translate_values_request = {
-        'changer': 'чейнджер',
+        'changer': 'change',
         'operator': 'оператор',
-        'recive': 'прием',
-        'takeout': 'выдача',
+        'recive': 'прием кэша',
+        'takeout': 'выдача в офисе',
         'delivery': 'доставка',
         'cashin': 'кэшин',
         'change': 'обмен',
@@ -106,10 +106,11 @@ async def set_currency__how_much (
 
                     result_data_to_show.append(temp_1 + temp_2)
 
-    result_data_to_show = ''.join(result_data_to_show)
+    result_data_to_show = '-----------\n'.join(result_data_to_show)
     text = \
-    'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
+    'БУДЕТ СОЗДАНА ЗАЯВКА ' + \
     'СО СЛЕДУЮЩИМИ ДАННЫМИ\n' + \
+    '===========\n' + \
     result_data_to_show
 
     await call.message.answer (

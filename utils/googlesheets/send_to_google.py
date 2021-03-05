@@ -4,66 +4,136 @@ import datetime
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Example of state
-state = {
-    'applicant': 'changer', 
-    'operation_type': 'recive', # D --> 4
-    'type_of_card': '',
-    'sum_RUB__how_much': 500.0, 
-    'sum_USD__how_much': '', 
-    'sum_EUR__how_much': '', 
-    'sum_recive_RUB': '', 
-    'sum_recive_USD': '', 
-    'sum_recive_EUR': '',
-    'sum_give_RUB': '',
-    'sum_give_USD': '', 
-    'sum_give_EUR': '', 
-    'currencies__how_much': ['rub'], 
-    'temp_sum_state': 500.0, 
-    'comment': 'тут какой-то коментарий', 
-    'permit': 'Аркадак Гурбангулы Махухуедов'
-}
+# state = {
+#     'applicant': 'changer', 
+#     'operation_type': 'cashin', # D --> 4
+#     'type_of_card': 'sber',
+#     'sum_RUB__how_much': '', 
+#     'sum_USD__how_much': '500', 
+#     'sum_EUR__how_much': '', 
+#     'sum_recive_RUB': '', 
+#     'sum_recive_USD': '', 
+#     'sum_recive_EUR': '',
+#     'sum_give_RUB': '',
+#     'sum_give_USD': '', 
+#     'sum_give_EUR': '', 
+#     'currencies__how_much': ['rub'], 
+#     'temp_sum_state': 500.0, 
+#     'comment': 'тут какой-то коментарий', 
+#     'permit': 'Аркадак Гурбангулы Махухуедов'
+# }
 
 # ['25.09', '7', '1549', 'Выдача в офисе', 'CHANGE', '50000', '', '', '', '', 'Andy', 'Исполнено', '-290500', '', '', '16:24']
 
 
-def send_to_google(): 
+def send_to_google(state): 
     sheet = get_google_sheet() 
     numb_of_last_row = len(sheet.col_values(1))
-    print(numb_of_last_row)
-    # last_row = sheet.get(f'A{numb_of_last_row}:Q{numb_of_last_row}')[0]
+    # print(numb_of_last_row)
+    last_row = sheet.get(f'A{numb_of_last_row}:Q{numb_of_last_row}')[0]
 
-    # A__current_date = datetime.datetime.today().strftime('%d.%m')
+    A__current_date = datetime.datetime.today().strftime('%d.%m')
 
-    # if last_row[0] == A__current_date:
-    #     B__numb_of_request_for_today = int(last_row[1]) + 1
-    # else:
-    #     B__numb_of_request_for_today = 1
+    if last_row[0] == A__current_date:
+        B__numb_of_request_for_today = int(last_row[1]) + 1
+    else:
+        B__numb_of_request_for_today = 1
 
-    # C__id_of_request = datetime.datetime.today().strftime('%h.%M')
-    # print(B__numb_of_request_for_today)
-
-
-
-
-    # insertRow.append(A__current_date)
-    # insertRow.append(B__numb_of_request_for_today)
-
-
-
-
+    C__id_of_request = int(datetime.datetime.today().strftime('%H%M'))
     
+    if C__id_of_request == int(last_row[2]):
+        C__id_of_request += 1
+
+    translate_values_request = {
+        'changer': 'change',
+        'operator': 'оператор',
+        'recive': 'прием кэша',
+        'takeout': 'выдача в офисе',
+        'delivery': 'доставка',
+        'cashin': 'кэшин',
+        'change': 'обмен',
+        'cash_atm': 'снятие с карт',
+        'alfa': 'альфа-банк',
+        'sber': 'сбер',
+        'rub': 'рубли',
+        'usd': 'доллары',
+        'eur': 'евро',
+        'sum_plus': '',
+        'sum_minus': '',
+        'ok': ''
+    }
+
+    D__type_of_operation = translate_values_request[state['operation_type']]
+    E__applicant = translate_values_request[state['applicant']]
+
+    F__sum = ''
+    G__sum = ''
+    H__sum = ''
+    I__comment = state['comment']
+    
+    if state['operation_type'] == 'recive': # sign +
+        if state['sum_RUB__how_much'] != '':
+            F__sum = int(state['sum_RUB__how_much'])
+        if state['sum_USD__how_much'] != '':
+            G__sum = int(state['sum_USD__how_much'])
+        if state['sum_EUR__how_much'] != '':
+            H__sum = int(state['sum_EUR__how_much'])
+
+    elif state['operation_type'] == 'takeout' or state['operation_type'] == 'delivery': # sing -
+        if state['sum_RUB__how_much'] != '':
+            F__sum = 0 - int(state['sum_RUB__how_much'])
+        if state['sum_USD__how_much'] != '':
+            G__sum = 0 - int(state['sum_USD__how_much'])
+        if state['sum_EUR__how_much'] != '':
+            H__sum = 0 - int(state['sum_EUR__how_much'])
+
+    elif state['operation_type'] == 'cashin': # sing -
+        if state['type_of_card'] == 'alfa':
+            I__comment = I__comment + '\n' + 'альфа-банк'
+        if state['type_of_card'] == 'sber':
+            I__comment = I__comment + '\n' + 'сбер'
+        if state['sum_RUB__how_much'] != '':
+            F__sum = 0 - int(state['sum_RUB__how_much'])
+        if state['sum_USD__how_much'] != '':
+            G__sum = 0 - int(state['sum_USD__how_much'])
+        if state['sum_EUR__how_much'] != '':
+            H__sum = 0 - int(state['sum_EUR__how_much'])
+
+    elif state['operation_type'] == 'change': # sing +/-
+        if state['sum_recive_RUB'] != '':
+            F__sum = int(state['sum_recive_RUB'])
+        if state['sum_recive_USD'] != '':
+            G__sum = int(state['sum_recive_USD'])
+        if state['sum_recive_EUR'] != '':
+            H__sum = int(state['sum_recive_EUR'])
+        # --- change --- #
+        if state['sum_give_RUB'] != '':
+            F__sum = 0 - int(state['sum_give_RUB'])
+        if state['sum_give_USD'] != '':
+            G__sum = 0 - int(state['sum_give_USD'])
+        if state['sum_give_EUR'] != '':
+            H__sum = 0 - int(state['sum_give_EUR'])    
+    elif state['operation_type'] == 'cache_atm': # sing +
+        pass
+    
+    inserRow = []
+    inserRow.append(A__current_date)
+    inserRow.append(B__numb_of_request_for_today)
+    inserRow.append(C__id_of_request)
+    inserRow.append(D__type_of_operation)
+    inserRow.append(E__applicant)
+    inserRow.append(F__sum)
+    inserRow.append(G__sum)
+    inserRow.append(H__sum)
+    
+    inserRow.append(I__comment)
+
+    print(inserRow)
+
     # number_of_empty_row = len(sheet.col_values(1)) + 1
-    # sheet.insert_row(insertRow, number_of_empty_row)
-    # data = sheet.get_all_records()
+    sheet.insert_row(inserRow, numb_of_last_row + 1)
 
-    # pprint(data)
-
-    # data = sheet.col_values(1)
-    # pprint(data)
-    # print(len(data))
-
-
-
+    return C__id_of_request
 
 
 def get_google_sheet():
@@ -82,6 +152,3 @@ def get_google_sheet():
     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
 
     return sheet
-
-
-send_to_google()

@@ -34,8 +34,8 @@ async def create_request(message:types.Message, state:FSMContext):
     await state.update_data(sum_give_RUB='')
     await state.update_data(sum_give_USD='')
     await state.update_data(sum_give_EUR='')
-    # await state.update_data(comment='')
-    # await state.update_data(permit='')
+    await state.update_data(comment='')
+    await state.update_data(permit='')
     
     await message.answer (
         'Создаем заявку! Выберите тип операции:',
