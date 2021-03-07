@@ -1,10 +1,8 @@
-from os import stat
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from data.config import super_admins
 from filters import isAdmin_or_isChanger
-import keyboards
 from states import Request
 from loader import dp, db
 from keyboards import create_kp_operation_type

@@ -26,6 +26,31 @@ from oauth2client.service_account import ServiceAccountCredentials
 # ['25.09', '7', '1549', 'Выдача в офисе', 'CHANGE', '50000', '', '', '', '', 'Andy', 'Исполнено', '-290500', '', '', '16:24']
 
 
+class DataFromSheet:
+    def get_google_sheet(self):
+        CREDENTIALS_FILE = 'creds.json'
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            'https://www.googleapis.com/auth/spreadsheets',
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+        ]
+        creds = ServiceAccountCredentials.from_json_keyfile_name (
+            'creds.json',
+            scope
+        )
+        client = gspread.authorize(creds)
+        sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
+
+        return sheet
+
+    def get_last_row(self):
+        sheet = self.get_google_sheet()
+        numb_of_last_row = len(sheet.col_values(1))
+        last_row = sheet.get(f'A{numb_of_last_row}:Q{numb_of_last_row}')[0]
+
+        return last_row
+
 def send_to_google(state): 
     sheet = get_google_sheet() 
     numb_of_last_row = len(sheet.col_values(1))
