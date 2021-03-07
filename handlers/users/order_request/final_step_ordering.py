@@ -25,10 +25,11 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             # to plus_or_minus_summ.py
         else:
             await state.update_data(type_end=call.data)
-            await bot.send_message (
+            result = await bot.send_message (
                 chat_id = call.message.chat.id,
                 text='введите сумму:'
             )
+            await state.update_data(_del_message = result.message_id)
 
             ### for logs ### delete later
             request_data = await state.get_data()

@@ -25,11 +25,13 @@ async def set_plus_or_minus_summ (
     ### for logs ### delete later
 
     if call.data == 'sum_plus':
-        await call.message.answer('Введите сумму:')
+        result = await call.message.answer('Введите сумму:')
         await Request.how_much_recive.set()
+        await state.update_data(_del_message=result.message_id)
         # to how_much_recive.py
     if call.data == 'sum_minus':
-        await call.message.answer('Введите сумму:')
+        result = await call.message.answer('Введите сумму:')
+        await state.update_data(_del_message=result.message_id)
         await Request.how_much_give.set()
 
     
