@@ -6,14 +6,17 @@ from states import Request
 from keyboards import create_kb_smart_choose_curr
 from keyboards import create_kb_choose_currency
 
+
 @dp.message_handler(state=Request.how_much_give)
 async def set_how_much_give(message:types.Message, state:FSMContext):
+    
     try:
         summ = int(message.text)
         await state.update_data(how_much_give=summ)
+        data = await state.get_data()
         await bot.delete_message (
             chat_id=message.chat.id,
-            message_id=message.message_id - 1
+            message_id=data['_del_message']
         )
         request_data = await state.get_data()
         await bot.delete_message (
@@ -34,7 +37,9 @@ async def set_how_much_give(message:types.Message, state:FSMContext):
 
         await Request.currency__how_much__give.set()
         # currensy_for_how_much.py
-    except Exception:
+    except Exception as e:
+        print(e)
+        print("EXEPTION HOW MACH GIVE")
         await message.answer (
             f'Формат суммы неправильный. Создание заявки отменено.'
         )

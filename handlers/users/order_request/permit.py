@@ -13,17 +13,17 @@ async def permit(message:types.Message, state:FSMContext):
     text = message.text
 
     await state.update_data(permit=text)
-    await bot.delete_message (
-        chat_id=message.chat.id,
-        message_id=message.message_id - 1
-    )
+
     request_data = await state.get_data()
+
+    await bot.delete_message (
+        chat_id = message.chat.id,
+        message_id = request_data['_del_message']
+    )
     await bot.delete_message (
         chat_id=message.chat.id,
         message_id=message.message_id
     )      
-
-    request_data = await state.get_data()
 
     if request_data['operation_type'] == 'recive' \
     or request_data['operation_type'] == 'takeout' \

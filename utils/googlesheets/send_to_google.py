@@ -44,6 +44,9 @@ def send_to_google(state):
     if C__id_of_request == int(last_row[2]):
         C__id_of_request += 1
 
+    C__id_of_request = str(C__id_of_request)
+    C__id_of_request = C__id_of_request.zfill(4)
+
     translate_values_request = {
         'changer': 'change',
         'operator': 'оператор',

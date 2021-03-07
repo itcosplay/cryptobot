@@ -6,6 +6,7 @@ from loader import dp
 from states import Request
 from keyboards import create_kb_send_request_for_change
 
+
 @dp.callback_query_handler(state=Request.currency__how_much__recive)
 async def set_how_much_recive_curr (
     call:types.CallbackQuery,
@@ -104,7 +105,8 @@ async def set_how_much_recive_curr (
         await Request.type_end.set()
     # to final_step_ordering.py
     else:
-        await call.message.answer(f'Сколько выдаем?')
+        result = await call.message.answer(f'Сколько выдаем?')
+        await state.update_data(_del_message = result.message_id)
         await Request.how_much_give.set()
         # to how_much_give_message_handler.py
 

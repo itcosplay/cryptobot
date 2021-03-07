@@ -11,11 +11,12 @@ from keyboards import create_kb_send_request_atm
 @dp.message_handler(state=Request.comment)
 async def comment(message:types.Message, state:FSMContext):
     text = message.text
+    data = await state.get_data()
 
     await state.update_data(comment=text)
     await bot.delete_message (
         chat_id=message.chat.id,
-        message_id=message.message_id - 1
+        message_id=data['_del_message']
     )
     request_data = await state.get_data()
     await bot.delete_message (

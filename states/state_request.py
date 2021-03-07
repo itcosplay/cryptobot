@@ -38,3 +38,5 @@ class Request(StatesGroup):
     permit = State() # ФИО для пропуска
     type_end = State()
 
+    _del_message = State()
+

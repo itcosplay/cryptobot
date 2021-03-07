@@ -26,10 +26,13 @@ async def set_operation_type (
         await state.update_data (
             currencies__how_much = currencies__how_much
         )
-        await bot.send_message (
+        result = await bot.send_message (
             chat_id = call.message.chat.id,
             text='введите сумму:'
         )
+        # print('-- sent message id --')
+        # print(result.message_id)
+        await state.update_data(_del_message = result.message_id)
 
         ### for logs ### delete later
         request_data = await state.get_data()
@@ -69,7 +72,8 @@ async def set_operation_type (
         await state.update_data(currencies__recive=[])
         await state.update_data(currencies__give=[])
         await state.update_data(plus_minus='no')
-        await call.message.answer(f'Сколько принимаем?')
+        result = await call.message.answer(f'Сколько принимаем?')
+        await state.update_data(_del_message = result.message_id)
         await Request.how_much_recive.set()
         # to how_much_recive.py
 
