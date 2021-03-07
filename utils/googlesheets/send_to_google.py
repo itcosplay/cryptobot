@@ -118,6 +118,15 @@ def send_to_google(state):
             H__sum = 0 - int(state['sum_give_EUR'])    
     elif state['operation_type'] == 'cache_atm': # sing +
         pass
+
+    J__remain = ''
+    K__executor = ''
+    L__status = 'В обработке'
+    M__fact_RUB = ''
+    N__fact_USD = ''
+    O__fact_EUR = ''
+    P__end_time = ''
+    Q__total_blue = ''
     
     inserRow = []
     inserRow.append(A__current_date)
@@ -128,9 +137,15 @@ def send_to_google(state):
     inserRow.append(F__sum)
     inserRow.append(G__sum)
     inserRow.append(H__sum)
-    
     inserRow.append(I__comment)
-
+    inserRow.append(J__remain)
+    inserRow.append(K__executor)
+    inserRow.append(L__status)
+    inserRow.append(M__fact_RUB)
+    inserRow.append(N__fact_USD)
+    inserRow.append(O__fact_EUR)
+    inserRow.append(P__end_time)
+    inserRow.append(Q__total_blue)
     print(inserRow)
 
     # number_of_empty_row = len(sheet.col_values(1)) + 1
