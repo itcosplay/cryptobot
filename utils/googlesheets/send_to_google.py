@@ -51,6 +51,25 @@ class DataFromSheet:
 
         return last_row
 
+    def get_numbs_processing_requests(self):
+        try:
+            sheet = self.get_google_sheet()
+            numb_of_last_row = len(sheet.col_values(1))
+            data = sheet.batch_get([f'A{numb_of_last_row - 10}:Q{numb_of_last_row}'])[0] # 10 needs change to 30 or other
+
+        except Exception as e:
+            print(e)
+
+            return
+
+        active_requests = []
+
+        for row in data:
+            if row[11] == 'В обработке':
+                active_requests.append(row[2])
+
+        return active_requests
+
 def send_to_google(state): 
     sheet = get_google_sheet() 
     numb_of_last_row = len(sheet.col_values(1))
@@ -94,9 +113,9 @@ def send_to_google(state):
     D__type_of_operation = translate_values_request[state['operation_type']]
     E__applicant = translate_values_request[state['applicant']]
 
-    F__sum = ''
-    G__sum = ''
-    H__sum = ''
+    F__sum = '-'
+    G__sum = '-'
+    H__sum = '-'
     I__comment = state['comment']
     
     if state['operation_type'] == 'recive': # sign +
@@ -144,14 +163,14 @@ def send_to_google(state):
     elif state['operation_type'] == 'cache_atm': # sing +
         pass
 
-    J__remain = ''
-    K__executor = ''
+    J__remain = '-'
+    K__executor = '-'
     L__status = 'В обработке'
-    M__fact_RUB = ''
-    N__fact_USD = ''
-    O__fact_EUR = ''
-    P__end_time = ''
-    Q__total_blue = ''
+    M__fact_RUB = '-'
+    N__fact_USD = '-'
+    O__fact_EUR = '-'
+    P__end_time = '-'
+    Q__total_blue = '-'
     
     inserRow = []
     inserRow.append(A__current_date)
@@ -195,3 +214,7 @@ def get_google_sheet():
     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
 
     return sheet
+
+
+test_sheet = DataFromSheet()
+print(test_sheet.get_numbs_processing_requests())
