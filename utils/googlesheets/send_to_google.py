@@ -1,3 +1,4 @@
+from aiohttp.client import request
 import gspread
 import datetime
 # import pprint
@@ -51,7 +52,8 @@ class DataFromSheet:
 
         return last_row
 
-    def get_numbs_processing_requests(self):
+    def get_numbs_processing_and_ready_requests(self):
+        '''return list of numb(str) of requests or empty list'''
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
@@ -60,15 +62,32 @@ class DataFromSheet:
         except Exception as e:
             print(e)
 
-            return
+            return 'exception'
 
         active_requests = []
+        ready_requests = []
 
         for row in data:
             if row[11] == 'В обработке':
-                active_requests.append(row[2])
+                request = []
+                request.append(row[2]) # numb of request
+                request.append(row[5]) # rub
+                request.append(row[6]) # usd
+                request.append(row[7]) # eur
 
-        return active_requests
+                active_requests.append(request)
+
+            if row[11] == 'Готово к выдаче':
+                request = []
+                request.append(row[2]) # numb of request
+                request.append(row[5]) # rub
+                request.append(row[6]) # usd
+                request.append(row[7]) # eur
+                
+                ready_requests.append(request)
+
+        return active_requests, ready_requests
+
 
 def send_to_google(state): 
     sheet = get_google_sheet() 
@@ -216,5 +235,7 @@ def get_google_sheet():
     return sheet
 
 
-test_sheet = DataFromSheet()
-print(test_sheet.get_numbs_processing_requests())
+# test_sheet = DataFromSheet()
+# req_1, req_2 = test_sheet.get_numbs_processing_and_ready_requests()
+# print(req_1)
+# print(req_2)

@@ -7,3 +7,4 @@ from .inline import create_kb_plus_minus
 from .inline import create_kb_smart_choose_curr
 from .inline import create_kb_send_request_for_change
 from .inline import create_kb_send_request_atm
+from .inline import create_kb_current_requests

@@ -10,6 +10,7 @@ from keyboards import create_kp_operation_type
 
 @dp.message_handler(isAdmin_or_isChanger(), text='создать заявку')
 async def create_request(message:types.Message, state:FSMContext):
+    await message.delete()
     ### for logs ### delete later
     print('to DATABASE request from -- handles/users/order_request/create_request.py --')
     ### for logs ### delete later
