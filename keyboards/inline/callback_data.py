@@ -21,3 +21,9 @@ set_status_data = CallbackData (
     'new_st',
     'type_btn'
 )
+
+get_info_request_data = CallbackData (
+    'gird',
+    'id', 
+    'type_btn'
+)

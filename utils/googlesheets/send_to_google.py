@@ -1,6 +1,8 @@
 from aiohttp.client import request
 import gspread
 import datetime
+
+from aiogram.dispatcher import FSMContext
 # import pprint
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -86,7 +88,7 @@ class DataFromSheet:
                 
                 ready_requests.append(request)
 
-        return active_requests, ready_requests
+        return data, active_requests, ready_requests
 
 
 def send_to_google(state): 
@@ -209,12 +211,13 @@ def send_to_google(state):
     inserRow.append(O__fact_EUR)
     inserRow.append(P__end_time)
     inserRow.append(Q__total_blue)
-    print(inserRow)
 
     # number_of_empty_row = len(sheet.col_values(1)) + 1
     sheet.insert_row(inserRow, numb_of_last_row + 1)
 
-    return C__id_of_request
+    permit_data = state['permit']
+
+    return C__id_of_request, permit_data
 
 
 def get_google_sheet():

@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, bot
+from loader import dp, bot, permit
 from states import Request
 from keyboards import create_kb_plus_minus
 from utils import send_to_google
@@ -52,12 +52,13 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             ### for logs ### delete later
 
     elif call.data == 'send_btn':
-        request_id = send_to_google(request_data)
+        request_id, permit_data = send_to_google(request_data)
 
         await call.message.answer (
             f'Заявка создана. Номер заявки: {request_id}'
         )
         await state.finish()
+        permit.write_new_permit(request_id, permit_data)
 
     elif call.data == 'comment':
         result = await call.message.answer('Напишите коментарий:')
