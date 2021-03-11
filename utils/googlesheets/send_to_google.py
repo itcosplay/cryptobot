@@ -47,6 +47,13 @@ class DataFromSheet:
 
         return sheet
 
+    def get_balance_AEG3(self):
+        sheet = self.get_google_sheet()
+        A3 = sheet.acell('A3').value
+        E3 = sheet.acell('E3').value
+        G3 = sheet.acell('G3').value
+        return A3, E3, G3
+
     def get_last_row(self):
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
@@ -137,7 +144,11 @@ def send_to_google(state):
     F__sum = '-'
     G__sum = '-'
     H__sum = '-'
-    I__comment = state['comment']
+    
+    if not state['comment'] == '':
+        I__comment = state['comment']
+    else:
+        I__comment = '-'
     
     if state['operation_type'] == 'recive': # sign +
         if state['sum_RUB__how_much'] != '':
@@ -237,8 +248,3 @@ def get_google_sheet():
 
     return sheet
 
-
-# test_sheet = DataFromSheet()
-# req_1, req_2 = test_sheet.get_numbs_processing_and_ready_requests()
-# print(req_1)
-# print(req_2)

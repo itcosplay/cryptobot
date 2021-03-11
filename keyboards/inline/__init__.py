@@ -8,3 +8,8 @@ from .request_kb import create_kb_send_request_for_change
 from .request_kb import create_kb_send_request_atm
 
 from .in_processing import create_kb_current_requests
+from .in_processing import create_kb_for_particular_request
+from .in_processing import create_kb_what_sum
+
+from .in_processing import cb_particular
+from .in_processing import cb_what_sum

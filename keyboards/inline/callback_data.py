@@ -27,3 +27,4 @@ get_info_request_data = CallbackData (
     'id', 
     'type_btn'
 )
+

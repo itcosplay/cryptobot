@@ -8,16 +8,16 @@ from states import Processing
 
 @dp.message_handler(isExecutor_and_higher(), text='в работе')
 async def inter_to_processing(message:types.Message, state:FSMContext):
-    await message.delete()
-
     current_requests, processing_req, ready_req = sheet.get_numbs_processing_and_ready_requests()
 
     await state.update_data(current_requests=current_requests)
     
     if len(processing_req) == 0 and len(ready_req) == 0:
         await message.answer('Все заявки исполненны.')
-        
+        await message.delete()
     else:
         await message.answer (
-            'Заявки в обработке:',
-            reply_markup=create_kb_current_requests(processing_req, ready_req))
+            'Актуальные заявки:',
+            reply_markup=create_kb_current_requests(processing_req, ready_req)
+        )
+        await message.delete()

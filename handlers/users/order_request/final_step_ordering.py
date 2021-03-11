@@ -3,8 +3,9 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot, permit
 from states import Request
-from keyboards import create_kb_plus_minus
 from utils import send_to_google
+from utils import notify_about_balance
+from keyboards import create_kb_plus_minus
 from keyboards.default.admin_keyboard import main_menu
 
 # from currency__how_much.py
@@ -59,6 +60,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         )
         await state.finish()
         permit.write_new_permit(request_id, permit_data)
+        await notify_about_balance()
 
     elif call.data == 'comment':
         result = await call.message.answer('Напишите коментарий:')
