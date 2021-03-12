@@ -1,4 +1,3 @@
-from os import stat
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiohttp.client import request
