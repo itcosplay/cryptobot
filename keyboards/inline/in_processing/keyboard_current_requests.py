@@ -16,15 +16,15 @@ def create_kb_current_requests(processing_req, ready_req):
     if len(processing_req) != 0:
         for request in processing_req:
             numb = request[0]
-            if request[1] != '-': rub = request[1] + 'RUB; '
+            if request[1] != '-': rub = request[1] + '₽  '
             else: rub = ''
-            if request[2] != '-': usd = request[2] + 'USD; '
+            if request[2] != '-': usd = request[2] + '$  '
             else: usd = ''
-            if request[3] != '-': eur = request[3] + 'EUR;'
+            if request[3] != '-': eur = request[3] + '€'
             else: eur = ''
             keyboard.add (
                 InlineKeyboardButton (
-                    text = '{} #{}; {}{}{}'.format(emo_process, numb, rub, usd, eur),
+                    text = '#{} {} {}{}{}'.format(numb, emo_process, rub, usd, eur),
                     callback_data = cb_current_requests.new (
                         id=numb,
                         type_btn='get_request'
@@ -35,15 +35,15 @@ def create_kb_current_requests(processing_req, ready_req):
     if len(ready_req) != 0:
         for request in ready_req:
             numb = request[0]
-            if request[1] != '-': rub = request[1] + 'RUB;'
+            if request[1] != '-': rub = request[1] + '₽  '
             else: rub = ''
-            if request[2] != '-': usd = request[2] + 'USD;'
+            if request[2] != '-': usd = request[2] + '$  '
             else: usd = ''
-            if request[3] != '-': eur = request[3] + 'EUR;'
+            if request[3] != '-': eur = request[3] + '€'
             else: eur = ''
             keyboard.add (
                 InlineKeyboardButton (
-                    text = '{}  #{}; {} {} {}'.format(emo_ready, numb, rub, usd, eur),
+                    text = '#{} {} {}{}{}'.format(numb, emo_ready, rub, usd, eur),
                     callback_data = cb_current_requests.new (
                         id=numb,
                         type_btn='get_request'

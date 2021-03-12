@@ -97,6 +97,32 @@ class DataFromSheet:
 
         return data, active_requests, ready_requests
 
+    def replace_row(self, request):
+        '''find row and replace'''
+        try:
+            sheet = self.get_google_sheet()
+            numb_of_last_row = len(sheet.col_values(1))
+            data = sheet.batch_get([f'A{numb_of_last_row - 10}:Q{numb_of_last_row}'])[0] # 10 needs change to 30 or other
+
+        except Exception as e:
+            print(e)
+
+            return e
+        
+        index = numb_of_last_row - 10 - 1
+
+        for row in data:
+            index += 1
+            
+            if row[2] == request[2]:
+                sheet.delete_rows(index)
+                sheet.insert_row(request, index)
+
+                return
+            
+
+        
+
 
 def send_to_google(state): 
     sheet = get_google_sheet() 
@@ -247,4 +273,3 @@ def get_google_sheet():
     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
 
     return sheet
-

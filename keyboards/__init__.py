@@ -10,10 +10,9 @@ from .inline import create_kb_send_request_for_change
 from .inline import create_kb_send_request_atm
 from .inline import create_kb_current_requests
 from .inline import create_kb_chosen_request
-# from .inline import create_kb_what_sum
-# from .inline import create_kb_choose_curr
+from .inline import create_kb_what_sum
+
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
-# from .inline import cb_what_sum
-# from .inline import cb_choose_curr
+from .inline import cb_what_sum

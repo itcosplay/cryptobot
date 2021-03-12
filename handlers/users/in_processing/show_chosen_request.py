@@ -1,3 +1,4 @@
+import re
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
@@ -32,7 +33,6 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     for request in current_requests:
         if data_btn['id'] == request[2]:
             await state.update_data(chosen_request=request)
-
             id_request = request[2]
             date_request = request[0]
             operation_type_request = request[3]
@@ -57,7 +57,8 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
             sum_USD,
             sum_EUR
         ),
-        reply_markup=create_kb_chosen_request()
+        reply_markup=create_kb_chosen_request(request)
     )
     await Processing.chosen_request_menu.set()
+    
     

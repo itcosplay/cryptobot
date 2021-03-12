@@ -7,14 +7,16 @@ from aiogram.utils.callback_data import CallbackData
 cb_chosen_requests = CallbackData('cb_chr', 'type_btn')
 
 
-def create_kb_chosen_request():
+def create_kb_chosen_request(request):
     keyboard = InlineKeyboardMarkup()
-    keyboard.add (
-        InlineKeyboardButton (
-            text='отложить на выдачу',
-            callback_data=cb_chosen_requests.new(type_btn='ready_to_give')
+
+    if not request[11] == 'Готово к выдаче':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='отложить на выдачу',
+                callback_data=cb_chosen_requests.new(type_btn='ready_to_give')
+            )
         )
-    )
     keyboard.add (
         InlineKeyboardButton (
             text = 'изменить заявку',
