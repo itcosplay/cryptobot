@@ -33,33 +33,43 @@ def create_kb_what_sum(request):
     return keyboard
 
 
+cb_choose_currency = CallbackData('cbkbws', 'curr', 'type_btn')
 
-# cb_choose_curr = CallbackData('cbkbws', 'curr', 'type_btn')
-# def create_kb_choose_curr(rub, usd, eur):
-#     keyboard = InlineKeyboardMarkup()
 
-#     if not rub == '-':
-#         keyboard.add (
-#             InlineKeyboardButton (
-#                 text = 'изменить RUB',
-#                 callback_data = cb_choose_curr.new(curr='RUB', type_btn='change_curr')
-#             )
-#         )
+def create_kb_choose_currency(request):
+    if not request[5] == '-': sum_RUB = request[5] + ' RUB'
+    else: sum_RUB = ''
+
+    if not request[6] == '-': sum_USD = request[6] + ' USD'
+    else: sum_USD =''
+
+    if not request[7] == '-': sum_EUR = request[7] + ' EUR'
+    else: sum_EUR = ''
+
+    keyboard = InlineKeyboardMarkup()
+
+    if not request[5] == '-':
+        keyboard.add (
+            InlineKeyboardButton (
+                text = '{}'.format(sum_RUB),
+                callback_data = cb_choose_currency.new(curr='RUB', type_btn='change_curr')
+            )
+        )
     
-#     if not usd == '-':
-#         keyboard.add (
-#             InlineKeyboardButton (
-#                 text = 'изменить USD',
-#                 callback_data = cb_choose_curr.new(curr='USD', type_btn='change_curr')
-#             )
-#         )
+    if not request[6] == '-':
+        keyboard.add (
+            InlineKeyboardButton (
+                text = '{}'.format(sum_USD),
+                callback_data = cb_choose_currency.new(curr='USD', type_btn='change_curr')
+            )
+        )
 
-#     if not eur == '-':
-#         keyboard.add (
-#             InlineKeyboardButton (
-#                 text = 'изменить EUR',
-#                 callback_data = cb_choose_curr.new(curr='EUR', type_btn='change_curr')
-#             )
-#         )
+    if not request[7] == '-':
+        keyboard.add (
+            InlineKeyboardButton (
+                text = '{}'.format(sum_EUR),
+                callback_data = cb_choose_currency.new(curr='EUR', type_btn='change_curr')
+            )
+        )
     
-#     return keyboard
+    return keyboard

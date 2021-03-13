@@ -9,10 +9,6 @@ from keyboards import create_kb_smart_choose_curr
 # from operation_type.py
 @dp.message_handler(state=Request.temp_sum_state)
 async def set_how_much(message:types.Message, state:FSMContext):
-    print(message)
-    print(message.chat.id)
-    print('id message that we want to delete...')
-    print(message.message_id - 1)
     try:
     
         summ = int(message.text)

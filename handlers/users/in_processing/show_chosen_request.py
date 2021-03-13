@@ -1,3 +1,4 @@
+from os import stat
 import re
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
@@ -10,6 +11,7 @@ from keyboards import main_menu
 from keyboards import create_kb_chosen_request
 
 
+# from show_current_requests
 @dp.callback_query_handler(state=Processing.chosen_request)
 async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     await call.answer()
@@ -33,6 +35,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     for request in current_requests:
         if data_btn['id'] == request[2]:
             await state.update_data(chosen_request=request)
+            await state.update_data(message_to_delete='-')
             id_request = request[2]
             date_request = request[0]
             operation_type_request = request[3]
@@ -60,5 +63,5 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
         reply_markup=create_kb_chosen_request(request)
     )
     await Processing.chosen_request_menu.set()
-    
+    # to chosen_request_menu
     

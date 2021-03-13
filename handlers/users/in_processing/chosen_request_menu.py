@@ -1,12 +1,14 @@
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp
+from loader import bot, dp
 from states import Processing
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
+from keyboards import create_kb_choose_currency
 
 
+# from show_chosen_request
 @dp.callback_query_handler(state=Processing.chosen_request_menu)
 async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     await call.answer()
@@ -30,9 +32,18 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         return
 
     if data_btn['type_btn'] == 'change':
-        await call.message.delete()
-        await call.message.answer('Кнопка изменить заявку')
+        await state.update_data(chosen_request_menu='change_request')
 
+        data_state = await state.get_data()
+        request = data_state['chosen_request']
+
+        await call.message.delete()
+        await call.message.answer (
+            'Какую сумму меняем?',
+            reply_markup=create_kb_choose_currency(request)
+        )
+        await Processing.sum_currency_to_change.set()
+        # to set_new_sum_handlers
         return
 
     if data_btn['type_btn'] == 'cancel':
