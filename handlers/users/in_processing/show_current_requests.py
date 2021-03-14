@@ -6,7 +6,6 @@ from filters import isExecutor_and_higher
 from states import Processing
 
 from keyboards import create_kb_current_requests
-from keyboards import cb_current_requests
 
 
 @dp.message_handler(isExecutor_and_higher(), text='в работе')

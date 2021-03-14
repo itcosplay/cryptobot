@@ -17,6 +17,14 @@ def create_kb_chosen_request(request):
                 callback_data=cb_chosen_requests.new(type_btn='ready_to_give')
             )
         )
+    else:
+        keyboard.add (
+            InlineKeyboardButton (
+                text = 'закрыть заявку',
+                callback_data=cb_chosen_requests.new(type_btn='close')
+            )
+        )
+
     keyboard.add (
         InlineKeyboardButton (
             text = 'изменить заявку',

@@ -1,12 +1,14 @@
+from ssl import ALERT_DESCRIPTION_CERTIFICATE_UNOBTAINABLE
 from keyboards.inline import request_kb
 import data
 from aiogram.types import Message, CallbackQuery, message
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, bot
+from loader import dp, bot, sheet
 from states import Processing
 from keyboards import cb_choose_currency
 from keyboards import create_kb_chosen_request
+
 
 
 
@@ -28,6 +30,13 @@ async def set_currency_to_change(call:CallbackQuery, state:FSMContext):
         old_sum = request[6] + ' USD'
     if data_state['sum_currency_to_change'] == 'EUR':
         old_sum = request[7] + ' EUR'
+
+    if data_state['chosen_request_menu'] == 'change_request':
+        old_comment = request[8]
+        new_comment = old_comment + '; прежняя сумма: ' + old_sum + ';'
+        request[8] = new_comment
+        await state.update_data(chosen_request=request)
+
 
     result = await call.message.answer (
         f'СТАРАЯ СУММА:  {old_sum}. ВВЕДИТЕ НОВУЮ СУММУ:\n' + \
@@ -51,6 +60,7 @@ async def set_sum_for_change(message:Message, state:FSMContext):
 
     data_state = await state.get_data()
     request = data_state['chosen_request']
+
     currency = data_state['sum_currency_to_change']
 
     if currency == 'RUB': request[5] = str(new_sum)
@@ -62,10 +72,10 @@ async def set_sum_for_change(message:Message, state:FSMContext):
     data_state = await state.get_data()
     request = data_state['chosen_request']
 
-    if data_state['chosen_request_menu'] == 'change_request':
-        request[11] == 'В обработке'
-
-        await state.update_data(chosen_request=request)
+    
+    
+    data_state = await state.get_data()
+    request = data_state['chosen_request']
 
     id_request = request[2]
     date_request = request[0]
@@ -80,6 +90,13 @@ async def set_sum_for_change(message:Message, state:FSMContext):
     if not request[7] == '-': sum_EUR = request[7] + ' EUR'
     else: sum_EUR = ''
 
+
+    if data_state['chosen_request_menu'] == 'change_request':
+        request[11] = 'В обработке'
+        sheet.replace_row(request)
+        await state.update_data(chosen_request=request)
+
+
     data_state = await state.get_data()
     await bot.delete_message (
         chat_id=message.chat.id,
@@ -90,6 +107,9 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         chat_id=message.chat.id,
         message_id=message.message_id
     )    
+
+    # data_state = await state.get_data()
+    # request = data_state['chosen_request']
 
     await message.answer (
         'заявка {} от {}\nоперация: {}\nсуммы:\n{}{}{}'.format (
@@ -102,4 +122,6 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         ),
         reply_markup=create_kb_chosen_request(request)
     )
+    
+    
     await Processing.chosen_request_menu.set()
