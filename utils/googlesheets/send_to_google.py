@@ -66,7 +66,7 @@ class DataFromSheet:
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
-            data = sheet.batch_get([f'A{numb_of_last_row - 10}:Q{numb_of_last_row}'])[0] # 10 needs change to 30 or other
+            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
         except Exception as e:
             print(e)
@@ -99,17 +99,35 @@ class DataFromSheet:
 
     def replace_row(self, request):
         '''find row and replace'''
+        if not request[5] == '-':
+            request[5] = int(request[5])
+
+        if not request[6] == '-':
+            request[6] = int(request[6])
+
+        if not request[7] == '-':
+            request[7] = int(request[7])
+
+        if not request[12] == '-':
+            request[12] = int(request[12])
+
+        if not request[13] == '-':
+            request[13] = int(request[13])
+            
+        if not request[14] == '-':
+            request[14] = int(request[14])
+
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
-            data = sheet.batch_get([f'A{numb_of_last_row - 10}:Q{numb_of_last_row}'])[0] # 10 needs change to 30 or other
+            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
         except Exception as e:
             print(e)
 
             return e
         
-        index = numb_of_last_row - 10 - 1
+        index = numb_of_last_row - 20 - 1
 
         for row in data:
             index += 1
@@ -273,3 +291,9 @@ def get_google_sheet():
     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
 
     return sheet
+
+
+data = ['14.03', '8', '1311', 'выдача в офисе', 'change', '-500', '-', '-', '-', '-', '-', 'Готово к выдаче', '-500', '-', '-', '-', '-']
+
+test_sheet = DataFromSheet()
+test_sheet.replace_row(data)

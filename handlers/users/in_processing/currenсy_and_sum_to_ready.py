@@ -19,11 +19,15 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         await state.update_data(chosen_sum_to_ready='with_current')
         data_state = await state.get_data()
         request = data_state['chosen_request']
+        print(request[5])
+        print(type(request[5]))
 
         request[12] = request[5]
         request[13] = request[6]
         request[14] = request[7]
         request[11] = 'Готово к выдаче'
+
+
 
         sheet.replace_row(request)
 
