@@ -43,6 +43,6 @@ async def show_current_requests(message:Message, state:FSMContext):
                 ready_to_give_requests
             )
         )
-        await Processing.chosen_request.set()
+        # await Processing.chosen_request.set()
         # to show_chosen_requests.py
         

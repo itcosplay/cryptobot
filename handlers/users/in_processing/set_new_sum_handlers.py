@@ -39,8 +39,7 @@ async def set_currency_to_change(call:CallbackQuery, state:FSMContext):
 
 
     result = await call.message.answer (
-        f'СТАРАЯ СУММА:  {old_sum}. ВВЕДИТЕ НОВУЮ СУММУ:\n' + \
-        '*ключая знак "-" при наличии'
+        f'СТАРАЯ СУММА:  {old_sum}. ВВЕДИТЕ НОВУЮ СУММУ:\n'
     )
     await state.update_data(message_to_delete=result.message_id)
     await Processing.sum_amount_to_change.set()
@@ -57,15 +56,26 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         print(e)
     
     await state.update_data(sum_amount_to_change=new_sum)
+    # currency - data_state['sum_currency_to_change']
 
     data_state = await state.get_data()
     request = data_state['chosen_request']
 
     currency = data_state['sum_currency_to_change']
 
-    if currency == 'RUB': request[5] = str(new_sum)
-    if currency == 'USD': request[6] = str(new_sum)
-    if currency == 'EUR': request[7] = str(new_sum)
+    # if currency == 'RUB':
+    #     old_sum = request[5]
+    #     old_sum = str(old_sum)
+    #     plus_or_minus = old_sum[0]
+    #         if plus_or_minus == '-':
+    #             plus_or_minus = '-'
+    #         else:
+    #             plus_or_minus = ''
+    #     request[5] = str(new_sum)
+    # if currency == 'USD':
+    #     request[6] = str(new_sum)
+    # if currency == 'EUR':
+    #     request[7] = str(new_sum)
 
     await state.update_data(chosen_request=request)
 
