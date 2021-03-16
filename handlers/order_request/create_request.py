@@ -1,16 +1,17 @@
-from aiogram import types
+from aiogram import types 
 from aiogram.dispatcher import FSMContext
 
 from data.config import super_admins
 from filters import isAdmin_or_isChanger
 from states import Request
-from loader import dp, db
+from loader import dp, db, bot
 from keyboards import create_kp_operation_type
 
 
 @dp.message_handler(isAdmin_or_isChanger(), text='создать заявку')
 async def create_request(message:types.Message, state:FSMContext):
     await message.delete()
+
     ### for logs ### delete later
     print('to DATABASE request from -- handles/users/order_request/create_request.py --')
     ### for logs ### delete later
@@ -36,10 +37,16 @@ async def create_request(message:types.Message, state:FSMContext):
     await state.update_data(comment='')
     await state.update_data(permit='')
     
-    await message.answer (
-        'Создаем заявку! Выберите тип операции:',
-        reply_markup = create_kp_operation_type()
+
+    result = await message.answer (
+        text='Создаем заявку! Выберите тип операции:',
+        reply_markup=create_kp_operation_type()
     )
+
+    # print(result.message_id)
+
+    # await bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=result.message_id - 2, reply_markup=types.ReplyKeyboardRemove())
+    # await bo
 
     ### for logs ### delete later
     request_data = await state.get_data()

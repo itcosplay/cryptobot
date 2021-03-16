@@ -1,4 +1,3 @@
-from handlers.users.order_request.permit import permit
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
@@ -7,6 +6,7 @@ from states import Request
 from keyboards import create_kb_choose_card
 from keyboards import create_kb_send_request_atm
 from keyboards.default.admin_keyboard import main_menu
+from handlers.order_request import permit
 
 # from create_request.py
 @dp.callback_query_handler(state=Request.operation_type)

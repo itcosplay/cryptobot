@@ -53,29 +53,54 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         
     except Exception as e:
         await message.answer('Редактирование отменено. Формат суммы не правильный.')
+        await state.finish()
         print(e)
     
     await state.update_data(sum_amount_to_change=new_sum)
-    # currency - data_state['sum_currency_to_change']
 
     data_state = await state.get_data()
     request = data_state['chosen_request']
 
     currency = data_state['sum_currency_to_change']
 
-    # if currency == 'RUB':
-    #     old_sum = request[5]
-    #     old_sum = str(old_sum)
-    #     plus_or_minus = old_sum[0]
-    #         if plus_or_minus == '-':
-    #             plus_or_minus = '-'
-    #         else:
-    #             plus_or_minus = ''
-    #     request[5] = str(new_sum)
-    # if currency == 'USD':
-    #     request[6] = str(new_sum)
-    # if currency == 'EUR':
-    #     request[7] = str(new_sum)
+    if currency == 'RUB':
+        old_sum = request[5]
+        old_sum = str(old_sum)
+        plus_or_minus = old_sum[0]
+
+        if plus_or_minus == '-':
+            plus_or_minus = '-'
+
+        else:
+            plus_or_minus = ''
+            
+        request[5] = plus_or_minus + str(new_sum)
+
+    if currency == 'USD':
+        old_sum = request[6]
+        old_sum = str(old_sum)
+        plus_or_minus = old_sum[0]
+
+        if plus_or_minus == '-':
+            plus_or_minus = '-'
+
+        else:
+            plus_or_minus = ''
+
+        request[6] = plus_or_minus + str(new_sum)
+
+    if currency == 'EUR':
+        old_sum = request[7]
+        old_sum = str(old_sum)
+        plus_or_minus = old_sum[0]
+
+        if plus_or_minus == '-':
+            plus_or_minus = '-'
+
+        else:
+            plus_or_minus = ''
+
+        request[7] = plus_or_minus + str(new_sum)
 
     await state.update_data(chosen_request=request)
 

@@ -12,6 +12,8 @@ async def set_type_of_card(call:types.CallbackQuery, state:FSMContext):
     await call.message.delete()
     await state.update_data(type_of_card=call.data)
     
-    await call.message.answer(f'укажите сумму:')
+    result = await call.message.answer(f'укажите сумму:')
+    
+    await state.update_data(_del_message=result.message_id)
     await Request.temp_sum_state.set()
     # to temp_sum_message_handler.py

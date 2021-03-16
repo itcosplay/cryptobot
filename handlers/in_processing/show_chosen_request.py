@@ -13,8 +13,9 @@ from keyboards import create_kb_chosen_request
 from keyboards import cb_current_requests
 
 # from show_current_requests
-# @dp.callback_query_handler(state=Processing.chosen_request)
-@dp.callback_query_handler(cb_current_requests.filter(type_btn='get_request'))
+
+# @dp.callback_query_handler(cb_current_requests.filter(type_btn='get_request'))
+@dp.callback_query_handler(state=Processing.chosen_request)
 async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     await call.answer()
 
