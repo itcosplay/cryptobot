@@ -10,17 +10,10 @@ from keyboards import create_kb_smart_choose_curr
 @dp.message_handler(state=Request.temp_sum_state)
 async def set_how_much(message:types.Message, state:FSMContext):
     try:
-    
         summ = int(message.text)
-
         await state.update_data(temp_sum_state=summ)
 
         request_data = await state.get_data()
-
-        ## bags bags bags
-        # print('============')
-        # print(message.message_id - 1)
-
         await bot.delete_message (
             chat_id=message.chat.id,
             message_id=request_data['_del_message']
@@ -29,6 +22,7 @@ async def set_how_much(message:types.Message, state:FSMContext):
             chat_id=message.chat.id,
             message_id=message.message_id
         )
+
         await message.answer (
             f'Выберете валюту:',
             reply_markup=create_kb_smart_choose_curr(request_data['currencies__how_much'])

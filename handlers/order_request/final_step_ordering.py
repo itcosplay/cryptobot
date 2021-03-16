@@ -56,7 +56,8 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         request_id, permit_data = send_to_google(request_data)
 
         await call.message.answer (
-            f'Заявка создана. Номер заявки: {request_id}'
+            f'Заявка создана. Номер заявки: {request_id}\n================================',
+            reply_markup=main_menu
         )
         await state.finish()
         permit.write_new_permit(request_id, permit_data)

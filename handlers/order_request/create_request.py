@@ -1,3 +1,5 @@
+import datetime
+
 from aiogram import types 
 from aiogram.dispatcher import FSMContext
 
@@ -7,54 +9,38 @@ from states import Request
 from loader import dp, db, bot
 from keyboards import create_kp_operation_type
 
-
+# from 'создать заявку' main_menu
 @dp.message_handler(isAdmin_or_isChanger(), text='создать заявку')
 async def create_request(message:types.Message, state:FSMContext):
     await message.delete()
+    await message.answer (
+        '=====================\nСоздание новой заявки',
+        reply_markup=types.ReplyKeyboardRemove()
+    )
 
-    ### for logs ### delete later
-    print('to DATABASE request from -- handles/users/order_request/create_request.py --')
-    ### for logs ### delete later
-
-    if db.select_status_user(id=message.from_user.id) ==  \
-    'admin' or message.from_user.id in super_admins:
-        await state.update_data(applicant='changer')
-    else:
-        await state.update_data(applicant='changer')
-    
-    # set state
+    await state.update_data(applicant='changer') 
     await state.update_data(operation_type='')
     await state.update_data(type_of_card='')
+
     await state.update_data(sum_RUB__how_much='')
     await state.update_data(sum_USD__how_much='')
     await state.update_data(sum_EUR__how_much='')
+
     await state.update_data(sum_recive_RUB='')
     await state.update_data(sum_recive_USD='')
     await state.update_data(sum_recive_EUR='')
     await state.update_data(sum_give_RUB='')
     await state.update_data(sum_give_USD='')
     await state.update_data(sum_give_EUR='')
+
     await state.update_data(comment='')
     await state.update_data(permit='')
-    
+    await state.update_data(data_request=datetime.datetime.today().strftime('%d.%m'))
 
     result = await message.answer (
-        text='Создаем заявку! Выберите тип операции:',
+        text='Выберите тип операции',
         reply_markup=create_kp_operation_type()
     )
 
-    # print(result.message_id)
-
-    # await bot.edit_message_reply_markup(chat_id=message.chat.id, message_id=result.message_id - 2, reply_markup=types.ReplyKeyboardRemove())
-    # await bo
-
-    ### for logs ### delete later
-    request_data = await state.get_data()
-    print('=== state: ===')
-    print(request_data)
-    print('==============')
-    ### for logs ### delete later
-
     await Request.operation_type.set()
     # to operation_type.py
-    

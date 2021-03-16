@@ -22,17 +22,19 @@ async def set_operation_type (
         await state.update_data(operation_type=call.data)
 
         currencies__how_much = []
-
         await state.update_data (
             currencies__how_much = currencies__how_much
         )
+
         result = await bot.send_message (
             chat_id = call.message.chat.id,
             text='введите сумму:'
         )
-        # print('-- sent message id --')
-        # print(result.message_id)
         await state.update_data(_del_message = result.message_id)
+
+        await Request.temp_sum_state.set()
+        # to temp_sum_message_handler.py
+
 
         ### for logs ### delete later
         request_data = await state.get_data()
@@ -41,9 +43,7 @@ async def set_operation_type (
         print('==============')
         ### for logs ### delete later
 
-        await Request.temp_sum_state.set()
-        # to temp_sum_message_handler.py
-
+        
     elif call.data == 'cashin':
         await state.update_data(operation_type=call.data)
 
@@ -100,5 +100,8 @@ async def set_operation_type (
 
     else:
         await call.answer()
-        await call.message.answer(f'Создание заявки отменено. Испльзуйте меню.', reply_markup=main_menu)
+        await call.message.answer (
+            f'Создание заявки отменено. Испльзуйте меню\n=========================================',
+            reply_markup=main_menu
+        )
         await state.finish()

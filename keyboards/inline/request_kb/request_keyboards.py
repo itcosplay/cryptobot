@@ -5,13 +5,13 @@ def create_kp_operation_type():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (
-            text = 'прием',
+            text = 'прием кэша',
             callback_data = 'recive'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'выдача',
+            text = 'выдача в офисе',
             callback_data = 'takeout'
         )
     )
@@ -90,6 +90,7 @@ def create_kb_choose_currency():
 
     return keyboard
 
+
 def create_kb_smart_choose_curr(list):
     keyboard = InlineKeyboardMarkup()
     default_list = {
@@ -110,7 +111,6 @@ def create_kb_smart_choose_curr(list):
 
 
 
-
 def create_kb_send_request_atm():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
@@ -123,6 +123,12 @@ def create_kb_send_request_atm():
         InlineKeyboardButton (
             text = 'комментарий',
             callback_data = 'comment'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'изменить дату',
+            callback_data = 'change_date'
         )
     )
     keyboard.add (
@@ -164,6 +170,12 @@ def create_kb_send_request(currencies):
     )
     keyboard.add (
         InlineKeyboardButton (
+            text = 'изменить дату',
+            callback_data = 'change_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text = 'заказать пропуск',
             callback_data = 'order_permit'
         )
@@ -198,6 +210,12 @@ def create_kb_send_request_for_change(currencies_recive, currencies_give):
         InlineKeyboardButton (
             text = 'комментарий',
             callback_data = 'comment'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'изменить дату',
+            callback_data = 'change_date'
         )
     )
     keyboard.add (

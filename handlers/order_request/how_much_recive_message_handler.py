@@ -39,3 +39,5 @@ async def set_how_much_recive(message:types.Message, state:FSMContext):
         )
         await state.finish()
         await message.delete()
+
+

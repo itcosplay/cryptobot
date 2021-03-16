@@ -37,6 +37,6 @@ class Request(StatesGroup):
     comment = State()
     permit = State() # ФИО для пропуска
     type_end = State()
+    data_request = State()
 
     _del_message = State()
-
