@@ -4,12 +4,11 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_smart_choose_curr
-from keyboards import create_kb_choose_currency
+from keyboards import main_menu
 
 
 @dp.message_handler(state=Request.how_much_give)
 async def set_how_much_give(message:types.Message, state:FSMContext):
-    
     try:
         summ = int(message.text)
         await state.update_data(how_much_give=summ)
@@ -41,7 +40,8 @@ async def set_how_much_give(message:types.Message, state:FSMContext):
         print(e)
         print("EXEPTION HOW MACH GIVE")
         await message.answer (
-            f'Формат суммы неправильный. Создание заявки отменено.'
+            f'Формат суммы неправильный. Создание заявки отменено\n====================================================',
+            reply_markup=main_menu
         )
         await state.finish()
         await message.delete()

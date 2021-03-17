@@ -1,10 +1,12 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiohttp.client import request
+from dotenv import main
 
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_smart_choose_curr
+from keyboards import main_menu
 
 # from operation_type.py
 @dp.message_handler(state=Request.temp_sum_state)
@@ -60,7 +62,8 @@ async def set_how_much(message:types.Message, state:FSMContext):
     except Exception as e:
         print(e)
         await message.answer (
-            f'Формат суммы неправильный. Создание заявки отменено.'
+            f'Формат суммы неправильный. Создание заявки отменено\n====================================================',
+            reply_markup=main_menu
         )
         await state.finish()
         await message.delete()
