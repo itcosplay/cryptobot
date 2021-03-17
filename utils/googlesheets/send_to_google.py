@@ -139,16 +139,13 @@ class DataFromSheet:
                 return
             
 
-        
-
-
 def send_to_google(state): 
     sheet = get_google_sheet() 
     numb_of_last_row = len(sheet.col_values(1))
     # print(numb_of_last_row)
     last_row = sheet.get(f'A{numb_of_last_row}:Q{numb_of_last_row}')[0]
 
-    A__current_date = datetime.datetime.today().strftime('%d.%m')
+    A__current_date = state['data_request']
 
     if last_row[0] == A__current_date:
         B__numb_of_request_for_today = int(last_row[1]) + 1
@@ -293,7 +290,7 @@ def get_google_sheet():
     return sheet
 
 
-data = ['14.03', '8', '1311', 'выдача в офисе', 'change', '-500', '-', '-', '-', '-', '-', 'Готово к выдаче', '-500', '-', '-', '-', '-']
+# data = ['14.03', '8', '1311', 'выдача в офисе', 'change', '-500', '-', '-', '-', '-', '-', 'Готово к выдаче', '-500', '-', '-', '-', '-']
 
-test_sheet = DataFromSheet()
-test_sheet.replace_row(data)
+# test_sheet = DataFromSheet()
+# test_sheet.replace_row(data)

@@ -7,6 +7,7 @@ from utils import send_to_google
 from utils import notify_about_balance
 from keyboards import create_kb_plus_minus
 from keyboards.default.admin_keyboard import main_menu
+from keyboards import create_kb_choose_date
 
 # from currency__how_much.py
 @dp.callback_query_handler(state=Request.type_end)
@@ -17,7 +18,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
     if call.data == 'add_currency':
         if request_data['operation_type'] == 'change':
-            print('to plus_or_minus_summ.py')
+            await state.update_data(type_end=call.data)
             await call.message.answer (
                 text = 'Прием / Выдача',
                 reply_markup=create_kb_plus_minus()
@@ -53,6 +54,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             ### for logs ### delete later
 
     elif call.data == 'send_btn':
+        await state.update_data(type_end=call.data)
         request_id, permit_data = send_to_google(request_data)
 
         await call.message.answer (
@@ -64,18 +66,28 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         await notify_about_balance()
 
     elif call.data == 'comment':
+        await state.update_data(type_end=call.data)
         result = await call.message.answer('Напишите коментарий:')
         await state.update_data(_del_message = result.message_id)
         await Request.comment.set()
 
+    elif call.data == 'change_date':
+        await call.message.answer (
+            text='Какую дату устанавливаем?',
+            reply_markup=create_kb_choose_date()
+        )
+        await state.update_data(type_end=call.data)
+        await Request.data_request.set()
+
     elif call.data == 'order_permit':
+        await state.update_data(type_end=call.data)
         result = await call.message.answer('Напишите Ф.И.О. для пропуска:')
         await state.update_data(_del_message = result.message_id)
         await Request.permit.set()
 
     else:
         await call.message.answer (
-            f'Создание заявки отменено',
+            f'Создание заявки отменено\n========================',
             reply_markup=main_menu
         )
         await state.finish()

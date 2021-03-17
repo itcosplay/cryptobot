@@ -12,6 +12,7 @@ from .inline import create_kb_current_requests
 from .inline import create_kb_chosen_request
 from .inline import create_kb_what_sum
 from .inline import create_kb_choose_currency
+from .inline import create_kb_choose_date
 
 
 from .inline import cb_current_requests

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
@@ -110,7 +111,6 @@ def create_kb_smart_choose_curr(list):
     return keyboard
 
 
-
 def create_kb_send_request_atm():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
@@ -146,6 +146,7 @@ def create_kb_send_request_atm():
     )
 
     return keyboard
+
 
 def create_kb_send_request(currencies):
     keyboard = InlineKeyboardMarkup()
@@ -234,6 +235,7 @@ def create_kb_send_request_for_change(currencies_recive, currencies_give):
 
     return keyboard
 
+
 def create_kb_plus_minus():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
@@ -246,6 +248,40 @@ def create_kb_plus_minus():
         InlineKeyboardButton (
             text = '-',
             callback_data = 'sum_minus'
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_choose_date():
+    current_date = datetime.today().strftime('%d.%m')
+    tomorrow_date =  (datetime.now() + timedelta(days=1)).strftime("%d.%m")
+    after_tomorrow_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m")
+
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'оставить текущюю дату ({current_date})',
+            callback_data = 'set_current_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'на завтра ({tomorrow_date})',
+            callback_data = 'set_tomorrow_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'на послезавтара ({after_tomorrow_date})',
+            callback_data = 'set_after_tomorrow_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'ввести дату в ручную',
+            callback_data = 'enter_coustom_date'
         )
     )
 

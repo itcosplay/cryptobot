@@ -6,6 +6,7 @@ from .request_kb import create_kb_plus_minus
 from .request_kb import create_kb_smart_choose_curr
 from .request_kb import create_kb_send_request_for_change
 from .request_kb import create_kb_send_request_atm
+from .request_kb import create_kb_choose_date
 
 from .in_processing import create_kb_current_requests
 from .in_processing import create_kb_chosen_request
