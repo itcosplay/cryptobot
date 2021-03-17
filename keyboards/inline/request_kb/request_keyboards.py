@@ -65,6 +65,13 @@ def create_kb_choose_card():
         )
     )
 
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить >> главное меню',
+            callback_data = 'exit'
+        )
+    )
+
     return keyboard
 
 
@@ -88,6 +95,12 @@ def create_kb_choose_currency():
             callback_data = 'eur'
         )
     )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить >> главное меню',
+            callback_data = 'exit'
+        )
+    )
 
     return keyboard
 
@@ -107,6 +120,12 @@ def create_kb_smart_choose_curr(list):
                     callback_data = curr_name
                 )
             )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить >> главное меню',
+            callback_data = 'exit'
+        )
+    )
 
     return keyboard
 
@@ -250,6 +269,12 @@ def create_kb_plus_minus():
             callback_data = 'sum_minus'
         )
     )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить >> главное меню',
+            callback_data = 'exit'
+        )
+    )
 
     return keyboard
 
@@ -282,6 +307,12 @@ def create_kb_choose_date():
         InlineKeyboardButton (
             text = 'ввести дату в ручную',
             callback_data = 'enter_coustom_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить >> главное меню',
+            callback_data = 'exit'
         )
     )
 

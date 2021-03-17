@@ -71,9 +71,8 @@ async def set_date_from_text(message:types.Message, state:FSMContext):
         # to final_step_ordering.py
 
     else:
-        result = await message.answer('Неправильный формат даты. Попробуйте еще раз в формате чч.мм.\n(Для долбаебов, пример на 11 марта: 11.03)')
+        result = await message.answer('Неправильный формат даты. Попробуйте еще раз ввести в формате чч.мм.\n(пример для 11 ноября: 11.11)')
         await state.update_data(_del_message=result.message_id)
         await state.update_data(data_request='')
         await Request.data_request.set()
         # to THIS HANDLER
-

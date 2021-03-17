@@ -5,6 +5,7 @@ from aiogram.dispatcher.filters import state
 from loader import dp
 from states import Request
 from keyboards import create_kb_send_request_for_change
+from keyboards import main_menu
 from utils import get_data_to_show
 
 @dp.callback_query_handler(state=Request.currency__how_much__give)
@@ -14,6 +15,15 @@ async def set_how_much_give_curr (
 ):
     await call.answer()
     await call.message.delete()
+
+    if call.data == 'exit':
+        await call.message.answer (
+            f'Создание заявки отменено. Испльзуйте меню\n=========================================',
+            reply_markup=main_menu
+        )
+        await state.finish()
+
+        return
 
     currency = call.data
     request_data = await state.get_data()

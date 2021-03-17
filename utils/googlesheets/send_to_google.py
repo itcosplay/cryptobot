@@ -153,9 +153,29 @@ def send_to_google(state):
         B__numb_of_request_for_today = 1
 
     C__id_of_request = int(datetime.datetime.today().strftime('%H%M'))
+
+    if numb_of_last_row - 40 <= 6:
+        low_value_row = 6
+
+    else:
+        low_value_row = numb_of_last_row - 40
     
-    if C__id_of_request == int(last_row[2]):
-        C__id_of_request += 1
+    last_20_ids = sheet.get(f'C{low_value_row}:C{numb_of_last_row}')
+    last_20_ids = sum(last_20_ids, [])
+    limit_while = 1
+
+    while True:
+        if str(C__id_of_request) in last_20_ids:
+            C__id_of_request -= 1
+            limit_while += 1
+        
+        else:
+
+            break
+
+        if limit_while == 50:
+
+            return False
 
     C__id_of_request = str(C__id_of_request)
     C__id_of_request = C__id_of_request.zfill(4)
@@ -294,3 +314,8 @@ def get_google_sheet():
 
 # test_sheet = DataFromSheet()
 # test_sheet.replace_row(data)
+
+# sheet = get_google_sheet()
+# last_row = sheet.get('C32:C62')
+# last_row = sum(last_row, [])
+# print(last_row)

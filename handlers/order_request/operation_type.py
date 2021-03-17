@@ -7,6 +7,7 @@ from keyboards import create_kb_choose_card
 from keyboards import create_kb_send_request_atm
 from keyboards.default.admin_keyboard import main_menu
 from handlers.order_request import permit
+from utils import get_data_to_show
 
 # from create_request.py
 @dp.callback_query_handler(state=Request.operation_type)
@@ -78,21 +79,10 @@ async def set_operation_type (
         # to how_much_recive.py
 
     elif call.data == 'cash_atm':
-        await state.update_data(operation_type=call.data)
+        await state.update_data(operation_type='cash_atm')
+        request_data = await state.get_data()
 
-        data = await state.get_data()
-        print(data)
-
-        await state.update_data(operation_type=call.data)
-        await state.update_data(comment='')
-        await state.update_data(permit='')
-
-        keyboard = create_kb_send_request_atm()
-
-        text = 'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
-        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + \
-        'заявитель - ' + data['applicant'] + '\n' + \
-        'тип операции - ' + data['operation_type']
+        text, keyboard = get_data_to_show(request_data)
 
         await call.message.answer(text, reply_markup=keyboard)
         await Request.type_end.set()

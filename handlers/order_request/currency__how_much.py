@@ -5,6 +5,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp
 from states import Request
 from keyboards import create_kb_send_request
+from keyboards import main_menu
 from utils import get_data_to_show
 
 
@@ -16,6 +17,15 @@ async def set_currency__how_much (
 ):
     await call.answer()
     await call.message.delete()
+
+    if call.data == 'exit':
+        await call.message.answer (
+            f'Создание заявки отменено. Испльзуйте меню\n=========================================',
+            reply_markup=main_menu
+        )
+        await state.finish()
+
+        return
 
     currency = call.data
     data_request = await state.get_data()

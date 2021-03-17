@@ -15,16 +15,6 @@ def get_data_to_show(request_data):
 
     if request_data['operation_type'] == 'cash_atm':
         keyboard = create_kb_send_request_atm()
-        text = 'БУДЕТ ОТПРАВЛЕННА ЗАЯВКА ' + \
-        'СО СЛЕДУЮЩИМИ ДАННЫМИ:\n' + \
-        'заявитель: ' + request_data['applicant'] + '\n' + \
-        'тип операции: ' + request_data['operation_type'] + '\n' + \
-        'комментарий: ' + request_data['comment'] + '\n' + \
-        'пропуск на:' + request_data['permit'] + '\n'
-
-        result_data_to_show = text
-
-        return result_data_to_show, keyboard
 
     translate_keys_request = {
         'applicant': 'заявитель: ',
@@ -51,7 +41,7 @@ def get_data_to_show(request_data):
         'delivery': 'доставка',
         'cashin': 'кэшин',
         'change': 'обмен',
-        'cache_atm': 'снятие с карт',
+        'cash_atm': 'снятие с карт',
         'alfa': 'альфа-банк',
         'sber': 'сбер',
         'rub': 'рубли',
