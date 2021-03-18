@@ -17,7 +17,7 @@ async def set_plus_or_minus_summ (
 
     if call.data == 'exit':
         await call.message.answer (
-            f'Создание заявки отменено. Испльзуйте меню\n=========================================',
+            f'Создание заявки отменено. Испльзуйте меню\n===========',
             reply_markup=main_menu
         )
         await state.finish()

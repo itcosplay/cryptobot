@@ -40,7 +40,7 @@ async def set_how_much_give(message:types.Message, state:FSMContext):
         print(e)
         print("EXEPTION HOW MACH GIVE")
         await message.answer (
-            f'Формат суммы неправильный. Создание заявки отменено\n====================================================',
+            f'Формат суммы неправильный. Создание заявки отменено\n===========',
             reply_markup=main_menu
         )
         await state.finish()

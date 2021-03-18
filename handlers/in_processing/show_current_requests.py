@@ -1,13 +1,14 @@
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, sheet
+from loader import dp, sheet, bot
 from filters import isExecutor_and_higher
 from states import Processing
 
 from keyboards import create_kb_current_requests
+from keyboards import main_menu
 
-
+# from 'в работе' main_menu
 @dp.message_handler(isExecutor_and_higher(), text='в работе')
 async def show_current_requests(message:Message, state:FSMContext):
     '''
@@ -15,27 +16,42 @@ async def show_current_requests(message:Message, state:FSMContext):
     заявок в виде кнопок с номером и суммами. Если текущих заявок
     нет, то отвечает - "Все заявки исполненны."
     '''
+    await message.delete()
+
+    result = await message.answer_sticker (
+        'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA',
+        reply_markup=ReplyKeyboardRemove()
+    )
+
     try:
         current_requests,\
         in_processing_requests,\
-        ready_to_give_requests = \
-        sheet.get_numbs_processing_and_ready_requests()      
+        ready_to_give_requests =\
+        sheet.get_numbs_processing_and_ready_requests()
 
     except Exception as e:
         print(e)
-        await message.answer('Не удалось получить данные с гугл таблицы :(')
+        await message.answer_sticker (
+            'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+        )
+        await message.answer (
+            text='Не удалось получить данные с гугл таблицы',
+            reply_markup=main_menu
+        )
 
         return
 
     await state.update_data(current_requests=current_requests)
-    
+    await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+
     if len(in_processing_requests) == 0 and len(ready_to_give_requests) == 0:
-        await message.delete()
-        await message.answer('Все заявки исполненны.')
+        await message.answer (
+            text='=====================\nВсе заявки исполненны\n=====================',
+            reply_markup=main_menu
+        )
         await state.finish()
         
     else:
-        await message.delete()
         await message.answer (
             'Текущие заявки:',
             reply_markup=create_kb_current_requests (

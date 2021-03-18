@@ -14,7 +14,7 @@ from keyboards import create_kp_operation_type
 async def create_request(message:types.Message, state:FSMContext):
     await message.delete()
     await message.answer (
-        '=====================\nСоздание новой заявки',
+        '===========\nСоздание новой заявки',
         reply_markup=types.ReplyKeyboardRemove()
     )
 

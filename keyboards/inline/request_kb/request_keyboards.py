@@ -1,9 +1,14 @@
 from datetime import datetime, timedelta
+
+from emoji import emojize
+
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def create_kp_operation_type():
     keyboard = InlineKeyboardMarkup()
+    emo_snail = emojize(':snail:', use_aliases=True)
+
     keyboard.add (
         InlineKeyboardButton (
             text = 'прием кэша',
@@ -42,7 +47,7 @@ def create_kp_operation_type():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -52,6 +57,7 @@ def create_kp_operation_type():
 
 def create_kb_choose_card():
     keyboard = InlineKeyboardMarkup()
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard.add (
         InlineKeyboardButton (
             text = 'альфа',
@@ -67,7 +73,7 @@ def create_kb_choose_card():
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -77,6 +83,7 @@ def create_kb_choose_card():
 
 def create_kb_choose_currency():
     keyboard = InlineKeyboardMarkup()
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard.add (
         InlineKeyboardButton (
             text = 'рубли',
@@ -97,7 +104,7 @@ def create_kb_choose_currency():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -107,6 +114,7 @@ def create_kb_choose_currency():
 
 def create_kb_smart_choose_curr(list):
     keyboard = InlineKeyboardMarkup()
+    emo_snail = emojize(':snail:', use_aliases=True)
     default_list = {
         'rub': 'рубли', 
         'usd': 'доллары',
@@ -122,7 +130,7 @@ def create_kb_smart_choose_curr(list):
             )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -131,6 +139,7 @@ def create_kb_smart_choose_curr(list):
 
 
 def create_kb_send_request_atm():
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (
@@ -159,7 +168,7 @@ def create_kb_send_request_atm():
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -168,6 +177,7 @@ def create_kb_send_request_atm():
 
 
 def create_kb_send_request(currencies):
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard = InlineKeyboardMarkup()
     if len(currencies) < 3:
         keyboard.add (
@@ -203,7 +213,7 @@ def create_kb_send_request(currencies):
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -212,6 +222,7 @@ def create_kb_send_request(currencies):
 
 
 def create_kb_send_request_for_change(currencies_recive, currencies_give):
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard = InlineKeyboardMarkup()
     if len(currencies_recive) < 3 and len(currencies_give) < 3:
         keyboard.add (
@@ -247,7 +258,7 @@ def create_kb_send_request_for_change(currencies_recive, currencies_give):
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -256,6 +267,7 @@ def create_kb_send_request_for_change(currencies_recive, currencies_give):
 
 
 def create_kb_plus_minus():
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (
@@ -271,7 +283,7 @@ def create_kb_plus_minus():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )
@@ -280,6 +292,7 @@ def create_kb_plus_minus():
 
 
 def create_kb_choose_date():
+    emo_snail = emojize(':snail:', use_aliases=True)
     current_date = datetime.today().strftime('%d.%m')
     tomorrow_date =  (datetime.now() + timedelta(days=1)).strftime("%d.%m")
     after_tomorrow_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m")
@@ -311,7 +324,7 @@ def create_kb_choose_date():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'отменить >> главное меню',
+            text = f'отменить {emo_snail} главное меню',
             callback_data = 'exit'
         )
     )

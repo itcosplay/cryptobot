@@ -14,7 +14,7 @@ async def set_type_of_card(call:types.CallbackQuery, state:FSMContext):
 
     if call.data == 'exit':
         await call.message.answer (
-            f'Создание заявки отменено. Испльзуйте меню\n=========================================',
+            f'Создание заявки отменено. Испльзуйте меню\n===========',
             reply_markup=main_menu
         )
         await state.finish()

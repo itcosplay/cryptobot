@@ -17,15 +17,18 @@ from keyboards import cb_current_requests
 # @dp.callback_query_handler(cb_current_requests.filter(type_btn='get_request'))
 @dp.callback_query_handler(state=Processing.chosen_request)
 async def show_chosen_request(call:CallbackQuery, state:FSMContext):
+    '''
+    Обрабатывает нажатие на одну из заявок, выведенных списком
+    '''
     await call.answer()
 
     data_btn = cb_current_requests.parse(call.data)
     # {'id': , 'type_btn': }
 
-    if data_btn['type_btn'] == 'exit':
+    if data_btn['type_btn'] == 'back_main_menu':
         await call.message.delete()
         await call.message.answer (
-            f'Просмотр заявок отменен',
+            f'===========\nПросмотр заявок отменен\n===========',
             reply_markup=main_menu
         )
         await state.finish()
@@ -38,24 +41,24 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     for request in current_requests:
         if data_btn['id'] == request[2]:
             await state.update_data(chosen_request=request)
-            await state.update_data(message_to_delete='-')
             id_request = request[2]
             date_request = request[0]
             operation_type_request = request[3]
-            if not request[5] == '-': sum_RUB = request[5] + ' RUB\n'
+
+            if not request[5] == '-': sum_RUB = request[5][1:] + ' ₽\n'
             else: sum_RUB = ''
 
-            if not request[6] == '-': sum_USD = request[6] + ' USD\n'
+            if not request[6] == '-': sum_USD = request[6][1:] + ' $\n'
             else: sum_USD =''
 
-            if not request[7] == '-': sum_EUR = request[7] + ' EUR'
+            if not request[7] == '-': sum_EUR = request[7][1:] + ' €'
             else: sum_EUR = ''
 
             break
     
     await call.message.delete()
     await call.message.answer (
-        'заявка {} от {}\nоперация: {}\nсуммы:\n{}{}{}'.format (
+        '#{} от {}\n{}\n{}{}{}'.format (
             id_request, 
             date_request, 
             operation_type_request,

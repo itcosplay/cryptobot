@@ -78,22 +78,22 @@ class DataFromSheet:
 
         for row in data:
             if row[11] == 'В обработке':
-                request = []
-                request.append(row[2]) # numb of request
-                request.append(row[5]) # rub
-                request.append(row[6]) # usd
-                request.append(row[7]) # eur
+                # request = []
+                # request.append(row[2]) # numb of request
+                # request.append(row[5]) # rub
+                # request.append(row[6]) # usd
+                # request.append(row[7]) # eur
 
-                active_requests.append(request)
+                active_requests.append(row)
 
             if row[11] == 'Готово к выдаче':
-                request = []
-                request.append(row[2]) # numb of request
-                request.append(row[5]) # rub
-                request.append(row[6]) # usd
-                request.append(row[7]) # eur
+                # request = []
+                # request.append(row[2]) # numb of request
+                # request.append(row[5]) # rub
+                # request.append(row[6]) # usd
+                # request.append(row[7]) # eur
                 
-                ready_requests.append(request)
+                ready_requests.append(row)
 
         return data, active_requests, ready_requests
 

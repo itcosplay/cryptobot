@@ -62,7 +62,7 @@ async def set_how_much(message:types.Message, state:FSMContext):
     except Exception as e:
         print(e)
         await message.answer (
-            f'Формат суммы неправильный. Создание заявки отменено\n====================================================',
+            f'Формат суммы неправильный. Создание заявки отменено\n===========',
             reply_markup=main_menu
         )
         await state.finish()

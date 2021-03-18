@@ -55,14 +55,29 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
     elif call.data == 'send_btn':
         await state.update_data(type_end=call.data)
-        request_id, permit_data = send_to_google(request_data)
+        result = await call.message.answer_sticker (
+            'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
+        )
 
+        try:
+            request_id, permit_data = send_to_google(request_data)
+            permit.write_new_permit(request_id, permit_data)
+
+        except Exception as e:
+            print(e)
+            await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+            await call.message.answer (
+                f'Ошибка! Проблемы с таблицами...\n==============================',
+                reply_markup=main_menu
+            )
+            await state.finish()
+
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
         await call.message.answer (
-            f'Заявка создана. Номер заявки: {request_id}\n================================',
+            f'Заявка создана. Номер заявки: {request_id}\n===========',
             reply_markup=main_menu
         )
         await state.finish()
-        permit.write_new_permit(request_id, permit_data)
         await notify_about_balance()
 
     elif call.data == 'comment':

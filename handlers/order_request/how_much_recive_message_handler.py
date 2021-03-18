@@ -32,7 +32,7 @@ async def set_how_much_recive(message:types.Message, state:FSMContext):
 
     except Exception:
         await message.answer (
-            f'Формат суммы неправильный. Создание заявки отменено\n====================================================',
+            f'Формат суммы неправильный. Создание заявки отменено\n===========',
             reply_markup=main_menu
         )
         await state.finish()

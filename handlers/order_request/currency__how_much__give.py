@@ -18,7 +18,7 @@ async def set_how_much_give_curr (
 
     if call.data == 'exit':
         await call.message.answer (
-            f'Создание заявки отменено. Испльзуйте меню\n=========================================',
+            f'Создание заявки отменено. Испльзуйте меню\n===========',
             reply_markup=main_menu
         )
         await state.finish()
