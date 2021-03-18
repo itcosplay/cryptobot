@@ -1,4 +1,3 @@
-
 async def notify_about_balance():
     from loader import dp, bot, db, sheet
     from data.config import super_admins

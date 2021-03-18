@@ -10,6 +10,9 @@ from .keyboards_sum_ready import cb_what_sum
 from .keyboards_sum_ready import create_kb_choose_currency
 from .keyboards_sum_ready import cb_choose_currency
 
+from .confirm_keyboard import create_kb_confirm
+from .confirm_keyboard import cb_confirm
+
 # from .active_ready_requests import create_kb_for_particular_request
 # from .active_ready_requests import create_kb_what_sum
 # from .active_ready_requests import create_kb_choose_curr

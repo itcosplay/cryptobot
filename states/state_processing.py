@@ -6,6 +6,7 @@ class Processing(StatesGroup):
     current_requests = State()
     chosen_request = State()
     chosen_request_menu = State()
+    confirm_cancel_request = State()
     what_sum_ready = State()
     chosen_sum_to_ready = State()
     sum_currency_to_change = State()
