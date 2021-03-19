@@ -43,7 +43,8 @@ class DataFromSheet:
             scope
         )
         client = gspread.authorize(creds)
-        sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
+        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
 
         return sheet
 

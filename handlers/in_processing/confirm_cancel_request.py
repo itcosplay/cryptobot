@@ -6,12 +6,15 @@ from states import Processing
 from keyboards import main_menu
 from keyboards import create_kb_chosen_request
 from keyboards import cb_confirm
+from utils import notify_about_cancel_request
 
 
 # from chosen_request_menu (btn: cancel_request)
 @dp.callback_query_handler(state=Processing.confirm_cancel_request)
 async def cancel_request(call:CallbackQuery, state:FSMContext):
     data_btn = cb_confirm.parse(call.data)
+    user_id = call.from_user.id
+    username = call.from_user.username
 
     if data_btn['type_btn'] == 'CONFIRM':
         await call.answer()
@@ -53,9 +56,9 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
             f'Заявка {request[2]} ОТМЕНЕНА',
             reply_markup=main_menu
         )
-        
         await state.finish()
-        
+        await notify_about_cancel_request(request, username, user_id)
+
         return
   
     elif data_btn['type_btn'] == 'BACK':

@@ -7,7 +7,7 @@ from loader import dp, sheet
 from states import Processing
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
-from keyboards import create_kb_choose_currency
+from keyboards import create_kb_choose_currency_processing
 from keyboards import create_kb_current_requests
 from keyboards import main_menu
 from keyboards import create_kb_confirm
@@ -18,41 +18,41 @@ from keyboards import create_kb_confirm
 async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     data_btn = cb_chosen_requests.parse(call.data)
     
-    if data_btn['type_btn'] == 'close':
-        await call.answer()
-        now = datetime.datetime.now()
-        time_close = now.strftime("%d-%m-%Y %H:%M")
+    # if data_btn['type_btn'] == 'close':
+    #     await call.answer()
+    #     now = datetime.datetime.now()
+    #     time_close = now.strftime("%d-%m-%Y %H:%M")
 
-        data_state = await state.get_data()
-        request = data_state['chosen_request']
+    #     data_state = await state.get_data()
+    #     request = data_state['chosen_request']
         
-        request[15] = time_close
+    #     request[15] = time_close
 
-        if request[12] != request[5]:
-            old_comment = request[8]
-            new_comment = old_comment + 'сумма RUB до закрытия ' + request[5]
-            request[5] = request[12]
+    #     if request[12] != request[5]:
+    #         old_comment = request[8]
+    #         new_comment = old_comment + 'сумма RUB до закрытия ' + request[5]
+    #         request[5] = request[12]
         
-        if request[13] != request[6]:
-            old_comment = request[8]
-            new_comment = old_comment + 'сумма USD до закрытия ' + request[6]
-            request[6] = request[13]
+    #     if request[13] != request[6]:
+    #         old_comment = request[8]
+    #         new_comment = old_comment + 'сумма USD до закрытия ' + request[6]
+    #         request[6] = request[13]
 
-        if request[14] != request[7]:
-            old_comment = request[8]
-            new_comment = old_comment + 'сумма EUR до закрытия ' + request[7]
-            request[7] = request[14]
+    #     if request[14] != request[7]:
+    #         old_comment = request[8]
+    #         new_comment = old_comment + 'сумма EUR до закрытия ' + request[7]
+    #         request[7] = request[14]
 
-        request[11] = 'Исполнено'
-        id_request = request[2]
+    #     request[11] = 'Исполнено'
+    #     id_request = request[2]
         
-        await call.message.delete()
-        await call.message.answer(f'Заявка {id_request} ИСПОЛНЕННА')
+    #     await call.message.delete()
+    #     await call.message.answer(f'Заявка {id_request} ИСПОЛНЕННА')
 
-        await state.finish()
-        sheet.replace_row(request)
+    #     await state.finish()
+    #     sheet.replace_row(request)
 
-        return
+    #     return
 
     if data_btn['type_btn'] == 'ready_to_give':
         await call.answer()
@@ -71,7 +71,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         return
 
-    if data_btn['type_btn'] == 'change':
+    if data_btn['type_btn'] == 'change_request':
         await call.answer()
         await state.update_data(chosen_request_menu='change_request')
 
@@ -81,7 +81,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await call.message.delete()
         await call.message.answer (
             'Какую сумму меняем?',
-            reply_markup=create_kb_choose_currency(request)
+            reply_markup=create_kb_choose_currency_processing(request)
         )
         await Processing.sum_currency_to_change.set()
         # to set_new_sum_handlers

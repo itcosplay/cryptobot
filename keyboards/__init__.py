@@ -11,7 +11,7 @@ from .inline import create_kb_send_request_atm
 from .inline import create_kb_current_requests
 from .inline import create_kb_chosen_request
 from .inline import create_kb_what_sum
-from .inline import create_kb_choose_currency
+from .inline import create_kb_choose_currency_processing
 from .inline import create_kb_choose_date
 from .inline import create_kb_confirm
 
