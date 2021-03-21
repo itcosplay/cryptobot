@@ -23,6 +23,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         request = data_state['chosen_request']
         old_comment = request[8]
         new_comment = f'{old_comment} суммы FGH до отмены: {request[5]} {request[6]} {request[7]}'
+        request[8] = new_comment
         request[5] = '-'
         request[6] = '-'
         request[7] = '-'
@@ -70,23 +71,62 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         date_request = request[0]
         operation_type_request = request[3]
 
-        if not request[5] == '-': sum_RUB = request[5][1:] + ' ₽\n'
-        else: sum_RUB = ''
+        # убираем минусы и при обмене - добавляем плюсы
+        if request[3] == 'обмен':
+            if not request[5] == '-':
+                rub = request[5]
+                rub = str(rub)
+                if rub[0] == '-': rub = rub + '₽  '
+                else: rub = '+' + rub + '₽  '
+            else:
+                rub = ''
 
-        if not request[6] == '-': sum_USD = request[6][1:] + ' $\n'
-        else: sum_USD =''
+            if not request[6] == '-':
+                usd = request[6]
+                usd = str(usd)
+                if usd[0] == '-': usd = usd + '$  '
+                else: usd = '+' + usd + '$  '
+            else:
+                usd = ''
 
-        if not request[7] == '-': sum_EUR = request[7][1:] + ' €'
-        else: sum_EUR = ''
+            if not request[7] == '-':
+                eur = request[7]
+                eur = str(eur)
+                if eur[0] == '-': eur = eur + '€'
+                else: eur = '+' + eur + '€'
+            else:
+                eur = ''
+
+        else:
+            if not request[5] == '-':
+                rub = request[5]
+                rub = str(rub)
+                if rub[0] == '-': rub = rub[1:] + '₽  '
+                else: rub = rub + '₽  '
+            else: rub = ''
+
+            if not request[6] == '-':
+                usd = request[6]
+                usd = str(usd)
+                if usd[0] == '-': usd = usd[1:] + '$  '
+                else: usd = usd + '$  '
+            else: usd = ''
+
+            if not request[7] == '-':
+                eur = request[7]
+                eur = str(eur)
+                if eur[0] == '-': eur = eur[1:] + '€'
+                else: eur = eur + '€'
+            else: eur = ''
 
         await call.message.answer (
-            '#{} от {}\n{}\n{}{}{}'.format (
+            'Заявка #{} от {}\n{}\n{}{}{}'.format (
                 id_request, 
                 date_request, 
                 operation_type_request,
-                sum_RUB,
-                sum_USD,
-                sum_EUR
+                rub,
+                usd,
+                eur
             ),
             reply_markup=create_kb_chosen_request(request)
         )

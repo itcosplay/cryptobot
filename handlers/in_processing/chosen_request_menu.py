@@ -54,7 +54,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     #     return
 
-    if data_btn['type_btn'] == 'ready_to_give':
+    if data_btn['type_btn'] == 'to_ready_for_give':
         await call.answer()
         await state.update_data(chosen_request_menu='chosen_request_menu')
 
