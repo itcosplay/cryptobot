@@ -62,7 +62,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
             
     await call.message.delete()
     await call.message.answer (
-        '#{} от {}\n{}\n{}{}{}'.format (
+        'Заявка #{} от {}\n{}\n{}{}{}'.format (
             id_request, 
             date_request, 
             operation_type_request,
