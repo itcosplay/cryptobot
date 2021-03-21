@@ -65,8 +65,10 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
     elif data_btn['type_btn'] == 'BACK':
         await call.answer()
         await call.message.delete()
+
         data_state = await state.get_data()
         request = data_state['chosen_request']
+        
         id_request = request[2]
         date_request = request[0]
         operation_type_request = request[3]

@@ -13,6 +13,9 @@ class Processing(StatesGroup):
     sum_currency_to_change = State()
     sum_amount_to_change = State()
     message_to_delete = State()
+    blue_amount = State()
+    enter_blue_amount = State()
+    confirm_blue_amount = State()
     
     # currensy_for_change = State()
     # sum_for_change = State()

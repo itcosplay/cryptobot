@@ -13,9 +13,15 @@ from .in_processing import create_kb_chosen_request
 from .in_processing import create_kb_what_sum
 from .in_processing import create_kb_choose_currency_processing
 from .in_processing import create_kb_confirm
+from .in_processing import create_kb_what_sum_correct
+from .in_processing import create_kb_what_blue
+from .in_processing import create_kb_confirm_blue
 
 from .in_processing import cb_current_requests
 from .in_processing import cb_chosen_requests
 from .in_processing import cb_what_sum
 from .in_processing import cb_choose_currency
 from .in_processing import cb_confirm
+from .in_processing import cb_wsc
+from .in_processing import cb_what_bluе
+from .in_processing import cb_confirm_blue

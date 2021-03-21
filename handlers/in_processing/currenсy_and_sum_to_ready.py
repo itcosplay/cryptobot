@@ -1,3 +1,4 @@
+from keyboards.inline.in_processing.keyboards_sum_ready import create_kb_choose_currency_processing
 import data
 from keyboards.inline import request_kb
 from aiogram.types import CallbackQuery
@@ -8,7 +9,9 @@ from states import Processing
 from loader import sheet
 from keyboards import cb_what_sum
 from keyboards import create_kb_chosen_request
+from keyboards import create_kb_what_sum_correct
 from keyboards import main_menu
+from keyboards import create_kb_what_blue
 
 
 # from chosen_request_menu
@@ -26,8 +29,19 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         data_state = await state.get_data()
         request = data_state['chosen_request']
+        
+        ###########################
+        if request[5] != '-':
+            await call.message.answer (
+                text='Сколько синих?',
+                reply_markup=create_kb_what_blue()
+            )
+            
+            await Processing.blue_amount.set()
 
-        request[12] = request[5]
+            return
+        ###########################
+
         request[13] = request[6]
         request[14] = request[7]
         request[11] = 'Готово к выдаче'
@@ -78,7 +92,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             'Какую сумму меняем?',
-            # reply_markup=create_kb_choose_currency(request)
+            reply_markup=create_kb_what_sum_correct(request)
         )
         await Processing.sum_currency_to_change.set()
         # to set_new_sum_handlers

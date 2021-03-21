@@ -32,7 +32,7 @@ def create_kb_current_requests(processing_req, ready_req):
         'снятие с карт': emo_cash_atm,
 
         'В обработке': emo_process,
-        'Готово в выдаче': emo_ready
+        'Готово к выдаче': emo_ready
     }
 
     if len(processing_req) != 0:

@@ -13,10 +13,11 @@ from .keyboards_sum_ready import cb_choose_currency
 from .confirm_keyboard import create_kb_confirm
 from .confirm_keyboard import cb_confirm
 
-# from .active_ready_requests import create_kb_for_particular_request
-# from .active_ready_requests import create_kb_what_sum
-# from .active_ready_requests import create_kb_choose_curr
+from .keyboards_sum_ready import create_kb_what_sum_correct
+from .keyboards_sum_ready import cb_wsc
 
-# from .active_ready_requests import cb_particular
-# from .active_ready_requests import cb_what_sum
-# from .active_ready_requests import cb_choose_curr
+from .blue_keyboard import create_kb_what_blue
+from .blue_keyboard import cb_what_bluе
+
+from .blue_keyboard import create_kb_confirm_blue
+from .blue_keyboard import cb_confirm_blue

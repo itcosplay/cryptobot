@@ -1,3 +1,4 @@
+import keyboards
 import re
 from emoji import emojize
 
@@ -6,8 +7,8 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
 
-cb_what_sum = CallbackData('cb_ws', 'type_btn')
 
+cb_what_sum = CallbackData('cb_ws', 'type_btn')
 def create_kb_what_sum(request):
     emo_snail = emojize(':snail:', use_aliases=True)
 
@@ -31,21 +32,21 @@ def create_kb_what_sum(request):
     else:
 
         if not request[5] == '-':
-            rub = request[5][1:] + ' ₽ '
+            rub = request[5][1:] + ' ₽'
         else: rub = ''
 
         if not request[6] == '-':
-            usd = request[6][1:] + ' $ '
+            usd = ' ' + request[6][1:] + ' $'
         else: usd = ''
 
         if not request[7] == '-':
-            eur = request[7][1:] + ' €'
+            eur = ' ' + request[7][1:] + ' €'
         else: eur = ''
 
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (
-            text = 'с текущей ({} {} {})'.format(rub, usd, eur),
+            text = 'с текущей ({}{}{})'.format(rub, usd, eur),
             callback_data = cb_what_sum.new(type_btn='with_current')
         )
     )
@@ -73,8 +74,8 @@ def create_kb_what_sum(request):
     return keyboard
 
 
-cb_choose_currency = CallbackData('cbkbws', 'curr', 'type_btn')
 
+cb_choose_currency = CallbackData('anprix', 'curr', 'type_btn')
 def create_kb_choose_currency_processing(request):
     emo_snail = emojize(':snail:', use_aliases=True)
 
@@ -159,4 +160,62 @@ def create_kb_choose_currency_processing(request):
         )
     )
     
+    return keyboard
+
+
+
+cb_wsc = CallbackData('cbwsc', 'curr', 'type_btn')
+def create_kb_what_sum_correct(request):
+    emo_snail = emojize(':snail:', use_aliases=True)
+    keyboard = InlineKeyboardMarkup()
+
+    if request[5] != '-':
+        if request[5][0] == '-':
+            rub = request[5][1:]
+            keyboard.add (
+                InlineKeyboardButton (
+                    text=f'{rub} ₽',
+                    callback_data = cb_wsc.new (
+                        curr='rub',
+                        type_btn='change_curr'
+                    )
+                )
+            )
+
+    if request[6] != '-':
+        if request[6][0] == '-':
+            usd = request[6][1:]
+            keyboard.add (
+                InlineKeyboardButton (
+                    text=f'{usd} $',
+                    callback_data = cb_wsc.new (
+                        curr='usd',
+                        type_btn='change_curr'
+                    )
+                )
+            )
+
+    if request[7] != '-':
+        if request[7][0] == '-':
+            eur = request[7][1:]
+            keyboard.add (
+                InlineKeyboardButton (
+                    text=f'{eur} €',
+                    callback_data = cb_wsc.new (
+                        curr='eur',
+                        type_btn='change_curr'
+                    )
+                )
+            )
+        
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {emo_snail} главное меню',
+            callback_data=cb_choose_currency.new (
+                curr='-',
+                type_btn='back_main_menu'
+            )
+        )
+    )
+
     return keyboard
