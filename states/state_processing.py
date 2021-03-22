@@ -16,8 +16,8 @@ class Processing(StatesGroup):
     blue_amount = State()
     enter_blue_amount = State()
     confirm_blue_amount = State()
-    
-    # currensy_for_change = State()
-    # sum_for_change = State()
+    correct_curr_sum_ready = State()
+    correct_amount_sum_ready = State()
+    confirm_correct_to_ready = State()
     
     

@@ -17,6 +17,7 @@ from .inline import create_kb_confirm
 from .inline import create_kb_what_sum_correct
 from .inline import create_kb_what_blue
 from .inline import create_kb_confirm_blue
+from .inline import create_kb_corrected_sum
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -26,3 +27,4 @@ from .inline import cb_confirm
 from .inline import cb_wsc
 from .inline import cb_what_bluе
 from .inline import cb_confirm_blue
+from .inline import cb_corrected_sum

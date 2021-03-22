@@ -95,8 +95,8 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             'Какую сумму меняем?',
             reply_markup=create_kb_what_sum_correct(request)
         )
-        await Processing.sum_currency_to_change.set()
-        # to set_new_sum_handlers
+        await Processing.correct_curr_sum_ready.set()
+        # to correct_sum_handlers_to_ready.py
         return
     
     elif data_btn['type_btn'] == 'BACK':

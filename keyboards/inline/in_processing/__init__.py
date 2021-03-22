@@ -21,3 +21,6 @@ from .blue_keyboard import cb_what_bluе
 
 from .blue_keyboard import create_kb_confirm_blue
 from .blue_keyboard import cb_confirm_blue
+
+from .keyboards_correct_to_ready import create_kb_corrected_sum
+from .keyboards_correct_to_ready import cb_corrected_sum
