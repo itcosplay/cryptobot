@@ -104,12 +104,7 @@ def create_kb_current_requests(processing_req, ready_req):
                     )
                 )
             )
-            keyboard.insert (
-                InlineKeyboardButton (
-                    text='ЗАКРЫТЬ БЫСТРО',
-                    callback_data='-'
-                )
-            )
+            
 
     if len(ready_req) != 0:
         for request in ready_req:
@@ -180,12 +175,7 @@ def create_kb_current_requests(processing_req, ready_req):
                     )
                 )
             )
-            keyboard.insert (
-                InlineKeyboardButton (
-                    text='ЗАКРЫТЬ БЫСТРО',
-                    callback_data='-'
-                )
-            )
+            
 
     keyboard.add (
         InlineKeyboardButton (
