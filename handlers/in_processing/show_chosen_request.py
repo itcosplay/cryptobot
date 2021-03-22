@@ -49,21 +49,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]
-
-    # if not request[5] == '-':
-    #     # sum_RUB = request[5][1:] + ' ₽\n'
-    #     sum_RUB = request[5]
-    #     if sum_RUB[0] == '-': sum_RUB = sum_RUB[1:] + ' ₽\n'
-    #     else: sum_RUB = sum_RUB + ' ₽\n'
-    # else: sum_RUB = ''
-
-    # if not request[6] == '-': sum_USD = request[6][1:] + ' $\n'
-    # else: sum_USD =''
-
-    # if not request[7] == '-': sum_EUR = request[7][1:] + ' €'
-    # else: sum_EUR = ''
-
-
+    
     # убираем минусы и при обмене - добавляем плюсы
     if request[3] == 'обмен':
         if not request[5] == '-':

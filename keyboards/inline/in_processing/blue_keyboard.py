@@ -25,6 +25,12 @@ def create_kb_what_blue():
     )
     keyboard.add (
         InlineKeyboardButton (
+            text = 'назад',
+            callback_data = cb_what_bluе.new(type_btn='back_to_request')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text=f'назад {emo_snail} главное меню',
             callback_data=cb_what_bluе.new (
                 type_btn='back_main_menu'
@@ -43,8 +49,14 @@ def create_kb_confirm_blue():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (
-            text = 'Подтвердить',
+            text = 'подтвердить',
             callback_data = cb_confirm_blue.new(type_btn='confirm')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'назад',
+            callback_data = cb_confirm_blue.new(type_btn='back_to_request')
         )
     )
     keyboard.add (

@@ -1,3 +1,5 @@
+from emoji import emojize
+
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
@@ -71,7 +73,28 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         
         id_request = request[2]
         date_request = request[0]
-        operation_type_request = request[3]
+
+        emo_issuing_office = emojize(':office:', use_aliases=True)    
+        emo_cash_recive = emojize(':chart_with_upwards_trend:', use_aliases=True)
+        emo_delivery = emojize(':steam_locomotive:', use_aliases=True)
+        emo_exchange = emojize(':recycle:', use_aliases=True)
+        emo_cash_in = emojize(':atm:', use_aliases=True)
+        emo_cash_atm = emojize(':credit_card:', use_aliases=True)
+        emo_process = emojize(':hourglass_flowing_sand:', use_aliases=True)
+        emo_ready = emojize(':money_with_wings:', use_aliases=True)
+
+        emo_in_chosen_request = {
+            'выдача в офисе': emo_issuing_office,
+            'прием кэша': emo_cash_recive,
+            'доставка': emo_delivery,
+            'обмен': emo_exchange,
+            'кэшин': emo_cash_in,
+            'снятие с карт': emo_cash_atm,
+
+            'В обработке': emo_process,
+            'Готово к выдаче': emo_ready
+        }
+        operation_type_request = emo_in_chosen_request[request[3]]
 
         # убираем минусы и при обмене - добавляем плюсы
         if request[3] == 'обмен':
@@ -122,14 +145,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
             else: eur = ''
 
         await call.message.answer (
-            'Заявка #{} от {}\n{}\n{}{}{}'.format (
-                id_request, 
-                date_request, 
-                operation_type_request,
-                rub,
-                usd,
-                eur
-            ),
+            text=f'Заявка #{id_request} от {date_request} {operation_type_request}\nсуммы:\n{rub}{usd}{eur}',
             reply_markup=create_kb_chosen_request(request)
         )
         await Processing.chosen_request_menu.set()

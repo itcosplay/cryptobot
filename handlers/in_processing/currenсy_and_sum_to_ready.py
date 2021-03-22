@@ -38,13 +38,14 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             )
             
             await Processing.blue_amount.set()
-
+            # to blue_amount_handlers.py
             return
         ###########################
 
         request[13] = request[6]
         request[14] = request[7]
         request[11] = 'Готово к выдаче'
+        request[16] = '-' # тут синих быть не должно
 
         try:
             result = await call.message.answer_sticker (

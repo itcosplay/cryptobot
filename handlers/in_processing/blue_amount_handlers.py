@@ -1,4 +1,5 @@
-from os import stat
+from emoji import emojize
+
 from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext
 
@@ -10,7 +11,7 @@ from keyboards import main_menu
 from keyboards import cb_what_bluе
 from keyboards import create_kb_confirm_blue
 from keyboards import cb_confirm_blue
-
+from keyboards import create_kb_chosen_request
 
 # from currency_and_sum_to_redy
 # меню -без синих- ; -ввести кол-во синих- ; -назад главное меню- 
@@ -32,6 +33,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         request[13] = request[6]
         request[14] = request[7]
         request[11] = 'Готово к выдаче'
+        request[16] = '-'
 
         try:
             result = await call.message.answer_sticker (
@@ -85,7 +87,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         return
     
-    elif data_btn['type_btn'] == 'BACK':
+    elif data_btn['type_btn'] == 'back_to_request':
         await call.answer()
         await call.message.delete()
 
@@ -251,12 +253,32 @@ async def set_blue_amount(message:Message, state:FSMContext):
 
     id_request = request[2]
     # date_request = request[0]
-    # operation_type_request = request[3]
+    operation_type_request = request[3]
     enter_blue_amount = enter_blue_amount
 
+    emo_issuing_office = emojize(':office:', use_aliases=True)    
+    emo_cash_recive = emojize(':chart_with_upwards_trend:', use_aliases=True)
+    emo_delivery = emojize(':steam_locomotive:', use_aliases=True)
+    emo_exchange = emojize(':recycle:', use_aliases=True)
+    emo_cash_in = emojize(':atm:', use_aliases=True)
+    emo_cash_atm = emojize(':credit_card:', use_aliases=True)
+    emo_process = emojize(':hourglass_flowing_sand:', use_aliases=True)
+    emo_ready = emojize(':money_with_wings:', use_aliases=True)
+    
+    emo_in_chosen_request = {
+        'выдача в офисе': emo_issuing_office,
+        'прием кэша': emo_cash_recive,
+        'доставка': emo_delivery,
+        'обмен': emo_exchange,
+        'кэшин': emo_cash_in,
+        'снятие с карт': emo_cash_atm,
+
+        'В обработке': emo_process,
+        'Готово к выдаче': emo_ready
+    }
 
     await message.answer (
-        text=f'Заявка #{id_request} будет отложена к выдаче с суммами {rub}(синих - {enter_blue_amount}){usd}{eur}',
+        text=f'По заявке #{id_request}{emo_in_chosen_request[operation_type_request]} отложить к выдаче с суммами:\n{rub}(синими: {enter_blue_amount}){usd}{eur}',
         reply_markup=create_kb_confirm_blue()
     )
     
@@ -277,7 +299,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
         request = data_state['chosen_request']
 
-        request[16] = 'синих ' + str(data_state['enter_blue_amount'])
+        request[16] = str(data_state['enter_blue_amount'])
         request[12] = request[5]
         request[13] = request[6]
         request[14] = request[7]
@@ -318,6 +340,77 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
 
         return
 
+    if data_btn['type_btn'] == 'back_to_request':
+        data_state = await state.get_data()
+        request = data_state['chosen_request']
+        
+        id_request = request[2]
+        date_request = request[0]
+        operation_type_request = request[3]
+
+        # убираем минусы и при обмене - добавляем плюсы
+        if request[3] == 'обмен':
+            if not request[5] == '-':
+                rub = request[5]
+                rub = str(rub)
+                if rub[0] == '-': rub = rub + '₽  '
+                else: rub = '+' + rub + '₽  '
+            else:
+                rub = ''
+
+            if not request[6] == '-':
+                usd = request[6]
+                usd = str(usd)
+                if usd[0] == '-': usd = usd + '$  '
+                else: usd = '+' + usd + '$  '
+            else:
+                usd = ''
+
+            if not request[7] == '-':
+                eur = request[7]
+                eur = str(eur)
+                if eur[0] == '-': eur = eur + '€'
+                else: eur = '+' + eur + '€'
+            else:
+                eur = ''
+
+        else:
+            if not request[5] == '-':
+                rub = request[5]
+                rub = str(rub)
+                if rub[0] == '-': rub = rub[1:] + '₽  '
+                else: rub = rub + '₽  '
+            else: rub = ''
+
+            if not request[6] == '-':
+                usd = request[6]
+                usd = str(usd)
+                if usd[0] == '-': usd = usd[1:] + '$  '
+                else: usd = usd + '$  '
+            else: usd = ''
+
+            if not request[7] == '-':
+                eur = request[7]
+                eur = str(eur)
+                if eur[0] == '-': eur = eur[1:] + '€'
+                else: eur = eur + '€'
+            else: eur = ''
+
+        await call.message.answer (
+            'Заявка #{} от {}\n{}\n{}{}{}'.format (
+                id_request, 
+                date_request, 
+                operation_type_request,
+                rub,
+                usd,
+                eur
+            ),
+            reply_markup=create_kb_chosen_request(request)
+        )
+        await Processing.chosen_request_menu.set()
+
+        return
+    
     else: # type_btn = back_main_menu
         await call.answer()
         await call.message.delete()
