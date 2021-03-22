@@ -211,7 +211,7 @@ def create_kb_what_sum_correct(request):
     keyboard.add (
         InlineKeyboardButton (
             text=f'назад {emo_snail} главное меню',
-            callback_data=cb_choose_currency.new (
+            callback_data=cb_wsc.new (
                 curr='-',
                 type_btn='back_main_menu'
             )

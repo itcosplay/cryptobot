@@ -104,6 +104,12 @@ def create_kb_current_requests(processing_req, ready_req):
                     )
                 )
             )
+            keyboard.insert (
+                InlineKeyboardButton (
+                    text='ЗАКРЫТЬ БЫСТРО',
+                    callback_data='-'
+                )
+            )
 
     if len(ready_req) != 0:
         for request in ready_req:
@@ -117,14 +123,53 @@ def create_kb_current_requests(processing_req, ready_req):
             number_request = request[2]
             status_operation = emo_in_chosen_request[request[11]]
 
-            if request[5] != '-': rub = request[5] + '₽  '
-            else: rub = ''
+            # убираем минусы и при обмене - добавляем плюсы
+            if request[3] == 'обмен':
+                if not request[5] == '-':
+                    rub = request[5]
+                    rub = str(rub)
+                    if rub[0] == '-': rub = rub + '₽  '
+                    else: rub = '+' + rub + '₽  '
+                else:
+                    rub = ''
 
-            if request[6] != '-': usd = request[6] + '$  '
-            else: usd = ''
+                if not request[6] == '-':
+                    usd = request[6]
+                    usd = str(usd)
+                    if usd[0] == '-': usd = usd + '$  '
+                    else: usd = '+' + usd + '$  '
+                else:
+                    usd = ''
 
-            if request[7] != '-': eur = request[7] + '€'
-            else: eur = ''
+                if not request[7] == '-':
+                    eur = request[7]
+                    eur = str(eur)
+                    if eur[0] == '-': eur = eur + '€'
+                    else: eur = '+' + eur + '€'
+                else:
+                    eur = ''
+
+            else:
+                if not request[5] == '-':
+                    rub = request[5]
+                    rub = str(rub)
+                    if rub[0] == '-': rub = rub[1:] + '₽  '
+                    else: rub = rub + '₽  '
+                else: rub = ''
+
+                if not request[6] == '-':
+                    usd = request[6]
+                    usd = str(usd)
+                    if usd[0] == '-': usd = usd[1:] + '$  '
+                    else: usd = usd + '$  '
+                else: usd = ''
+
+                if not request[7] == '-':
+                    eur = request[7]
+                    eur = str(eur)
+                    if eur[0] == '-': eur = eur[1:] + '€'
+                    else: eur = eur + '€'
+                else: eur = ''
 
             keyboard.add (
                 InlineKeyboardButton (
@@ -133,6 +178,12 @@ def create_kb_current_requests(processing_req, ready_req):
                         id=number_request,
                         type_btn='get_request'
                     )
+                )
+            )
+            keyboard.insert (
+                InlineKeyboardButton (
+                    text='ЗАКРЫТЬ БЫСТРО',
+                    callback_data='-'
                 )
             )
 

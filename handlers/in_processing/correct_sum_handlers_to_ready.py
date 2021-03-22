@@ -11,6 +11,7 @@ from keyboards import main_menu
 from keyboards import create_kb_corrected_sum
 from keyboards import cb_corrected_sum
 from keyboards import create_kb_what_sum_correct
+from keyboards import create_kb_what_blue
 
 
 # from currency_and_sum_to_ready.py / with_another
@@ -22,6 +23,8 @@ async def set_currency_to_correct(call:CallbackQuery, state:FSMContext):
     data_btn = cb_wsc.parse(call.data)
     await state.update_data(correct_curr_sum_ready=data_btn['curr'])
     # {'@': 'cbkbws', 'curr': 'USD', 'type_btn': 'change_curr'}
+
+    # anprix:-:back_main_menu
 
     data_state = await state.get_data()
     request = data_state['chosen_request']
@@ -240,6 +243,19 @@ async def confirm_correct_to_ready(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'confirm':
         data_state = await state.get_data()
         request = data_state['chosen_request']
+
+        ###########################
+        if request[5] != '-':
+            await call.message.answer (
+                text='Сколько синих?',
+                reply_markup=create_kb_what_blue()
+            )
+            
+            await Processing.blue_amount.set()
+            # to blue_amount_handlers.py
+            return
+        ###########################
+
         request[11] = 'Готово к выдаче'
         request[16] = '-' # тут синих быть не должно
 

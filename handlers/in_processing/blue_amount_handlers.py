@@ -198,6 +198,13 @@ async def set_blue_amount(message:Message, state:FSMContext):
         await state.finish()
         print(e)
     
+    data_state = await state.get_data()
+    request = data_state['chosen_request']
+
+    if request[5][0] == '-':
+        enter_blue_amount = str(enter_blue_amount)
+        enter_blue_amount = '-' + enter_blue_amount
+
     await state.update_data(enter_blue_amount=enter_blue_amount)
 
     data_state = await state.get_data()
@@ -412,8 +419,6 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
         return
     
     else: # type_btn = back_main_menu
-        await call.answer()
-        await call.message.delete()
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
             reply_markup=main_menu
