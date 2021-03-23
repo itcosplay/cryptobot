@@ -45,6 +45,9 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
 
     data_state = await state.get_data()
     request = data_state['chosen_request']
+
+
+    
     
     id_request = request[2]
     date_request = request[0]
