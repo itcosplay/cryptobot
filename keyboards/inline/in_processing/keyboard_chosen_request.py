@@ -18,18 +18,24 @@ def create_kb_chosen_request(request):
                 callback_data=cb_chosen_requests.new(type_btn='to_ready_for_give')
             )
         )
-        keyboard.add (
-            InlineKeyboardButton (
-                text = 'изменить заявку',
-                callback_data=cb_chosen_requests.new(type_btn='change_request')
-            )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'закрыть заявку',
+            callback_data=cb_chosen_requests.new(type_btn='close_request')
         )
-        keyboard.add (
-            InlineKeyboardButton (
-                text = 'отменить заявку',
-                callback_data=cb_chosen_requests.new(type_btn='cancel_request')
-            )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'изменить заявку',
+            callback_data=cb_chosen_requests.new(type_btn='change_request')
         )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить заявку',
+            callback_data=cb_chosen_requests.new(type_btn='cancel_request')
+        )
+    )
     keyboard.add (
         InlineKeyboardButton (
             text = f'назад {emo_snail} главное меню',

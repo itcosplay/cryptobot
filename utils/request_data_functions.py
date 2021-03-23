@@ -1,6 +1,6 @@
 from utils import set_minus_and_plus_currences
 
-def show_chosen_request(request):
+def get_data_chosen_request(request):
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]

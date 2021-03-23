@@ -1,47 +1,18 @@
-import keyboards
-import re
+from utils.googlesheets import send_to_google
 from emoji import emojize
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-
 from aiogram.utils.callback_data import CallbackData
+
+from data import all_emoji
+from utils.set_minus_and_plus_currences import set_minus_and_plus
 
 
 
 cb_what_sum = CallbackData('cb_ws', 'type_btn')
 def create_kb_what_sum(request):
-    emo_snail = emojize(':snail:', use_aliases=True)
 
-    if request[3] == 'обмен':
-
-        if not request[5] == '-':
-            if request[5][0] != '-': rub = ''
-            else: rub = request[5] + ' ₽'
-        else: rub = ''
-
-        if not request[6] == '-':
-            if request[6][0] != '-': usd = ''
-            else: usd = request[6] + ' $ '
-        else: usd = ''
-
-        if not request[7] == '-':
-            if request[7][0] != '-': eur = ''
-            else: eur = request[7] + ' €'
-        else: eur = ''
-
-    else:
-
-        if not request[5] == '-':
-            rub = request[5][1:] + ' ₽'
-        else: rub = ''
-
-        if not request[6] == '-':
-            usd = ' ' + request[6][1:] + ' $'
-        else: usd = ''
-
-        if not request[7] == '-':
-            eur = ' ' + request[7][1:] + ' €'
-        else: eur = ''
+    rub, usd, eur = set_minus_and_plus(request)
 
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
@@ -50,21 +21,23 @@ def create_kb_what_sum(request):
             callback_data = cb_what_sum.new(type_btn='with_current')
         )
     )
+    # keyboard.add (
+    #     InlineKeyboardButton (
+    #         text = 'корректировать',
+    #         callback_data = cb_what_sum.new(type_btn='with_another')
+    #     )
+    # )
+    # keyboard.add (
+    #     InlineKeyboardButton (
+    #         text = 'вернуться к заявке',
+    #         callback_data = cb_what_sum.new(type_btn='BACK')
+    #     )
+    # )
+
+    back__main_menu = all_emoji['back__main_menu']
     keyboard.add (
         InlineKeyboardButton (
-            text = 'корректировать',
-            callback_data = cb_what_sum.new(type_btn='with_another')
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'вернуться к заявке',
-            callback_data = cb_what_sum.new(type_btn='BACK')
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text=f'назад {emo_snail} главное меню',
+            text=f'назад {back__main_menu} главное меню',
             callback_data=cb_what_sum.new (
                 type_btn='back_main_menu'
             )
