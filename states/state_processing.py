@@ -19,5 +19,6 @@ class Processing(StatesGroup):
     correct_curr_sum_ready = State()
     correct_amount_sum_ready = State()
     confirm_correct_to_ready = State()
+    add_permit = State()
     
     

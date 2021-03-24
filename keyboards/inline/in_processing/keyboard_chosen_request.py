@@ -32,6 +32,12 @@ def create_kb_chosen_request(request):
     )
     keyboard.add (
         InlineKeyboardButton (
+            text = 'добавить данные пропуска',
+            callback_data=cb_chosen_requests.new(type_btn='add_permit')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text = 'отменить заявку',
             callback_data=cb_chosen_requests.new(type_btn='cancel_request')
         )

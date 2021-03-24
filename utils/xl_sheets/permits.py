@@ -36,16 +36,14 @@ class DataPermits:
         return False
 
 
-    def write_new_permit(self, permit_id, permit_date='', permit_text=''):
+    def write_new_permit(self, permit_id, permit_date, permit_text=''):
         permit_id = str(permit_id)
 
         if permit_text == '':
-            permit_status = 'ожидает'
+            permit_status = 'empty'
         else:
-            permit_status = 'не заказан'
-
-        if permit_date == '':
-            permit_date = datetime.now().strftime("%d.%m")  # ("%H:%M %d-%m")
+            permit_status = 'waiting'
+        
 
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']

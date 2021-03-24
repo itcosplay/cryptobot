@@ -20,6 +20,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     > отложить на выдачу
     > закрыть заявку
     > изменить заявку
+    > добавить данные пропуска
     > отменить заявку
     > назад главное меню
     '''
@@ -129,8 +130,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
       
         await state.update_data(chosen_request_menu='change_request')
 
-        data_state = await state.get_data()
-        request = data_state['chosen_request']
+
 
         
         await call.message.answer (
@@ -141,6 +141,17 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         # to set_new_sum_handlers
 
         return
+
+    if data_btn['type_btn'] == 'add_permit':
+
+        await state.update_data(chosen_request_menu='add_permit')
+
+        result = await call.message.answer (
+            'Введите Ф.И.О. которые будут добавленны'
+        )
+        await state.update_data(message_to_delete=result.message_id)
+        await Processing.add_permit.set()
+        # ---> add_permit_message_handler <---
 
     if data_btn['type_btn'] == 'cancel_request':
         
