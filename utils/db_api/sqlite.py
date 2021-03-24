@@ -108,11 +108,17 @@ class Database:
         
         return statuses
 
-    def select_status_user(self, **kwargs):
+    def get_user_status(self, **kwargs):
         sql = 'SELECT status FROM users WHERE '
         sql, parameters = self.format_args(sql, kwargs)
+        statuses = self.execute(sql, parameters, fetchone=True)
+        
+        if not statuses == None:
+            status = statuses[0]
+        else:
+            status = None
 
-        return self.execute(sql, parameters, fetchone=True)
+        return status
 
     def update_status(self, status, id):
         sql = 'UPDATE users SET status = ? WHERE id = ?'
@@ -143,9 +149,9 @@ def logger(statement):
 
 
 
-# def test():
+def test():
     
-    # db = Database()
+    db = Database()
     # db.delete_user(439453169)
     # db.delete_all_users()
     
@@ -161,8 +167,10 @@ def logger(statement):
     # users - some [(tuple),...()()()]
     # user = [item for t in users for item in t][2]
 
-    # print(user)
+    
     # print(db.select_user(status='admin'))
+    # print(db.get_user_status(id=1637852195))
+
 
     # users = db.select_all_users()
     # print(f"Получил всех пользователей: {users}")
@@ -178,4 +186,4 @@ def logger(statement):
 
 
 
-# test()
+test()

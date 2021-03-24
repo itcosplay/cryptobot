@@ -1,4 +1,5 @@
 from .default import main_menu
+from .default import create_cb_coustom_main_menu
 
 from .inline import create_kp_operation_type
 from .inline import create_kb_choose_currency

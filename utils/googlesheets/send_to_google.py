@@ -288,9 +288,9 @@ def send_to_google(state):
     # number_of_empty_row = len(sheet.col_values(1)) + 1
     sheet.insert_row(inserRow, numb_of_last_row + 1)
 
-    permit_data = state['permit']
+    permit_text = state['permit']
 
-    return C__id_of_request, permit_data
+    return C__id_of_request, permit_text
 
 
 def get_google_sheet():

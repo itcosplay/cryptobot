@@ -60,8 +60,8 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         )
 
         try:
-            request_id, permit_data = send_to_google(request_data)
-            permit.write_new_permit(request_id, permit_data)
+            request_id, permit_text = send_to_google(request_data)
+            permit.write_new_permit(request_id, permit_text)
 
         except Exception as e:
             print(e)

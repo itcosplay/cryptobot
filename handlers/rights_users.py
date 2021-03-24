@@ -71,8 +71,9 @@ async def change_status(call:CallbackQuery):
 
 @dp.callback_query_handler(IsAdmin(), set_status_data.filter(type_btn='set_st_btn'))
 async def set_status(call:CallbackQuery):
-    from keyboards.default.admin_keyboard import main_menu
+    from keyboards.default.admin_keyboard import create_cb_coustom_main_menu
     await call.answer()
+    user_id = call.message.from_user.id
 
     user_data = set_status_data.parse(call.data)
     # Example of result set_status_data.parse(call.data):
@@ -86,7 +87,7 @@ async def set_status(call:CallbackQuery):
         db.delete_user(user_data['id'])
 
         # await call.answer(f'пользователь {user_data["user_name"]} удален', show_alert=True)
-        await call.message.reply(f'пользователь {user_name} УДАЛЕН', reply_markup=main_menu)
+        await call.message.reply(f'пользователь {user_name} УДАЛЕН', reply_markup=create_cb_coustom_main_menu(user_id))
 
     else:
         print('@dp.callback_query_handler(set_status_data.filter(type_button=\'set_status_btn\'))')
@@ -104,9 +105,9 @@ async def set_status(call:CallbackQuery):
             'delete': 'удалить'
         }
         # await call.answer(f'статус установлен', show_alert=True)
-        await call.message.reply(f'пользователь {user_name} теперь -  {list_rights[user_data["new_st"]].upper()}', reply_markup=main_menu)
+        await call.message.reply(f'пользователь {user_name} теперь -  {list_rights[user_data["new_st"]].upper()}', reply_markup=create_cb_coustom_main_menu(user_id))
         await bot.send_message (
             chat_id = user_data['id'],
             text=f'Ваши права - {list_rights[user_data["new_st"]].upper()}. Используйте меню.',
-            reply_markup=main_menu
+            reply_markup=create_cb_coustom_main_menu(user_data['id'])
         )

@@ -5,7 +5,7 @@ from keyboards.inline.callback_data import set_status_data
 
 def create_kb_change_status_handler(user_data):
     print('create_kb_change_status_handler(user_data)')
-    user_status = db.select_status_user(id=user_data['user_id'])[0]
+    user_status = db.get_user_status(id=user_data['user_id'])
 
     list_rights = {
         'admin': 'администратор',

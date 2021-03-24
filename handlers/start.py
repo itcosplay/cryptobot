@@ -7,25 +7,21 @@ from loader import dp, db, bot
 from data.config import super_admins
 
 from keyboards.default import admin_keyboard
-# from loader import bot
+from keyboards import create_cb_coustom_main_menu
 
 @dp.message_handler(CommandStart(), user_id=super_admins)
 async def bot_start(message:types.Message):
     user_id = message.from_user.id
     text = 'Здравствуйте, Владыка!'
 
-    await bot.send_message(chat_id=user_id, text=text, reply_markup=admin_keyboard.main_menu)
+    await bot.send_message(chat_id=user_id, text=text, reply_markup=create_cb_coustom_main_menu(user_id))
 
 
 @dp.message_handler(CommandStart())
 async def bot_start(message:types.Message):
     user_id = message.from_user.id
     name = message.from_user.full_name
-    print('@dp.message_handler(CommandStart())')
     user_in_db = db.select_user(id=user_id)
-    print('============================')
-    print(user_in_db)
-    print('============================')
 
     if len(user_in_db) == 0:
         text = f'''
@@ -47,7 +43,7 @@ async def bot_start(message:types.Message):
         list_rights = {
             'admin': {
                 'message': 'ваши права  - администратор. Используйте меню.',
-                'keyboard': admin_keyboard.main_menu
+                'keyboard': create_cb_coustom_main_menu(user_id)
             },
             'changer': {
                 'message': 'ваши права - чейнджер.',
@@ -82,4 +78,10 @@ async def bot_start(message:types.Message):
 
                 break
 
-        await bot.send_message(chat_id=user_id, text=text, reply_markup=reply_markup)
+        await bot.send_message (
+            chat_id=user_id,
+            text=text,
+            reply_markup=create_cb_coustom_main_menu(user_id)
+        )
+
+        return
