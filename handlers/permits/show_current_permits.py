@@ -1,10 +1,13 @@
-from aiogram.types import Message, ReplyKeyboardRemove
+from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot, permit
 from states import Permitstate
+from data import all_emoji
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_all_permits
+from keyboards import cb_all_permits
+from keyboards import create_kb_set_status_permit
 
 # from 'пропуска' main_menu
 @dp.message_handler(text='пропуска')
@@ -55,3 +58,51 @@ async def show_current_requests(message:Message, state:FSMContext):
         
         await Permitstate.chosen_permit.set()
         # to ...
+
+
+# @dp.callback_query_handler(cb_current_requests.filter(type_btn='get_request'))
+@dp.callback_query_handler(state=Permitstate.chosen_permit)
+async def show_chosen_request(call:CallbackQuery, state:FSMContext):
+    '''
+    Обрабатывает нажатие на один из пропусков, выведенных списком
+    '''
+    await call.answer()
+    await call.message.delete()
+
+    data_btn = cb_all_permits.parse(call.data)
+
+    if data_btn['type_btn'] == 'back__main_menu':
+        await call.message.answer (
+            f'===========\nПросмотр пропусков отменен\n===========',
+            reply_markup=create_kb_coustom_main_menu(call.message.from_user.id)
+        )
+        await state.finish()
+        
+        return
+
+    data_state = await state.get_data()
+    all_permits = data_state['all_permits']
+
+    for permit in all_permits:
+        if data_btn['id'] == permit[0]:
+            await state.update_data(chosen_permit=permit)
+            break
+
+    data_state = await state.get_data()
+    chosen_permit = data_state['chosen_permit']
+
+    permit_id = chosen_permit[0]
+    permit_status = all_emoji[chosen_permit[3]]
+    permit_date = chosen_permit[2]
+    permit_text = chosen_permit[1]
+    text = f'Пропуск\n#{permit_id} {permit_status} {permit_date}\n{permit_text}'
+    
+    await call.message.answer (
+        text=text,
+        reply_markup=create_kb_set_status_permit()
+        # > пропуск заказан
+        # > в офисе
+        # > назад главное меню
+    )
+    await Permitstate.status_permit.set()
+    

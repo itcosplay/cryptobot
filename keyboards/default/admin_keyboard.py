@@ -54,11 +54,7 @@ main_menu = ReplyKeyboardMarkup (
             KeyboardButton(text='в работе')
         ],
         [
-            KeyboardButton(text='заказать пропуск'),
-            KeyboardButton(text='активные пропуска')
-        ],
-        [
-            KeyboardButton(text='пропуска за текущие сутки'),
+            KeyboardButton(text='пропуска'),
         ]
     ],
     resize_keyboard=True,

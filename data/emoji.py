@@ -30,6 +30,7 @@ all_emoji = {
     'back__main_menu': emo_snail,
 
     'квз': warning,
+    'нужно заказать': warning,
     'заказан': permit_ready,
     'отработан': permit_end
 }

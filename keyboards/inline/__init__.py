@@ -29,5 +29,7 @@ from .in_processing import cb_confirm_blue
 from .in_processing import cb_corrected_sum
 
 from .permits import create_kb_all_permits
+from .permits import create_kb_set_status_permit
 
 from .permits import cb_all_permits
+from .permits import cb_set_status_prmt
