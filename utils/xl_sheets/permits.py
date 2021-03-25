@@ -2,8 +2,10 @@ from datetime import datetime
 
 from openpyxl import load_workbook
 
+from utils import notify_about_permit_to_order
+
 class DataPermits:
-    def get_permit_data(self, request_numb):
+    def get_all_permits(self, request_numb):
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
 
@@ -36,19 +38,40 @@ class DataPermits:
         return False
 
 
+    def get_old_permit_text_or_empty(self, permit_id:str):
+        wb = load_workbook('permits.xlsx')
+        sheet = wb['Лист1']
+        last_row = 50 # max row in permit table
+
+        for i in range(1, last_row):
+            cell_obj = sheet.cell(row=i, column=1)
+            if cell_obj.value == permit_id:
+                old_permit_text = sheet.cell(row=i, column=2).value
+
+                return old_permit_text
+
+        return ''
+
+
     def write_new_permit(self, permit_id, permit_date, permit_text=''):
         permit_id = str(permit_id)
-
-        if permit_text == '':
-            permit_status = 'empty'
-        else:
-            permit_status = 'waiting'
-        
+        permit_status = 'нужно заказать'
 
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
 
         last_row = 50
+
+        for i in range(1, last_row):
+            cell_obj = sheet.cell(row=i, column=1)
+            if cell_obj.value == permit_id:
+                sheet.cell(row=i, column=1).value = permit_id
+                sheet.cell(row=i, column=2).value = permit_text
+                sheet.cell(row=i, column=3).value = permit_date
+                sheet.cell(row=i, column=4).value = permit_status
+                wb.save('permits.xlsx')
+
+                return True
 
         for i in range(1, last_row):
             cell_obj = sheet.cell(row=i, column=1)
@@ -84,5 +107,6 @@ class DataPermits:
 
 test = DataPermits()
 
-test.write_new_permit(1234, '24.03')
+# test.write_new_permit(1234, '24.03')
 # test.write_new_permit(permit_id=1234, permit_text='Аркадаг', permit_date='24.03')
+# print(test.get_old_permit_text_or_empty('13'))

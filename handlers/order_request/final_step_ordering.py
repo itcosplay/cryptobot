@@ -7,9 +7,11 @@ from loader import dp, bot, permit
 from states import Request
 from utils import send_to_google
 from utils import notify_about_balance
+from utils import notify_about_permit_to_order
 from keyboards import create_kb_plus_minus
 from keyboards.default.admin_keyboard import main_menu
 from keyboards import create_kb_choose_date
+
 
 # from currency__how_much.py
 @dp.callback_query_handler(state=Request.type_end)
@@ -35,13 +37,6 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             )
             await state.update_data(_del_message = result.message_id)
 
-            ### for logs ### delete later
-            request_data = await state.get_data()
-            print('=== state: ===')
-            print(request_data)
-            print('==============')
-            ### for logs ### delete later
-
             await Request.temp_sum_state.set()
             # to temp_sum_message_handler.py
 
@@ -59,13 +54,16 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         await state.update_data(type_end=call.data)
         data_state = await state.get_data()
         request_date = data_state['data_request']
+
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
         )
 
         try:
             request_id, permit_text = send_to_google(request_data)
-            permit.write_new_permit(request_id, request_date, permit_text)
+            if not permit_text == '':
+                permit.write_new_permit(request_id, request_date, permit_text)
+                await notify_about_permit_to_order()
 
         except Exception as e:
             print(e)

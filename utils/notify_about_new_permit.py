@@ -1,12 +1,12 @@
-async def notify_about_balance():
+async def notify_about_permit_to_order():
     from loader import dp, db
     from data import emoji
 
     kvz = emoji.all_emoji['квз']
 
-    warning = f'УВЕДОМЛЕНИЕ\n{kvz}{kvz}{kvz}Новая заявка на пропуск{kvz}{kvz}{kvz}'
+    warning = f'УВЕДОМЛЕНИЕ\n{kvz}Новая заявка на пропуск{kvz}'
 
-    secretary = db.select_id_users(status='admin')
+    secretary = db.select_id_users(status='secretary')
 
     if not len(secretary) == 0:
         list_secretary_id = []
@@ -17,6 +17,8 @@ async def notify_about_balance():
         for user in list_secretary_id:
             await dp.bot.send_message(user, warning)
             print('УВЕДОМЛЕНИЕ ОТПРАВЛЕННО')
+
+            return
 
     else:
         print('СЕКРЕТАРЕЙ НЕТ В БАЗЕ')

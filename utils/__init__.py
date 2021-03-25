@@ -6,6 +6,7 @@ from .get_data_to_show_for_create_request import get_data_to_show
 from .notify_about_cancel_request import notify_about_cancel_request
 from .set_minus_and_plus_currences import set_minus_and_plus
 from .request_data_functions import get_data_chosen_request
+from .notify_about_new_permit import notify_about_permit_to_order
 
 from .googlesheets import send_to_google
 from .googlesheets import DataFromSheet
