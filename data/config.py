@@ -1,10 +1,14 @@
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 
 
-load_dotenv()
+# load_dotenv()
 
-BOT_TOKEN = os.getenv('BOT_TOKEN')
+# BOT_TOKEN = os.getenv('BOT_TOKEN')
+
+from bt import BOT_TOKEN
+
+BOT_TOKEN = BOT_TOKEN
 
 super_admins = [
     59677456,
