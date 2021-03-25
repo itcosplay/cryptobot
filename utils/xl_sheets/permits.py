@@ -59,7 +59,7 @@ class DataPermits:
         return permits_list
 
 
-    def update_permit_data(self, request_numb, new_permit_text):
+    def update_permit_data(self, permit_id, permit_status):
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
         # request_numb = int(request_numb)
@@ -67,8 +67,8 @@ class DataPermits:
 
         for i in range(1, last_row):
             cell_obj = sheet.cell(row=i, column=1)
-            if cell_obj.value == request_numb:
-                sheet.cell(row=i, column=2).value = new_permit_text
+            if cell_obj.value == permit_id:
+                sheet.cell(row=i, column=4).value = permit_status
                 wb.save('permits.xlsx')
 
                 return True

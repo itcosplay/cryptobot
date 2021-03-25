@@ -1,3 +1,5 @@
+import time
+
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 
@@ -26,6 +28,7 @@ async def show_current_requests(message:Message, state:FSMContext):
         )
 
         permits = permit.get_all_permits()
+        time.sleep(1)
 
     except Exception as e:
         print(e)
@@ -74,7 +77,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'back__main_menu':
         await call.message.answer (
             f'===========\nПросмотр пропусков отменен\n===========',
-            reply_markup=create_kb_coustom_main_menu(call.message.from_user.id)
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         

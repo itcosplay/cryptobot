@@ -16,9 +16,8 @@ async def notify_about_permit_to_order():
 
         for user in list_secretary_id:
             await dp.bot.send_message(user, warning)
-            print('УВЕДОМЛЕНИЕ ОТПРАВЛЕННО')
 
-            return
+        return
 
     else:
         print('СЕКРЕТАРЕЙ НЕТ В БАЗЕ')
