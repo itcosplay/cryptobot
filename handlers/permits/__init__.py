@@ -1,4 +1,4 @@
-from .show_current_requests import dp
+from .show_current_permits import dp
 
 
 __all__ = ['dp']

@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot, permit
 from states import Processing
-from keyboards import create_cb_coustom_main_menu
+from keyboards import create_kb_coustom_main_menu
 from utils import notify_about_permit_to_order
 
 
@@ -33,7 +33,7 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
 
     await message.answer (
         text='Новый пропуск добавлен, секретарь оповещен!',
-        reply_markup=create_cb_coustom_main_menu(message.from_user.id)
+        reply_markup=create_kb_coustom_main_menu(message.from_user.id)
     )
     
     # ---> main_menu <---

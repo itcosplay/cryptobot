@@ -1,33 +1,28 @@
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, sheet, bot
-from filters import isExecutor_and_higher
-from states import Processing
+from loader import dp, bot, permit
+from states import Permitstate
+from keyboards import create_kb_coustom_main_menu
+from keyboards import create_kb_all_permits
 
-from keyboards import create_kb_current_requests
-from keyboards import main_menu
-
-# from 'в работе' main_menu
-@dp.message_handler(isExecutor_and_higher(), text='в работе')
+# from 'пропуска' main_menu
+@dp.message_handler(text='пропуска')
 async def show_current_requests(message:Message, state:FSMContext):
     '''
-    Обрабатывает команду "в работе" и отображает список текущих
-    заявок в виде кнопок с номером и суммами. Если текущих заявок
-    нет, то отвечает - "Все заявки исполненны."
+    Обрабатывает команду "пропуска" и отображает список текущих
+    пропусков. Если текущих пропусков
+    нет, то отвечает - "На сегодня и последующие даты пропусков нет."
     '''
     await message.delete()
 
-    result = await message.answer_sticker (
-        'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA',
-        reply_markup=ReplyKeyboardRemove()
-    )
-
     try:
-        current_requests,\
-        in_processing_requests,\
-        ready_to_give_requests =\
-        sheet.get_numbs_processing_and_ready_requests()
+        result = await message.answer_sticker (
+            'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA',
+            reply_markup=ReplyKeyboardRemove()
+        )
+
+        permits = permit.get_all_permits()
 
     except Exception as e:
         print(e)
@@ -35,30 +30,28 @@ async def show_current_requests(message:Message, state:FSMContext):
             'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
         )
         await message.answer (
-            text='Не удалось получить данные с гугл таблицы',
-            reply_markup=main_menu
+            text='Не удалось получить данные таблицы пропусков...',
+            reply_markup=create_cb_coustom_main_menu(message.from_user.id)
         )
 
         return
 
-    await state.update_data(current_requests=current_requests)
-    await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+    await state.update_data(all_permits=permits)
 
-    if len(in_processing_requests) == 0 and len(ready_to_give_requests) == 0:
+    if len(permits) == 0:
+        await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
         await message.answer (
-            text='=====================\nВсе заявки исполненны\n=====================',
-            reply_markup=main_menu
+            text='На сегодня и последующие даты пропусков нет.',
+            reply_markup=create_kb_coustom_main_menu(message.from_user.id)
         )
         await state.finish()
-        
+
     else:
+        await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
         await message.answer (
-            'Текущие заявки:',
-            reply_markup=create_kb_current_requests (
-                in_processing_requests,
-                ready_to_give_requests
-            )
+            text='Пропуска:',
+            reply_markup=create_kb_all_permits(permits)
         )
-        await Processing.chosen_request.set()
-        # to show_chosen_requests.py
         
+        await Permitstate.chosen_permit.set()
+        # to ...

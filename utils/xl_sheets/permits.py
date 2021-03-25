@@ -2,23 +2,61 @@ from datetime import datetime
 
 from openpyxl import load_workbook
 
-from utils import notify_about_permit_to_order
 
 class DataPermits:
-    def get_all_permits(self, request_numb):
+    def get_all_permits(self):
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
 
-        request_numb = int(request_numb)
         last_row = 50 # max row in permit table
 
+        permits_list = []
+
         for i in range(1, last_row):
-            cell_obj = sheet.cell(row=i, column=1)
-            if cell_obj.value == request_numb:
+            cell_obj = sheet.cell(row=i, column=4)
+            if cell_obj.value == 'отработан':
+                permit = []
+                permit_id = sheet.cell(row=i, column=1).value
+                permit_text = sheet.cell(row=i, column=2).value
+                permit_date = sheet.cell(row=i, column=3).value
+                permit_status = sheet.cell(row=i, column=4).value
+                permit.append(permit_id)
+                permit.append(permit_text)
+                permit.append(permit_date)
+                permit.append(permit_status)
+                permits_list.append(permit)
 
-                return sheet.cell(row=i, column=2).value
+        for i in range(1, last_row):
+            cell_obj = sheet.cell(row=i, column=4)
+            if cell_obj.value == 'заказан':
+                permit = []
+                permit_id = sheet.cell(row=i, column=1).value
+                permit_text = sheet.cell(row=i, column=2).value
+                permit_date = sheet.cell(row=i, column=3).value
+                permit_status = sheet.cell(row=i, column=4).value
+                permit.append(permit_id)
+                permit.append(permit_text)
+                permit.append(permit_date)
+                permit.append(permit_status)
+                permits_list.append(permit)
 
-        return False
+        for i in range(1, last_row):
+            cell_obj = sheet.cell(row=i, column=4)
+            if cell_obj.value == 'нужно заказать':
+                permit = []
+                permit_id = sheet.cell(row=i, column=1).value
+                permit_text = sheet.cell(row=i, column=2).value
+                permit_date = sheet.cell(row=i, column=3).value
+                permit_status = sheet.cell(row=i, column=4).value
+                permit.append(permit_id)
+                permit.append(permit_text)
+                permit.append(permit_date)
+                permit.append(permit_status)
+                permits_list.append(permit)
+                
+        
+
+        return permits_list
 
 
     def update_permit_data(self, request_numb, new_permit_text):
@@ -105,8 +143,9 @@ class DataPermits:
         return False
 
 
-test = DataPermits()
+# test = DataPermits()
 
 # test.write_new_permit(1234, '24.03')
 # test.write_new_permit(permit_id=1234, permit_text='Аркадаг', permit_date='24.03')
 # print(test.get_old_permit_text_or_empty('13'))
+# print(test.get_all_permits())

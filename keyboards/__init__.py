@@ -1,5 +1,5 @@
 from .default import main_menu
-from .default import create_cb_coustom_main_menu
+from .default import create_kb_coustom_main_menu
 
 from .inline import create_kp_operation_type
 from .inline import create_kb_choose_currency
@@ -19,6 +19,7 @@ from .inline import create_kb_what_sum_correct
 from .inline import create_kb_what_blue
 from .inline import create_kb_confirm_blue
 from .inline import create_kb_corrected_sum
+from .inline import create_kb_all_permits
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -29,3 +30,4 @@ from .inline import cb_wsc
 from .inline import cb_what_bluе
 from .inline import cb_confirm_blue
 from .inline import cb_corrected_sum
+from .inline import cb_all_permits

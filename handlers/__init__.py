@@ -6,6 +6,8 @@ from .order_request import dp
 
 from .in_processing import dp
 
+from .permits import dp
+
 from .echo import dp
 
 

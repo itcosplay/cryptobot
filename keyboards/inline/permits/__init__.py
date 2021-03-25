@@ -1,0 +1,2 @@
+from .keyboard_all_permits import create_kb_all_permits
+from .keyboard_all_permits import cb_all_permits

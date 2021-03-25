@@ -13,6 +13,8 @@ ready_to_give = emojize(':money_with_wings:', use_aliases=True)
 
 emo_snail = emojize(':snail:', use_aliases=True)
 warning = emojize(':exclamation:', use_aliases=True)
+permit_ready = emojize(':ticket:', use_aliases=True)
+permit_end = emojize(':white_check_mark:', use_aliases=True)
 
 all_emoji = {
     'выдача в офисе': issuing_office,
@@ -26,5 +28,8 @@ all_emoji = {
     'Готово к выдаче': ready_to_give,
 
     'back__main_menu': emo_snail,
-    'квз': warning
+
+    'квз': warning,
+    'заказан': permit_ready,
+    'отработан': permit_end
 }

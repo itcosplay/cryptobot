@@ -7,14 +7,14 @@ from loader import dp, db, bot
 from data.config import super_admins
 
 from keyboards.default import admin_keyboard
-from keyboards import create_cb_coustom_main_menu
+from keyboards import create_kb_coustom_main_menu
 
 @dp.message_handler(CommandStart(), user_id=super_admins)
 async def bot_start(message:types.Message):
     user_id = message.from_user.id
     text = 'Здравствуйте, Владыка!'
 
-    await bot.send_message(chat_id=user_id, text=text, reply_markup=create_cb_coustom_main_menu(user_id))
+    await bot.send_message(chat_id=user_id, text=text, reply_markup=create_kb_coustom_main_menu(user_id))
 
 
 @dp.message_handler(CommandStart())
@@ -43,7 +43,7 @@ async def bot_start(message:types.Message):
         list_rights = {
             'admin': {
                 'message': 'ваши права  - администратор. Используйте меню.',
-                'keyboard': create_cb_coustom_main_menu(user_id)
+                'keyboard': create_kb_coustom_main_menu(user_id)
             },
             'changer': {
                 'message': 'ваши права - чейнджер.',
@@ -81,7 +81,7 @@ async def bot_start(message:types.Message):
         await bot.send_message (
             chat_id=user_id,
             text=text,
-            reply_markup=create_cb_coustom_main_menu(user_id)
+            reply_markup=create_kb_coustom_main_menu(user_id)
         )
 
         return

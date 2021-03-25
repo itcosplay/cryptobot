@@ -2,7 +2,7 @@ from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 
 
-def create_cb_coustom_main_menu(user_id):
+def create_kb_coustom_main_menu(user_id):
     from loader import db
     from data.config import super_admins
 
