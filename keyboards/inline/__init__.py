@@ -33,3 +33,9 @@ from .permits import create_kb_set_status_permit
 
 from .permits import cb_all_permits
 from .permits import cb_set_status_prmt
+
+from .smsinfo import create_kb_who_waste
+from .smsinfo import create_kb_yes_no_note
+
+from .smsinfo import cb_who_waste
+from .smsinfo import cb_yes_no_note

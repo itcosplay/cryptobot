@@ -21,6 +21,8 @@ from .inline import create_kb_confirm_blue
 from .inline import create_kb_corrected_sum
 from .inline import create_kb_all_permits
 from .inline import create_kb_set_status_permit
+from .inline import create_kb_who_waste
+from .inline import create_kb_yes_no_note
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -33,3 +35,5 @@ from .inline import cb_confirm_blue
 from .inline import cb_corrected_sum
 from .inline import cb_all_permits
 from .inline import cb_set_status_prmt
+from .inline import cb_who_waste
+from .inline import cb_yes_no_note

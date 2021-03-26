@@ -8,6 +8,8 @@ from .in_processing import dp
 
 from .permits import dp
 
+from .smsinfo import dp
+
 from .echo import dp
 
 

@@ -11,5 +11,6 @@ from .notify_universal import notify_someone
 
 from .googlesheets import send_to_google
 from .googlesheets import DataFromSheet
+from .googlesheets import SmsInfoSheet
 
 from .xl_sheets import DataPermits

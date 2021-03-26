@@ -37,7 +37,7 @@ async def show_current_requests(message:Message, state:FSMContext):
         )
         await message.answer (
             text='Не удалось получить данные таблицы пропусков...',
-            reply_markup=create_cb_coustom_main_menu(message.from_user.id)
+            reply_markup=create_kb_coustom_main_menu(message.from_user.id)
         )
 
         return
