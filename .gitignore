@@ -130,6 +130,8 @@ dmypy.json
 
 
 creds.json
+sms.json
+
 permits.xlsx
 
 bot_users.db
