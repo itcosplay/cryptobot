@@ -69,8 +69,6 @@ class SmsInfoSheet:
         return operation_type, card, sms_numb, who_waste, for_what_waste, note_waste
 
 
-
-
 # test = SmsInfoSheet()
 
 # state = {'message_to_delete': 8334, 'sms_numb': '1995', 'for_what_waste': 'Посуда', 'note_waste': 'Ебаная заметка', 'who_waste': 'Личные Кэт'}

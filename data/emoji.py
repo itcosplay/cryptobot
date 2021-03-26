@@ -16,6 +16,12 @@ warning = emojize(':exclamation:', use_aliases=True)
 permit_ready = emojize(':ticket:', use_aliases=True)
 permit_end = emojize(':white_check_mark:', use_aliases=True)
 
+buy = emojize(':white_check_mark:', use_aliases=True)
+transfer = emojize(':white_check_mark:', use_aliases=True)
+replenishment = emojize(':white_check_mark:', use_aliases=True)
+other = emojize(':white_check_mark:', use_aliases=True)
+cashoutatm = emojize(':white_check_mark:', use_aliases=True)
+
 all_emoji = {
     'выдача в офисе': issuing_office,
     'прием кэша': cash_recive,
@@ -32,5 +38,11 @@ all_emoji = {
     'квз': warning,
     'нужно заказать': warning,
     'заказан': permit_ready,
-    'отработан': permit_end
+    'отработан': permit_end,
+
+    'Покупка': buy,
+    'Перевод': transfer,
+    'Пополнение': replenishment,
+    'Снятие': cashoutatm,
+    'Другие': other
 }

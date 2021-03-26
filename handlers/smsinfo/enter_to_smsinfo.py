@@ -3,7 +3,7 @@ import time
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, bot, smsinfo
+from loader import dp, bot, smsinfo, db
 from states import SMSstate
 from data import all_emoji
 
@@ -12,6 +12,7 @@ from keyboards import create_kb_who_waste
 from keyboards import cb_who_waste
 from keyboards import create_kb_yes_no_note
 from keyboards import cb_yes_no_note
+from keyboards import create_kb_for_what_waste
 
 
 # from 'информация о смс' main_menu
@@ -63,7 +64,7 @@ async def question_who_waste(message:Message, state:FSMContext):
 
     await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
 
-    if not is_checked == True:
+    if is_checked == False:
         await message.answer (
             text='Нет такой смс',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
@@ -77,10 +78,9 @@ async def question_who_waste(message:Message, state:FSMContext):
         reply_markup=create_kb_who_waste()
     )
     await state.update_data(for_what_waste='-')
-    await state.update_data(note_waste='-')
+    await state.update_data(note_waste=is_checked)
     await SMSstate.who_waste.set()
 
-   
 
 @dp.callback_query_handler(state=SMSstate.who_waste)
 async def set_who_waste(call:CallbackQuery, state:FSMContext):
@@ -111,7 +111,16 @@ async def set_who_waste(call:CallbackQuery, state:FSMContext):
             text='Добавить примечание?',
             reply_markup=create_kb_yes_no_note()
         )
+        
         await SMSstate.yes_no_note.set()
+
+    else:
+        await call.message.answer (
+            text='На что потрачено?',
+            reply_markup=create_kb_for_what_waste(who_waste)
+        )
+        await SMSstate.for_what_waste.set()
+        # ---> set_for_what_waste.py <---
     
 
 @dp.callback_query_handler(state=SMSstate.yes_no_note)
@@ -131,29 +140,34 @@ async def set_yes_no_note(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'yes':
-        pass
+        result = await call.message.answer (
+            text='Введите примечание'
+        )
+        await SMSstate.note_waste.set()
+        await state.update_data(message_to_delete=result.message_id)
 
+    # to-table --->>>>
     elif data_btn['type_btn'] == 'no':
         data_state = await state.get_data()
-        print(data_state)
+
+        ######
+        data_sms_info = smsinfo.push_data(data_state)
+
+        operation_type = data_sms_info[0]
+        card = data_sms_info[1]
+        sms_numb = data_sms_info[2]
+        who_waste = data_sms_info[3]
+        for_what_waste = data_sms_info[4]
+        not_waste = data_sms_info[5]
+
+        user = call.message.chat.first_name
+        print(data_sms_info)
+
+        await bot.send_message()
+
+        ######
+        await state.finish()
+
+        
 
 
-
-#     data_state = await state.get_data()
-#     chosen_permit = data_state['chosen_permit']
-
-#     permit_id = chosen_permit[0]
-#     permit_status = all_emoji[chosen_permit[3]]
-#     permit_date = chosen_permit[2]
-#     permit_text = chosen_permit[1]
-#     text = f'Пропуск\n#{permit_id} {permit_status} {permit_date}\n{permit_text}'
-    
-#     await call.message.answer (
-#         text=text,
-#         reply_markup=create_kb_set_status_permit()
-#         # > пропуск заказан
-#         # > в офисе
-#         # > назад главное меню
-#     )
-#     await Permitstate.status_permit.set()
-    

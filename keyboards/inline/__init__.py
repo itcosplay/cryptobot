@@ -36,6 +36,8 @@ from .permits import cb_set_status_prmt
 
 from .smsinfo import create_kb_who_waste
 from .smsinfo import create_kb_yes_no_note
+from .smsinfo import create_kb_for_what_waste
 
 from .smsinfo import cb_who_waste
 from .smsinfo import cb_yes_no_note
+from .smsinfo import cb_for_what_waste
