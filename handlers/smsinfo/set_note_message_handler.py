@@ -3,9 +3,10 @@ import time
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, bot, smsinfo
+from loader import dp, db, bot, smsinfo
 from states import SMSstate
 from data import all_emoji
+from utils import notify_someone
 from keyboards import create_kb_coustom_main_menu
 
 
@@ -104,8 +105,17 @@ async def set_note_waste(message:Message, state:FSMContext):
     ######
     ######
     await message.answer (
-        text=text,
+        text='Информация обновлена!',
         reply_markup=create_kb_coustom_main_menu(message.chat.id)
     )
+    ######
+    ######
+    ######
+    notification_list = ['admin', 'changer', 'secretary']
+
+    await notify_someone(text, *notification_list)
+    ######
+    ######
+    ######
     await state.finish()
 

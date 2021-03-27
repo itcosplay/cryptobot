@@ -9,6 +9,7 @@ from data import all_emoji
 
 from keyboards import cb_for_what_waste
 from keyboards import create_kb_yes_no_note
+from keyboards import create_kb_coustom_main_menu
 
 # from enter_to_smsinfo << set_who_waste
 @dp.callback_query_handler(state=SMSstate.for_what_waste)

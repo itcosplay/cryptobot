@@ -1,4 +1,8 @@
 async def notify_someone(text, *args):
+    '''
+    *args - statuses of users. For ex.:
+    notify_someone(text, admin, changer, operator, secretary)
+    '''
     from loader import dp, db
     from data.config import super_admins
 
@@ -17,6 +21,7 @@ async def notify_someone(text, *args):
                 list_group_id.append(some_item[0])
 
             for user in list_group_id:
-                await dp.bot.send_message(user, text)
+                if user not in super_admins:
+                    await dp.bot.send_message(user, text)
 
     return

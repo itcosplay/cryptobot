@@ -149,9 +149,9 @@ def logger(statement):
 
 
 
-def test():
+# def test():
     
-    db = Database()
+    # db = Database()
     # db.delete_user(439453169)
     # db.delete_all_users()
     
@@ -186,4 +186,4 @@ def test():
 
 
 
-test()
+# test()

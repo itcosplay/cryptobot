@@ -1,4 +1,4 @@
-from . import db_api
+# from . import db_api
 
 from .notify_admins import on_startup_notify, on_shutdown_notify
 from .notify_about_balance import notify_about_balance

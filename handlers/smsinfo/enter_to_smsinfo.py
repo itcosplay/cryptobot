@@ -6,6 +6,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot, smsinfo, db
 from states import SMSstate
 from data import all_emoji
+from utils import notify_someone
 
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_who_waste
@@ -220,9 +221,18 @@ async def set_yes_no_note(call:CallbackQuery, state:FSMContext):
         ######
         ######
         await call.message.answer (
-            text=text,
+            text='Информация обновлена!',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+        ######
+        ######
+        ######
+        notification_list = ['admin', 'changer', 'secretary']
+
+        await notify_someone(text, *notification_list)
+        ######
+        ######
+        ######
         await state.finish()
 
         
