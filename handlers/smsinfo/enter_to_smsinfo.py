@@ -50,7 +50,6 @@ async def question_who_waste(message:Message, state:FSMContext):
         is_checked = smsinfo.check_sms(sms_numb)
 
     except Exception as e:
-        await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
         print(e)
         await message.answer_sticker (
             'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
@@ -72,6 +71,8 @@ async def question_who_waste(message:Message, state:FSMContext):
         await state.finish()
         
         return
+    
+    if is_checked == None: is_checked = '-'
 
     await message.answer (
         text='Кто тратит?',
@@ -149,23 +150,79 @@ async def set_yes_no_note(call:CallbackQuery, state:FSMContext):
     # to-table --->>>>
     elif data_btn['type_btn'] == 'no':
         data_state = await state.get_data()
-
+        user = call.message.chat.first_name
         ######
-        data_sms_info = smsinfo.push_data(data_state)
+        ######
+        ######
+        try:
+            result = await call.message.answer_sticker (
+                'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA',
+                reply_markup=ReplyKeyboardRemove()
+            )
+            data_sms_info = smsinfo.push_data(data_state, user)
+
+        except Exception as e:
+            print(e)
+            await call.message.answer_sticker (
+                'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            return
+
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
         operation_type = data_sms_info[0]
         card = data_sms_info[1]
         sms_numb = data_sms_info[2]
+
         who_waste = data_sms_info[3]
+        who_waste = f'Кто потратил: {who_waste}'
+
         for_what_waste = data_sms_info[4]
-        not_waste = data_sms_info[5]
+        
+        if not for_what_waste == '':
+            for_what_waste = f'\nНа что потрачено: {for_what_waste}'
 
-        user = call.message.chat.first_name
-        print(data_sms_info)
+        note_waste = data_sms_info[5]
 
-        await bot.send_message()
+        if not note_waste == '':
+            note_waste = f'\nПримечание: {note_waste}'
 
+        user = f'Пользователь: {user}'
+
+        if operation_type == 'Перевод':
+            text_emodji = all_emoji['Перевод']
+            text_emodji = f'{text_emodji}{text_emodji}{text_emodji}'
+
+        elif operation_type == 'Пополнение':
+            text_emodji = all_emoji['Пополнение']
+            text_emodji = f'{text_emodji}{text_emodji}{text_emodji}'
+
+        elif operation_type == 'Покупка':
+            text_emodji = all_emoji['Покупка']
+            text_emodji = f'{text_emodji}{text_emodji}{text_emodji}'
+
+        elif operation_type == 'Снятие':
+            text_emodji = all_emoji['Снятие']
+            text_emodji = f'{text_emodji}{text_emodji}{text_emodji}'
+
+        else:
+            operation_type = 'Другие'
+            text_emodji = all_emoji['Другие']
+            text_emodji = f'{text_emodji}{text_emodji}{text_emodji}'
+
+        text = f'{text_emodji} #{operation_type} #{card} #N{sms_numb}\n{user}\n{who_waste}{for_what_waste}{note_waste}'
         ######
+        ######
+        ######
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
         await state.finish()
 
         

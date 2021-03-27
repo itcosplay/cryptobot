@@ -38,7 +38,7 @@ class SmsInfoSheet:
 
             return False
 
-    def push_data(self, state):
+    def push_data(self, state, user):
         sheet = self.get_google_sheet()
         sms_numb = state['sms_numb']
         data_to_update = []
@@ -60,8 +60,9 @@ class SmsInfoSheet:
             note_waste = ''
 
         data_to_update.append(note_waste)
+        data_to_update.append(user)
         
-        sheet.update(f'K{sms_numb}:M{sms_numb}', [data_to_update])
+        sheet.update(f'K{sms_numb}:N{sms_numb}', [data_to_update])
 
         operation_type = sheet.acell(f'H{sms_numb}').value
         card = sheet.acell(f'C{sms_numb}').value
