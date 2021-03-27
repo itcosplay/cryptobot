@@ -65,6 +65,8 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
                 permit.write_new_permit(request_id, request_date, permit_text)
                 await notify_about_permit_to_order()
 
+            permit.clear_table() # Очищаем таблицу от старых пропусков
+
         except Exception as e:
             print(e)
             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)

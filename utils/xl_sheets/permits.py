@@ -142,10 +142,45 @@ class DataPermits:
 
         return False
 
+    def clear_table(self):
+        '''Очищает таблицу от прошедших дат'''
+        wb = load_workbook('permits.xlsx')
+        sheet = wb['Лист1']
+        last_row = 50 # max row in permit table
+
+        current_date = datetime.today().strftime('%d.%m')
+        current_date = datetime.strptime(current_date, '%d.%m').date()
+
+
+        for i in range(1, last_row):
+            some_date = sheet.cell(row=i, column=3).value
+            
+            if some_date != None:
+                some_date = datetime.strptime(some_date, '%d.%m').date()
+                delta_time = current_date - some_date
+
+                if delta_time.days >= 2:
+                    
+                    sheet.cell(row=i, column=1).value = ''
+                    sheet.cell(row=i, column=2).value = ''
+                    sheet.cell(row=i, column=3).value = ''
+                    sheet.cell(row=i, column=4).value = ''
+
+        wb.save('permits.xlsx')
+        
+        return
+
+
 
 # test = DataPermits()
 
-# test.write_new_permit(1234, '24.03')
-# test.write_new_permit(permit_id=1234, permit_text='Аркадаг', permit_date='24.03')
-# print(test.get_old_permit_text_or_empty('13'))
-# print(test.get_all_permits())
+# some_date = test.clear_table()
+# some_date = datetime.strptime(some_date, '%d.%m').date()
+
+# current_date = datetime.today().strftime('%d.%m')
+# current_date = datetime.strptime(current_date, '%d.%m').date()
+
+# delta_time = current_date - some_date
+
+# print(delta_time.days)
+# print(type(delta_time.days))
