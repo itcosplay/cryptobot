@@ -16,7 +16,7 @@ def create_kb_all_permits(permits):
     for permit in permits:
 
         if not current_date == permit[2]:
-            permit_date = permit[2] + '\n______\n'
+            permit_date = permit[2]
         else:
             permit_date = ''
         
@@ -37,7 +37,7 @@ def create_kb_all_permits(permits):
        
         keyboard.add (
             InlineKeyboardButton (
-                text=f'{permit_date}{permit_status} #{permit_id} {permit_text}',
+                text=f'{permit_date}{permit_status} #N{permit_id} {permit_text}',
                 callback_data = cb_all_permits.new (
                     id=permit_id,
                     type_btn='get_permit'

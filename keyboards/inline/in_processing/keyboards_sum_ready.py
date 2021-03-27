@@ -54,21 +54,21 @@ def create_kb_choose_currency_processing(request):
 
     # добавляет плюсы и оставляет минусы если операция - обмен
     if request[3] == 'обмен':
-        if not request[5] == '-':
+        if not request[5] == '0':
             rub = request[5]
             rub = str(rub)
             if rub[0] != '-': rub = '+' + rub + ' ₽'
             else: rub = rub + ' ₽'
         else: rub = ''
 
-        if not request[6] == '-':
+        if not request[6] == '0':
             usd = request[6]
             usd = str(usd)
             if usd[0] != '-': usd = '+' + usd + ' $'
             else: usd = usd + ' $'
         else: usd = ''
 
-        if not request[7] == '-':
+        if not request[7] == '0':
             eur = request[7]
             eur = str(eur)
             if eur[0] != '-': eur = '+' + eur + ' €'
@@ -76,21 +76,21 @@ def create_kb_choose_currency_processing(request):
         else: eur = ''
 
     else:
-        if not request[5] == '-':
+        if not request[5] == '0':
             rub = request[5]
             rub = str(rub)
             if rub[0] == '-': rub = rub[1:] + ' ₽'
             else: rub = rub + ' ₽'
         else: rub = ''
 
-        if not request[6] == '-':
+        if not request[6] == '0':
             usd = request[6]
             usd = str(usd)
             if usd[0] == '-': usd = usd[1:] + ' $'
             else: usd = usd + ' $'
         else: usd = ''
 
-        if not request[7] == '-':
+        if not request[7] == '0':
             eur = request[7]
             eur = str(eur)
             if eur[0] == '-': eur = eur[1:] + ' €'
@@ -99,7 +99,7 @@ def create_kb_choose_currency_processing(request):
 
     keyboard = InlineKeyboardMarkup()
 
-    if not request[5] == '-':
+    if not request[5] == '0':
         keyboard.add (
             InlineKeyboardButton (
                 text = '{}'.format(rub),
@@ -107,7 +107,7 @@ def create_kb_choose_currency_processing(request):
             )
         )
     
-    if not request[6] == '-':
+    if not request[6] == '0':
         keyboard.add (
             InlineKeyboardButton (
                 text = '{}'.format(usd),
@@ -115,7 +115,7 @@ def create_kb_choose_currency_processing(request):
             )
         )
 
-    if not request[7] == '-':
+    if not request[7] == '0':
         keyboard.add (
             InlineKeyboardButton (
                 text = '{}'.format(eur),
@@ -142,7 +142,7 @@ def create_kb_what_sum_correct(request):
     emo_snail = emojize(':snail:', use_aliases=True)
     keyboard = InlineKeyboardMarkup()
 
-    if request[5] != '-':
+    if request[5] != '0':
         if request[5][0] == '-':
             rub = request[5][1:]
             keyboard.add (
@@ -155,7 +155,7 @@ def create_kb_what_sum_correct(request):
                 )
             )
 
-    if request[6] != '-':
+    if request[6] != '0':
         if request[6][0] == '-':
             usd = request[6][1:]
             keyboard.add (
@@ -168,7 +168,7 @@ def create_kb_what_sum_correct(request):
                 )
             )
 
-    if request[7] != '-':
+    if request[7] != '0':
         if request[7][0] == '-':
             eur = request[7][1:]
             keyboard.add (

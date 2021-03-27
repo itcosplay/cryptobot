@@ -1,7 +1,7 @@
 
 def set_minus_and_plus(request):
     
-    if not request[5] == '-':
+    if not request[5] == '0':
         rub = request[5]
         rub = str(rub)
         if rub[0] == '-': rub = rub + '₽  '
@@ -9,7 +9,7 @@ def set_minus_and_plus(request):
     else:
         rub = ''
 
-    if not request[6] == '-':
+    if not request[6] == '0':
         usd = request[6]
         usd = str(usd)
         if usd[0] == '-': usd = usd + '$  '
@@ -17,7 +17,7 @@ def set_minus_and_plus(request):
     else:
         usd = ''
 
-    if not request[7] == '-':
+    if not request[7] == '0':
         eur = request[7]
         eur = str(eur)
         if eur[0] == '-': eur = eur + '€'

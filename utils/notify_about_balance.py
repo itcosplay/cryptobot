@@ -1,5 +1,5 @@
 async def notify_about_balance():
-    from loader import dp, bot, db, sheet
+    from loader import dp, db, sheet
     from data.config import super_admins
 
     balance_rub, balance_usd, balance_eur = sheet.get_balance_AEG3()

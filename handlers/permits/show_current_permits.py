@@ -98,7 +98,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     permit_status = all_emoji[chosen_permit[3]]
     permit_date = chosen_permit[2]
     permit_text = chosen_permit[1]
-    text = f'Пропуск\n#{permit_id} {permit_status} {permit_date}\n{permit_text}'
+    text = f'Пропуск\n#N{permit_id} {permit_status} {permit_date}\n{permit_text}'
     
     await call.message.answer (
         text=text,

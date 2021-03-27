@@ -175,7 +175,7 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
 
     # убираем минусы и при обмене - добавляем плюсы (M,N,O)
     if request[3] == 'обмен':
-        if not request[12] == '-':
+        if not request[12] == '0':
             rub = request[12]
             rub = str(rub)
             if rub[0] == '-': rub = rub + '₽  '
@@ -183,7 +183,7 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
         else:
             rub = ''
 
-        if not request[13] == '-':
+        if not request[13] == '0':
             usd = request[13]
             usd = str(usd)
             if usd[0] == '-': usd = usd + '$  '
@@ -191,7 +191,7 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
         else:
             usd = ''
 
-        if not request[14] == '-':
+        if not request[14] == '0':
             eur = request[14]
             eur = str(eur)
             if eur[0] == '-': eur = eur + '€'
@@ -200,21 +200,21 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
             eur = ''
 
     else:
-        if not request[12] == '-':
+        if not request[12] == '0':
             rub = request[12]
             rub = str(rub)
             if rub[0] == '-': rub = rub[1:] + '₽  '
             else: rub = rub + '₽  '
         else: rub = ''
 
-        if not request[13] == '-':
+        if not request[13] == '0':
             usd = request[13]
             usd = str(usd)
             if usd[0] == '-': usd = usd[1:] + '$  '
             else: usd = usd + '$  '
         else: usd = ''
 
-        if not request[14] == '-':
+        if not request[14] == '0':
             eur = request[14]
             eur = str(eur)
             if eur[0] == '-': eur = eur[1:] + '€'
@@ -257,7 +257,7 @@ async def confirm_correct_to_ready(call:CallbackQuery, state:FSMContext):
         ###########################
 
         request[11] = 'Готово к выдаче'
-        request[16] = '-' # тут синих быть не должно
+        request[16] = '0' # тут синих быть не должно
 
         try:
             result = await call.message.answer_sticker (

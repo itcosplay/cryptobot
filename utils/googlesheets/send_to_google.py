@@ -100,22 +100,22 @@ class DataFromSheet:
 
     def replace_row(self, request):
         '''find row and replace'''
-        if not request[5] == '-':
+        if not request[5] == '0':
             request[5] = int(request[5])
 
-        if not request[6] == '-':
+        if not request[6] == '0':
             request[6] = int(request[6])
 
-        if not request[7] == '-':
+        if not request[7] == '0':
             request[7] = int(request[7])
 
-        if not request[12] == '-':
+        if not request[12] == '0':
             request[12] = int(request[12])
 
-        if not request[13] == '-':
+        if not request[13] == '0':
             request[13] = int(request[13])
             
-        if not request[14] == '-':
+        if not request[14] == '0':
             request[14] = int(request[14])
 
         try:
@@ -203,14 +203,14 @@ def send_to_google(state):
     D__type_of_operation = translate_values_request[state['operation_type']]
     E__applicant = translate_values_request[state['applicant']]
 
-    F__sum = '-'
-    G__sum = '-'
-    H__sum = '-'
+    F__sum = '0'
+    G__sum = '0'
+    H__sum = '0'
     
     if not state['comment'] == '':
         I__comment = state['comment']
     else:
-        I__comment = '-'
+        I__comment = '0'
     
     if state['operation_type'] == 'recive': # sign +
         if state['sum_RUB__how_much'] != '':
@@ -257,14 +257,14 @@ def send_to_google(state):
     elif state['operation_type'] == 'cache_atm': # sing +
         pass
 
-    J__remain = '-'
-    K__executor = '-'
+    J__remain = '0'
+    K__executor = '0'
     L__status = 'В обработке'
-    M__fact_RUB = '-'
-    N__fact_USD = '-'
-    O__fact_EUR = '-'
-    P__end_time = '-'
-    Q__total_blue = '-'
+    M__fact_RUB = '0'
+    N__fact_USD = '0'
+    O__fact_EUR = '0'
+    P__end_time = '0'
+    Q__total_blue = '0'
     
     inserRow = []
     inserRow.append(A__current_date)

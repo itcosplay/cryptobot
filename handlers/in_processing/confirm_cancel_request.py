@@ -26,13 +26,13 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         old_comment = request[8]
         new_comment = f'{old_comment} суммы FGH до отмены: {request[5]} {request[6]} {request[7]}'
         request[8] = new_comment
-        request[5] = '-'
-        request[6] = '-'
-        request[7] = '-'
+        request[5] = '0'
+        request[6] = '0'
+        request[7] = '0'
         request[11] = 'Отменена'
-        request[12] = '-'
-        request[13] = '-'
-        request[14] = '-'
+        request[12] = '0'
+        request[13] = '0'
+        request[14] = '0'
 
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
@@ -98,7 +98,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
 
         # убираем минусы и при обмене - добавляем плюсы
         if request[3] == 'обмен':
-            if not request[5] == '-':
+            if not request[5] == '0':
                 rub = request[5]
                 rub = str(rub)
                 if rub[0] == '-': rub = rub + '₽  '
@@ -106,7 +106,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
             else:
                 rub = ''
 
-            if not request[6] == '-':
+            if not request[6] == '0':
                 usd = request[6]
                 usd = str(usd)
                 if usd[0] == '-': usd = usd + '$  '
@@ -114,7 +114,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
             else:
                 usd = ''
 
-            if not request[7] == '-':
+            if not request[7] == '0':
                 eur = request[7]
                 eur = str(eur)
                 if eur[0] == '-': eur = eur + '€'
@@ -123,21 +123,21 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
                 eur = ''
 
         else:
-            if not request[5] == '-':
+            if not request[5] == '0':
                 rub = request[5]
                 rub = str(rub)
                 if rub[0] == '-': rub = rub[1:] + '₽  '
                 else: rub = rub + '₽  '
             else: rub = ''
 
-            if not request[6] == '-':
+            if not request[6] == '0':
                 usd = request[6]
                 usd = str(usd)
                 if usd[0] == '-': usd = usd[1:] + '$  '
                 else: usd = usd + '$  '
             else: usd = ''
 
-            if not request[7] == '-':
+            if not request[7] == '0':
                 eur = request[7]
                 eur = str(eur)
                 if eur[0] == '-': eur = eur[1:] + '€'

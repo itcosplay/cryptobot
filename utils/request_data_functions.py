@@ -13,6 +13,6 @@ def get_data_chosen_request(request):
 
     if not eur == '': eur = eur + '\n'
 
-    text = f'заявка #{id_request} от {date_request}\n{operation_type_request}\n{rub}{usd}{eur}'
+    text = f'заявка #N{id_request} от {date_request}\n{operation_type_request}\n{rub}{usd}{eur}'
 
     return text

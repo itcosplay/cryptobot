@@ -25,7 +25,7 @@ async def notify_about_cancel_request(request, username, user_id):
     number_request = request[2]
     date_request = request[0]
 
-    warning = f'Заявка {type_operation} #{number_request} от {date_request} была отменена. Отменил - {username}'
+    warning = f'Заявка {type_operation} #N{number_request} от {date_request} была отменена. Отменил - {username}'
 
     admins = db.select_id_users(status='admin')
     change = db.select_id_users(status='changer')

@@ -31,7 +31,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         request = data_state['chosen_request']
         
         ###########################
-        if request[5] != '-':
+        if request[5] != '0':
             await call.message.answer (
                 text='Сколько синих?',
                 reply_markup=create_kb_what_blue()
@@ -45,7 +45,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         request[13] = request[6]
         request[14] = request[7]
         request[11] = 'Готово к выдаче'
-        request[16] = '-' # тут синих быть не должно
+        request[16] = '0' # тут синих быть не должно
 
         try:
             result = await call.message.answer_sticker (
@@ -112,7 +112,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         # убираем минусы и при обмене - добавляем плюсы
         if request[3] == 'обмен':
-            if not request[5] == '-':
+            if not request[5] == '0':
                 rub = request[5]
                 rub = str(rub)
                 if rub[0] == '-': rub = rub + '₽  '
@@ -120,7 +120,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             else:
                 rub = ''
 
-            if not request[6] == '-':
+            if not request[6] == '0':
                 usd = request[6]
                 usd = str(usd)
                 if usd[0] == '-': usd = usd + '$  '
@@ -128,7 +128,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             else:
                 usd = ''
 
-            if not request[7] == '-':
+            if not request[7] == '0':
                 eur = request[7]
                 eur = str(eur)
                 if eur[0] == '-': eur = eur + '€'
@@ -137,21 +137,21 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
                 eur = ''
 
         else:
-            if not request[5] == '-':
+            if not request[5] == '0':
                 rub = request[5]
                 rub = str(rub)
                 if rub[0] == '-': rub = rub[1:] + '₽  '
                 else: rub = rub + '₽  '
             else: rub = ''
 
-            if not request[6] == '-':
+            if not request[6] == '0':
                 usd = request[6]
                 usd = str(usd)
                 if usd[0] == '-': usd = usd[1:] + '$  '
                 else: usd = usd + '$  '
             else: usd = ''
 
-            if not request[7] == '-':
+            if not request[7] == '0':
                 eur = request[7]
                 eur = str(eur)
                 if eur[0] == '-': eur = eur[1:] + '€'

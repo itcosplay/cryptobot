@@ -44,12 +44,12 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'in_office':
         permit.update_permit_data(chosen_permit[0], 'отработан')
         permit_warning = 'гость прибыл в офис'
-        permit_notify = f'#{permit_id} в офисе'
+        permit_notify = f'#N{permit_id} в офисе'
 
         await notify_someone(permit_notify, 'admin', 'changer', 'executor')
     
     
-    text = f'Все оповещены о том, что по заявке #{permit_id} {permit_warning}'
+    text = f'Все оповещены о том, что по заявке #N{permit_id} {permit_warning}'
     
     await call.message.answer (
         text=text,

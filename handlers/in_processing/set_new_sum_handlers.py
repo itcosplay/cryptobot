@@ -163,11 +163,11 @@ async def set_sum_for_change(message:Message, state:FSMContext):
     operation_type_request = request[3]
 
     request[11] = 'В обработке'
-    request[16] = '-'
+    request[16] = '0'
 
     # убираем минусы и при обмене - добавляем плюсы
     if request[3] == 'обмен':
-        if not request[5] == '-':
+        if not request[5] == '0':
             rub = request[5]
             rub = str(rub)
             if rub[0] == '-': rub = rub + '₽  '
@@ -175,7 +175,7 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         else:
             rub = ''
 
-        if not request[6] == '-':
+        if not request[6] == '0':
             usd = request[6]
             usd = str(usd)
             if usd[0] == '-': usd = usd + '$  '
@@ -183,7 +183,7 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         else:
             usd = ''
 
-        if not request[7] == '-':
+        if not request[7] == '0':
             eur = request[7]
             eur = str(eur)
             if eur[0] == '-': eur = eur + '€'
@@ -192,21 +192,21 @@ async def set_sum_for_change(message:Message, state:FSMContext):
             eur = ''
 
     else:
-        if not request[5] == '-':
+        if not request[5] == '0':
             rub = request[5]
             rub = str(rub)
             if rub[0] == '-': rub = rub[1:] + '₽  '
             else: rub = rub + '₽  '
         else: rub = ''
 
-        if not request[6] == '-':
+        if not request[6] == '0':
             usd = request[6]
             usd = str(usd)
             if usd[0] == '-': usd = usd[1:] + '$  '
             else: usd = usd + '$  '
         else: usd = ''
 
-        if not request[7] == '-':
+        if not request[7] == '0':
             eur = request[7]
             eur = str(eur)
             if eur[0] == '-': eur = eur[1:] + '€'

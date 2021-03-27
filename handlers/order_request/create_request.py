@@ -3,10 +3,9 @@ import datetime
 from aiogram import types 
 from aiogram.dispatcher import FSMContext
 
-from data.config import super_admins
 from filters import isAdmin_or_isChanger
 from states import Request
-from loader import dp, db, bot
+from loader import dp
 from keyboards import create_kp_operation_type
 
 # from 'создать заявку' main_menu
