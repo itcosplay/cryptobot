@@ -132,7 +132,8 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await state.update_data(chosen_request_menu='change_request')
 
 
-
+        data_state = await state.get_data()
+        request = data_state['chosen_request']
         
         await call.message.answer (
             'Какую сумму меняем?',
