@@ -8,6 +8,7 @@ from states import Processing
 from keyboards import cb_choose_currency
 from keyboards import create_kb_chosen_request
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 
 
 # from chosen_request_menu.py / change_request
@@ -23,7 +24,7 @@ async def set_currency_to_change(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'back_main_menu':
         await call.message.answer (
             f'===========\nПросмотр заявок отменен\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         
@@ -81,7 +82,7 @@ async def set_sum_for_change(message:Message, state:FSMContext):
     except Exception as e:
         await message.answer (
             text='Изменение заявки отменено. Формат суммы не правильный.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         await state.finish()
         print(e)
@@ -229,7 +230,7 @@ async def set_sum_for_change(message:Message, state:FSMContext):
         )
         await message.answer (
             text='Не удалось соединиться с гугл таблицей',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
 
         return

@@ -6,6 +6,7 @@ from states import Processing
 
 from keyboards import cb_current_requests
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
 from utils import get_data_chosen_request
 
@@ -24,7 +25,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'exit':
         await call.message.answer (
             f'===========\nПросмотр заявок отменен\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         

@@ -8,6 +8,7 @@ from states import Processing
 from keyboards import cb_wsc
 from keyboards import create_kb_chosen_request
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_corrected_sum
 from keyboards import cb_corrected_sum
 from keyboards import create_kb_what_sum_correct
@@ -56,7 +57,7 @@ async def set_currency_to_correct(call:CallbackQuery, state:FSMContext):
     else:
         await call.message.answer (
             f'===========\nПросмотр заявок отменен\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         
@@ -89,7 +90,7 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
     except Exception as e:
         await message.answer (
             text='Изменение заявки отменено. Формат суммы не правильный.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         await state.finish()
         print(e)
@@ -273,7 +274,7 @@ async def confirm_correct_to_ready(call:CallbackQuery, state:FSMContext):
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
 
             return
@@ -287,7 +288,7 @@ async def confirm_correct_to_ready(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=f'Заявка #{id_request} отложена к выдаче.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
         await state.finish()
@@ -309,7 +310,7 @@ async def confirm_correct_to_ready(call:CallbackQuery, state:FSMContext):
     else: # back_main_menu
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 

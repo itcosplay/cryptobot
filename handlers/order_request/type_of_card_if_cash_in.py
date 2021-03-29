@@ -4,6 +4,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp
 from states import Request
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 
 
 # from operation_type.py
@@ -15,7 +16,7 @@ async def set_type_of_card(call:types.CallbackQuery, state:FSMContext):
     if call.data == 'exit':
         await call.message.answer (
             f'Создание заявки отменено. Испльзуйте меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 

@@ -6,6 +6,7 @@ from filters import isExecutor_and_higher
 from states import Processing
 
 from keyboards import create_kb_current_requests
+from keyboards import create_kb_coustom_main_menu
 from keyboards import main_menu
 
 # from 'в работе' main_menu
@@ -36,7 +37,7 @@ async def show_current_requests(message:Message, state:FSMContext):
         )
         await message.answer (
             text='Не удалось получить данные с гугл таблицы',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
 
         return
@@ -47,7 +48,7 @@ async def show_current_requests(message:Message, state:FSMContext):
     if len(in_processing_requests) == 0 and len(ready_to_give_requests) == 0:
         await message.answer (
             text='=====================\nВсе заявки исполненны\n=====================',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         await state.finish()
         

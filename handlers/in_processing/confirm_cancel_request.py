@@ -6,6 +6,7 @@ from aiogram.dispatcher import FSMContext
 from loader import bot, dp, sheet
 from states import Processing
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
 from keyboards import cb_confirm
 from utils import notify_about_cancel_request
@@ -48,7 +49,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей...',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
 
             return
@@ -57,7 +58,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             f'Заявка {request[2]} ОТМЕНЕНА',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         await notify_about_cancel_request(request, username, user_id)
@@ -157,7 +158,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         await call.message.delete()
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 

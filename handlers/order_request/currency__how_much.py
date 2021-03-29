@@ -6,6 +6,7 @@ from loader import dp
 from states import Request
 from keyboards import create_kb_send_request
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from utils import get_data_to_show
 
 
@@ -21,7 +22,7 @@ async def set_currency__how_much (
     if call.data == 'exit':
         await call.message.answer (
             f'Создание заявки отменено. Испльзуйте меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 

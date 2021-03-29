@@ -11,6 +11,7 @@ from keyboards import cb_what_sum
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_what_sum_correct
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_what_blue
 
 
@@ -61,7 +62,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
 
             return
@@ -75,7 +76,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=f'Заявка #{id_request} отложена к выдаче.',
-            reply_markup=main_menu
+            reply_markup=call.message.chat.id
         )
 
         await state.finish()
@@ -179,7 +180,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         await call.message.delete()
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 

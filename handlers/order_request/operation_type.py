@@ -6,6 +6,7 @@ from states import Request
 from keyboards import create_kb_choose_card
 from keyboards import create_kb_send_request_atm
 from keyboards.default.admin_keyboard import main_menu
+from keyboards import create_kb_coustom_main_menu
 from handlers.order_request import permit
 from utils import get_data_to_show
 
@@ -92,6 +93,6 @@ async def set_operation_type (
         await call.answer()
         await call.message.answer (
             f'Создание заявки отменено. Испльзуйте меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()

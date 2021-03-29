@@ -5,6 +5,7 @@ from loader import dp, bot
 from states import Request
 from keyboards import create_kb_smart_choose_curr
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 
 
 # from operation_type.py
@@ -33,7 +34,7 @@ async def set_how_much_recive(message:types.Message, state:FSMContext):
     except Exception:
         await message.answer (
             f'Формат суммы неправильный. Создание заявки отменено\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         await state.finish()
         await message.delete()

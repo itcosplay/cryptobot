@@ -7,6 +7,7 @@ from loader import dp, bot
 from states import Processing
 from loader import sheet
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_what_bluе
 from keyboards import create_kb_confirm_blue
 from keyboards import cb_confirm_blue
@@ -48,7 +49,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
 
             return
@@ -62,7 +63,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=f'Заявка #{id_request} отложена к выдаче.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
         await state.finish()
@@ -166,7 +167,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         await call.message.delete()
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 
@@ -192,7 +193,7 @@ async def set_blue_amount(message:Message, state:FSMContext):
     except Exception as e:
         await message.answer (
             text='Изменение заявки отменено. Неправильный формат синих.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         await state.finish()
         print(e)
@@ -325,7 +326,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
 
             return
@@ -339,7 +340,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=f'Заявка #{id_request} отложена к выдаче.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
         await state.finish()
@@ -420,7 +421,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
     else: # type_btn = back_main_menu
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 

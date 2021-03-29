@@ -10,6 +10,7 @@ from utils import notify_about_balance
 from utils import notify_about_permit_to_order
 from keyboards import create_kb_plus_minus
 from keyboards.default.admin_keyboard import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_choose_date
 
 
@@ -72,14 +73,14 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
             await call.message.answer (
                 f'Ошибка! Проблемы с таблицами...\n==============================',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
             await state.finish()
 
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
         await call.message.answer (
             f'Заявка создана. Номер заявки: {request_id}\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         await notify_about_balance()
@@ -107,6 +108,6 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
     else:
         await call.message.answer (
             f'Создание заявки отменено\n========================',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()

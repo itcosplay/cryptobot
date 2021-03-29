@@ -6,6 +6,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, sheet, bot
 from states import Processing
 from keyboards import main_menu
+from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
 from keyboards import create_kb_choose_currency_processing
@@ -111,7 +112,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей...',
-                reply_markup=main_menu
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
 
             return
@@ -120,7 +121,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             f'Заявка {request[2]} закрыта.',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
 
@@ -168,7 +169,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'back_main_menu':
         await call.message.answer (
             text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
-            reply_markup=main_menu
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
         await state.finish()
