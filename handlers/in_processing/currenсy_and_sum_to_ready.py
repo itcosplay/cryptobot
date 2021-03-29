@@ -76,7 +76,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=f'Заявка #{id_request} отложена к выдаче.',
-            reply_markup=call.message.chat.id
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
         await state.finish()
