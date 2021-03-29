@@ -1,5 +1,3 @@
-import time
-
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 

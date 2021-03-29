@@ -3,30 +3,7 @@ import gspread
 import datetime
 
 from aiogram.dispatcher import FSMContext
-# import pprint
 from oauth2client.service_account import ServiceAccountCredentials
-
-# Example of state
-# state = {
-#     'applicant': 'changer', 
-#     'operation_type': 'cashin', # D --> 4
-#     'type_of_card': 'sber',
-#     'sum_RUB__how_much': '', 
-#     'sum_USD__how_much': '500', 
-#     'sum_EUR__how_much': '', 
-#     'sum_recive_RUB': '', 
-#     'sum_recive_USD': '', 
-#     'sum_recive_EUR': '',
-#     'sum_give_RUB': '',
-#     'sum_give_USD': '', 
-#     'sum_give_EUR': '', 
-#     'currencies__how_much': ['rub'], 
-#     'temp_sum_state': 500.0, 
-#     'comment': 'тут какой-то коментарий', 
-#     'permit': 'Аркадак Гурбангулы Махухуедов'
-# }
-
-# ['25.09', '7', '1549', 'Выдача в офисе', 'CHANGE', '50000', '', '', '', '', 'Andy', 'Исполнено', '-290500', '', '', '16:24']
 
 
 class DataFromSheet:
@@ -139,6 +116,7 @@ class DataFromSheet:
 
                 return
             
+
 
 def send_to_google(state): 
     sheet = get_google_sheet() 

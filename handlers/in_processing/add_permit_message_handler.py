@@ -12,7 +12,7 @@ from utils import notify_about_permit_to_order
 @dp.message_handler(state=Processing.add_permit)
 async def set_sum_to_correct(message:Message, state:FSMContext):
     data_state = await state.get_data()
-    print(data_state['message_to_delete'])
+
     await bot.delete_message (
         chat_id=message.chat.id,
         message_id=data_state['message_to_delete']

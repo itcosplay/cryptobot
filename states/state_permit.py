@@ -5,3 +5,5 @@ class Permitstate(StatesGroup):
     all_permits = State()
     chosen_permit = State()
     status_permit = State()
+    single_permit_data = State()
+    message_to_delete = State()

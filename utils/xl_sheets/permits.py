@@ -142,6 +142,7 @@ class DataPermits:
 
         return False
 
+
     def clear_table(self):
         '''Очищает таблицу от прошедших дат'''
         wb = load_workbook('permits.xlsx')
@@ -171,16 +172,17 @@ class DataPermits:
         return
 
 
+    def get_all_permit_id(self):
+        wb = load_workbook('permits.xlsx')
+        sheet = wb['Лист1']
+        last_row = 50 # max row in permit table
+        
+        all_permit_id_list = []
 
-# test = DataPermits()
+        for i in range(1, last_row):
+            permit_id = sheet.cell(row=i, column=1).value
 
-# some_date = test.clear_table()
-# some_date = datetime.strptime(some_date, '%d.%m').date()
+            if permit_id != None:
+                all_permit_id_list.append(permit_id)
 
-# current_date = datetime.today().strftime('%d.%m')
-# current_date = datetime.strptime(current_date, '%d.%m').date()
-
-# delta_time = current_date - some_date
-
-# print(delta_time.days)
-# print(type(delta_time.days))
+        return all_permit_id_list
