@@ -31,6 +31,26 @@ async def enter_the_smsinfo(message:Message, state:FSMContext):
 @dp.message_handler(state=SMSstate.sms_numb)
 async def question_who_waste(message:Message, state:FSMContext):
     sms_numb = message.text
+
+    try:
+        sms_numb = int(message.text)
+        if sms_numb <= 0:
+            raise ValueError('fuck off')
+    except Exception as e:
+        print(e)
+        await message.answer_sticker (
+            'CAACAgIAAxkBAAEI_-FgYx17UF34jGzd_bcIuqfmUeV-6QACHwADwDZPE-Q4M_eEUpmSHgQ'
+        )
+        await message.answer (
+            text='Неправильный номер смс. Возврат в главное меню.',
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
+        )
+        await state.finish()
+
+        return
+
+    sms_numb = str(sms_numb)
+
     await state.update_data(sms_numb=sms_numb)
 
     data_state = await state.get_data()
