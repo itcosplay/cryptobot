@@ -6,6 +6,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot, smsinfo, db
 from states import SMSstate
 from data import all_emoji
+from data import sticker
 from utils import notify_someone
 
 from keyboards import create_kb_coustom_main_menu
@@ -39,10 +40,10 @@ async def question_who_waste(message:Message, state:FSMContext):
     except Exception as e:
         print(e)
         await message.answer_sticker (
-            'CAACAgIAAxkBAAEI_-FgYx17UF34jGzd_bcIuqfmUeV-6QACHwADwDZPE-Q4M_eEUpmSHgQ'
+            sticker['false_data']
         )
         await message.answer (
-            text='Неправильный номер смс. Возврат в главное меню.',
+            text='Неправильный формат номера смс. Возврат в главное меню.',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         await state.finish()
@@ -65,7 +66,7 @@ async def question_who_waste(message:Message, state:FSMContext):
 
     try:
         result = await message.answer_sticker (
-            'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA',
+            sticker['go_to_table'],
             reply_markup=ReplyKeyboardRemove()
         )
         is_checked = smsinfo.check_sms(sms_numb)
@@ -73,7 +74,7 @@ async def question_who_waste(message:Message, state:FSMContext):
     except Exception as e:
         print(e)
         await message.answer_sticker (
-            'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+            sticker['not_connection']
         )
         await message.answer (
             text='Не удалось получить данные google таблицы',
