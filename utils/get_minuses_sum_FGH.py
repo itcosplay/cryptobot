@@ -1,11 +1,10 @@
-def set_minus_and_plus(request):
+def get_minus_FGH(request):
     '''
-    Проверяет поля 5,6,7 заявки (FGH) и
-    возвращает значения валют с плюсом или минусом
-    с добавлением значка валюты.
+    Возвращает из полей 5,6,7 заявки (FGH)
+    заявки только отрицательные суммы
     '''
     # sing minus: '−'
-    if not request[5] == '0':
+    if request[5] != '0':
         rub = request[5]
         rub = str(rub)
         if rub[0] == '-':
@@ -15,14 +14,11 @@ def set_minus_and_plus(request):
             rub = rub.replace(',', '.')
             rub = '−' + rub + '₽'
         else:
-            rub = int(rub)
-            rub = f'{rub:,}'
-            rub = rub.replace(',', '.')
-            rub = '+' + rub + '₽'
+            rub = ''
     else:
         rub = ''
 
-    if not request[6] == '0':
+    if request[6] != '0':
         usd = request[6]
         usd = str(usd)
         if usd[0] == '-': 
@@ -32,14 +28,11 @@ def set_minus_and_plus(request):
             usd = usd.replace(',', '.')
             usd = '−' + usd + '$'
         else:
-            usd = int(usd)
-            usd = f'{usd:,}'
-            usd = usd.replace(',', '.')
-            usd = '+' + usd + '$'
+            usd = ''
     else:
         usd = ''
 
-    if not request[7] == '0':
+    if request[7] != '0':
         eur = request[7]
         eur = str(eur)
         if eur[0] == '-':
@@ -49,10 +42,7 @@ def set_minus_and_plus(request):
             eur = eur.replace(',', '.')
             eur = '−' + eur + '€'
         else:
-            eur = int(eur)
-            eur = f'{eur:,}'
-            eur = eur.replace(',', '.')
-            eur = '+' + eur + '€'
+            eur = ''
     else: eur = ''
 
     return rub, usd, eur

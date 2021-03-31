@@ -18,10 +18,25 @@ def create_kb_chosen_request(request):
                 callback_data=cb_chosen_requests.new(type_btn='to_ready_for_give')
             )
         )
+    
+    if request[3] == 'обмен' or request[3] == 'прием кэша' or request[3] == 'снятие с карт':
+        keyboard.add (
+            InlineKeyboardButton (
+                text = 'принято частично',
+                callback_data=cb_chosen_requests.new(type_btn='recived_chunck')
+            )
+        )
+
     keyboard.add (
         InlineKeyboardButton (
             text = 'закрыть заявку',
             callback_data=cb_chosen_requests.new(type_btn='close_request')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'сообщение',
+            callback_data=cb_chosen_requests.new(type_btn='message_to')
         )
     )
     keyboard.add (

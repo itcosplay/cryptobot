@@ -29,10 +29,15 @@ def create_kb_current_requests(processing_req, ready_req):
 
             # добавляем плюсы только для отображения
             rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
+
+            if (rub != '' and usd != '') or (rub != '' and eur != ''):
+                rub = rub + ', '
+            if usd != '' and eur != '':
+                usd = usd + ', '
             
             keyboard.add (
                 InlineKeyboardButton (
-                    text = '{}{} #{} {} {}{}{}'.format(date_request, type_operation, number_request, status_operation, rub, usd, eur),
+                    text = '{}{} N{} {} {}{}{}'.format(date_request, type_operation, number_request, status_operation, rub, usd, eur),
                     callback_data = cb_current_requests.new (
                         id=number_request,
                         type_btn='get_request'
@@ -54,10 +59,13 @@ def create_kb_current_requests(processing_req, ready_req):
 
             # добавляем плюсы только для отображения
             rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
+
+            if usd != '': usd = ', ' + usd
+            if eur != '': eur = ', ' + eur
             
             keyboard.add (
                 InlineKeyboardButton (
-                    text = '{}{} #{} {} {}{}{}'.format(date_request, type_operation, number_request, status_operation, rub, usd, eur),
+                    text = '{}{} N{} {} {}{}{}'.format(date_request, type_operation, number_request, status_operation, rub, usd, eur),
                     callback_data = cb_current_requests.new (
                         id=number_request,
                         type_btn='get_request'

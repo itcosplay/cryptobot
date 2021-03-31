@@ -44,8 +44,7 @@ async def set_operation_type (
         print(request_data)
         print('==============')
         ### for logs ### delete later
-
-        
+    
     elif call.data == 'cashin':
         await state.update_data(operation_type=call.data)
 

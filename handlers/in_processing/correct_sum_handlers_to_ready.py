@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot, sheet
 from states import Processing
-from keyboards import cb_wsc
+from keyboards import cb_what_sum_correct
 from keyboards import create_kb_chosen_request
 from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu

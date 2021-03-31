@@ -19,10 +19,28 @@ from keyboards import create_kb_what_blue
 # меню -с текущей- ; -корректировать- ; -вернуться к заявке- ; -назад главное меню- 
 @dp.callback_query_handler(state=Processing.chosen_sum_to_ready)
 async def choose_currency(call:CallbackQuery, state:FSMContext):
-
     data_btn = cb_what_sum.parse(call.data)
 
-    if data_btn['type_btn'] == 'with_current':
+
+    if data_btn['type_btn'] == 'correct_sum':
+        await call.answer()
+        await call.message.delete()
+
+        await state.update_data(chosen_sum_to_ready='correct_sum')
+
+        data_state = await state.get_data()
+        request = data_state['chosen_request']
+
+        await call.message.answer (
+            'Выберите сумму',
+            reply_markup=create_kb_what_sum_correct(request)
+        )
+        await Processing.correct_curr_sum_ready.set()
+        # to correct_sum_handlers_to_ready.py
+        return
+
+
+    elif data_btn['type_btn'] == 'confirm_sum':
         await call.answer()
         await call.message.delete()
 
@@ -83,24 +101,8 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         return
 
-    elif data_btn['type_btn'] == 'with_another':
-        await call.answer()
-        await call.message.delete()
 
-        await state.update_data(chosen_sum_to_ready='with_another')
-
-        data_state = await state.get_data()
-        request = data_state['chosen_request']
-
-        await call.message.answer (
-            'Какую сумму меняем?',
-            reply_markup=create_kb_what_sum_correct(request)
-        )
-        await Processing.correct_curr_sum_ready.set()
-        # to correct_sum_handlers_to_ready.py
-        return
-    
-    elif data_btn['type_btn'] == 'BACK':
+    elif data_btn['type_btn'] == 'back_to_chosen_request':
         await call.answer()
         await call.message.delete()
 
@@ -174,6 +176,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         await Processing.chosen_request_menu.set()
 
         return
+
 
     else: # type_btn = back_main_menu
         await call.answer()

@@ -5,6 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from loader import dp, sheet, bot
 from states import Processing
+from utils import get_minus_FGH
 from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
@@ -29,23 +30,29 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     await call.message.delete()
 
     data_btn = cb_chosen_requests.parse(call.data)
-    
+
     if data_btn['type_btn'] == 'to_ready_for_give':  
         await state.update_data(chosen_request_menu='chosen_request_menu')
 
         data_state = await state.get_data()
         request = data_state['chosen_request']
 
+        rub, usd, eur = get_minus_FGH(request)
+
+        if not rub == '': rub = rub + '\n'
+        if not usd == '': usd = usd + '\n'
+
         await call.message.answer (
-            'Откладываем на выдачу',
-            reply_markup=create_kb_what_sum(request)
-            # > с текущей (rub usd eur)
-            # > назад главное меню
+            text=f'Откладываем на выдачу:\n{rub}{usd}{eur}',
+            reply_markup=create_kb_what_sum()
         )
         await Processing.chosen_sum_to_ready.set()
         # ---> currency_and_sum_to_ready.py <---
 
         return
+
+    if data_btn['type_btn'] == 'recived_chunck':
+        pass
 
     if data_btn['type_btn'] == 'close_request':
         # суммы в M(12),N(13),O(14) копируются в F(5),G(6),H(7)

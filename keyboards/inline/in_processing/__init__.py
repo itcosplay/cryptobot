@@ -14,7 +14,7 @@ from .confirm_keyboard import create_kb_confirm
 from .confirm_keyboard import cb_confirm
 
 from .keyboards_sum_ready import create_kb_what_sum_correct
-from .keyboards_sum_ready import cb_wsc
+from .keyboards_sum_ready import cb_what_sum_correct
 
 from .blue_keyboard import create_kb_what_blue
 from .blue_keyboard import cb_what_bluе

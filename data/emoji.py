@@ -11,7 +11,7 @@ cash_out = emojize(':credit_card:', use_aliases=True)
 in_process = emojize(':hourglass_flowing_sand:', use_aliases=True)
 ready_to_give = emojize(':money_with_wings:', use_aliases=True)
 
-emo_snail = emojize(':snail:', use_aliases=True)
+emo_snail = emojize(':cyclone:', use_aliases=True)
 warning = emojize(':exclamation:', use_aliases=True)
 permit_ready = emojize(':ticket:', use_aliases=True)
 permit_end = emojize(':white_check_mark:', use_aliases=True)

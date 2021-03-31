@@ -1,39 +1,38 @@
-from utils.googlesheets import send_to_google
+
 from emoji import emojize
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
 from data import all_emoji
+
+from utils.googlesheets import send_to_google
 from utils.set_minus_and_plus_currences import set_minus_and_plus
+from utils.get_minuses_sum_FGH import get_minus_FGH
 
 
 
 cb_what_sum = CallbackData('cb_ws', 'type_btn')
-def create_kb_what_sum(request):
-
-    rub, usd, eur = set_minus_and_plus(request)
-
+def create_kb_what_sum():
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (
-            text = 'с текущей ({}{}{})'.format(rub, usd, eur),
-            callback_data = cb_what_sum.new(type_btn='with_current')
+            text = 'скорректировать',
+            callback_data = cb_what_sum.new(type_btn='correct_sum')
         )
     )
-    # keyboard.add (
-    #     InlineKeyboardButton (
-    #         text = 'корректировать',
-    #         callback_data = cb_what_sum.new(type_btn='with_another')
-    #     )
-    # )
-    # keyboard.add (
-    #     InlineKeyboardButton (
-    #         text = 'вернуться к заявке',
-    #         callback_data = cb_what_sum.new(type_btn='BACK')
-    #     )
-    # )
-
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'подтвердить',
+            callback_data = cb_what_sum.new(type_btn='confirm_sum')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'назад',
+            callback_data = cb_what_sum.new(type_btn='back_to_chosen_request')
+        )
+    )
     back__main_menu = all_emoji['back__main_menu']
     keyboard.add (
         InlineKeyboardButton (
@@ -137,54 +136,51 @@ def create_kb_choose_currency_processing(request):
 
 
 
-cb_wsc = CallbackData('cbwsc', 'curr', 'type_btn')
+cb_what_sum_correct = CallbackData('cbwsc', 'curr', 'type_btn')
 def create_kb_what_sum_correct(request):
-    emo_snail = emojize(':snail:', use_aliases=True)
+    
     keyboard = InlineKeyboardMarkup()
 
-    if request[5] != '0':
-        if request[5][0] == '-':
-            rub = request[5][1:]
-            keyboard.add (
-                InlineKeyboardButton (
-                    text=f'{rub} ₽',
-                    callback_data = cb_wsc.new (
-                        curr='rub',
-                        type_btn='change_curr'
-                    )
-                )
-            )
+    rub, usd, eur = get_minus_FGH(request)
 
-    if request[6] != '0':
-        if request[6][0] == '-':
-            usd = request[6][1:]
-            keyboard.add (
-                InlineKeyboardButton (
-                    text=f'{usd} $',
-                    callback_data = cb_wsc.new (
-                        curr='usd',
-                        type_btn='change_curr'
-                    )
+    if rub != '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text=rub,
+                callback_data = cb_what_sum_correct.new (
+                    curr='rub',
+                    type_btn='change_curr'
                 )
             )
+        )
 
-    if request[7] != '0':
-        if request[7][0] == '-':
-            eur = request[7][1:]
-            keyboard.add (
-                InlineKeyboardButton (
-                    text=f'{eur} €',
-                    callback_data = cb_wsc.new (
-                        curr='eur',
-                        type_btn='change_curr'
-                    )
+    if usd != '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text=usd,
+                callback_data = cb_what_sum_correct.new (
+                    curr='usd',
+                    type_btn='change_curr'
                 )
             )
-        
+        )
+
+    if eur != '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text=eur,
+                callback_data = cb_what_sum_correct.new (
+                    curr='eur',
+                    type_btn='change_curr'
+                )
+            )
+        )
+
+    emo_snail = emojize(':snail:', use_aliases=True)
     keyboard.add (
         InlineKeyboardButton (
             text=f'назад {emo_snail} главное меню',
-            callback_data=cb_wsc.new (
+            callback_data=cb_what_sum_correct.new (
                 curr='-',
                 type_btn='back_main_menu'
             )
