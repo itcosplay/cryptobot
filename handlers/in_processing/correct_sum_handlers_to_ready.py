@@ -13,59 +13,41 @@ from keyboards import create_kb_corrected_sum
 from keyboards import cb_corrected_sum
 from keyboards import create_kb_what_sum_correct
 from keyboards import create_kb_what_blue
+from keyboards import cb_what_sum_correct
 
 
 # from currency_and_sum_to_ready.py / with_another
 @dp.callback_query_handler(state=Processing.correct_curr_sum_ready)
 async def set_currency_to_correct(call:CallbackQuery, state:FSMContext):
+    '''
+    Обрабатывает клавиатуру create_kb_what_sum_correct(request)
+    из keyboards_sum_ready.py
+    - sum rub
+    - sum usd
+    - sum eur
+    - back_main_menu
+    '''
     await call.answer()
     await call.message.delete()
 
-    data_btn = cb_wsc.parse(call.data)
-    await state.update_data(correct_curr_sum_ready=data_btn['curr'])
-    # {'@': 'cbkbws', 'curr': 'USD', 'type_btn': 'change_curr'}
+    data_btn = cb_what_sum_correct.parse(call.data)
 
-    # anprix:-:back_main_menu
+    if data_btn['type_btn'] == 'change_curr':
+        await state.update_data(correct_curr_sum_ready=data_btn['curr'])
+        result = await call.message.answer (
+            f'Корректируемая сумма к выдаче: {old_sum}. Введите новую сумму'
+        )
 
-    data_state = await state.get_data()
-    request = data_state['chosen_request']
-
-    # if data_btn['type_btn'] == 'back_main_menu':
-    #     await call.message.answer (
-    #         f'===========\nПросмотр заявок отменен\n===========',
-    #         reply_markup=main_menu
-    #     )
-    #     await state.finish()
-        
-    #     return
-
-    if data_btn['curr'] == 'rub':
-        old_sum = request[5]
-        old_sum = int(old_sum)
-        old_sum = abs(old_sum)
-        old_sum = str(old_sum) + ' ₽'
-    elif data_btn['curr'] == 'usd':
-        old_sum = request[6]
-        old_sum = int(old_sum)
-        old_sum = abs(old_sum)
-        old_sum = str(old_sum) + ' $'
-    elif data_btn['curr'] == 'eur':
-        old_sum = request[7]
-        old_sum = int(old_sum)
-        old_sum = abs(old_sum)
-        old_sum = str(old_sum) + ' €'
     else:
         await call.message.answer (
-            f'===========\nПросмотр заявок отменен\n===========',
+            f'===========\nОтмена, выход в главное меню\n===========',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()
         
         return
 
-    result = await call.message.answer (
-        f'Корректируемая сумма к выдаче: {old_sum}. Введите новую сумму'
-    )
+    
     await state.update_data(message_to_delete=result.message_id)
 
     await Processing.correct_amount_sum_ready.set()
