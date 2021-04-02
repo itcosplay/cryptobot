@@ -12,8 +12,8 @@ def get_data_chosen_request(request):
 
     rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
     
-    if not rub == '': rub = rub + '\n'
-    if not usd == '': usd = usd + '\n'
+    if rub != '': rub = rub + '\n'
+    if usd != '': usd = usd + '\n'
 
     text = f'Заявка {operation_type_emoji} #N{id_request} от {date_request},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
 
@@ -26,7 +26,7 @@ def get_data_chosen_request(request):
         recived_chunk_eur = ''
 
         if request[12] != 0:
-            value = request[12]
+            value = str(request[12])
 
             if value[0] == '-':
                 ready_to_give_rub = value + '₽'
@@ -35,7 +35,7 @@ def get_data_chosen_request(request):
                 recived_chunk_rub = value + '₽'
 
         if request[13] != 0:
-                value = request[13]
+                value = str(request[13])
 
                 if value[0] == '-':
                     ready_to_give_usd = value + '$'
@@ -43,9 +43,8 @@ def get_data_chosen_request(request):
                 else:
                     recived_chunk_usd = value + '$'
 
-
         if request[14] != 0:
-                value = request[14]
+                value = str(request[14])
 
                 if value[0] == '-':
                     ready_to_give_eur = value + '€'
@@ -53,7 +52,13 @@ def get_data_chosen_request(request):
                 else:
                     recived_chunk_eur = value + '€'
 
-        add_text = f'\n---------\n'
+        if ready_to_give_rub != '' or ready_to_give_usd != '' or ready_to_give_eur != '':
+
+            if ready_to_give_rub != '': ready_to_give_rub + '\n'
+            if ready_to_give_usd != '': ready_to_give_usd + '\n'
+
+            reserve_to_ready = f'Отложенно к выдаче:\n{ready_to_give_rub} {ready_to_give_usd} {ready_to_give_eur}'
+
 
         text = text + add_text
 

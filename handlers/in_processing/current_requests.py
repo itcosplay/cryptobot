@@ -1,6 +1,7 @@
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.dispatcher import FSMContext
 
+from data import sticker
 from loader import dp, sheet, bot
 from filters import isExecutor_and_higher
 from states import Processing
@@ -20,7 +21,7 @@ async def show_current_requests(message:Message, state:FSMContext):
     await message.delete()
 
     result = await message.answer_sticker (
-        'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA',
+        sticker['go_to_table'],
         reply_markup=ReplyKeyboardRemove()
     )
 
@@ -33,7 +34,7 @@ async def show_current_requests(message:Message, state:FSMContext):
     except Exception as e:
         print(e)
         await message.answer_sticker (
-            'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+            sticker['not_connection']
         )
         await message.answer (
             text='Не удалось получить данные с гугл таблицы',
@@ -61,5 +62,4 @@ async def show_current_requests(message:Message, state:FSMContext):
             )
         )
         await Processing.chosen_request.set()
-        # to show_chosen_requests.py
         

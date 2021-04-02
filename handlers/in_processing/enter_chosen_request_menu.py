@@ -15,7 +15,7 @@ from keyboards import create_kb_confirm
 
 
 # <--- show_chosen_request.py --->
-@dp.callback_query_handler(state=Processing.chosen_request_menu)
+@dp.callback_query_handler(state=Processing.enter_chosen_request_menu)
 async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     '''
     Обрабатывает нажатие на кнопки меню:
@@ -28,12 +28,11 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     '''
     await call.answer()
     await call.message.delete()
+    await state.update_data(enter_chosen_request_menu='+')
 
     data_btn = cb_chosen_requests.parse(call.data)
 
     if data_btn['type_btn'] == 'to_ready_for_give':  
-        await state.update_data(chosen_request_menu='chosen_request_menu')
-
         data_state = await state.get_data()
         request = data_state['chosen_request']
 
@@ -46,15 +45,14 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
             text=f'Откладываем на выдачу:\n{rub}{usd}{eur}',
             reply_markup=create_kb_what_sum()
         )
-        await Processing.chosen_sum_to_ready.set()
-        # ---> currency_and_sum_to_ready.py <---
+        await Processing.enter_reserve_to_ready_menu.set()
 
         return
 
-    if data_btn['type_btn'] == 'recived_chunck':
+    elif data_btn['type_btn'] == 'recived_chunck':
         pass
 
-    if data_btn['type_btn'] == 'close_request':
+    elif data_btn['type_btn'] == 'close_request':
         # суммы в M(12),N(13),O(14) копируются в F(5),G(6),H(7)
         # если MNO!=FGH добавить в коменты ">>старые суммы перед закрытием: (F)(G)(H)<<"
         # L(11) - "Исполнено"
@@ -134,11 +132,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         return
 
-    if data_btn['type_btn'] == 'change_request':
-      
-        await state.update_data(chosen_request_menu='change_request')
-
-
+    elif data_btn['type_btn'] == 'change_request':
         data_state = await state.get_data()
         request = data_state['chosen_request']
         
@@ -151,10 +145,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         return
 
-    if data_btn['type_btn'] == 'add_permit':
-
-        await state.update_data(chosen_request_menu='add_permit')
-
+    elif data_btn['type_btn'] == 'add_permit':
         result = await call.message.answer (
             'Введите Ф.И.О. которые будут добавленны'
         )
@@ -162,9 +153,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await Processing.add_permit.set()
         # ---> add_permit_message_handler <---
 
-    if data_btn['type_btn'] == 'cancel_request':
-        
-        await state.update_data(chosen_request_menu='may_be_cancel')
+    elif data_btn['type_btn'] == 'cancel_request':
         await call.message.answer (
             text='Подтверждаете отмену заявки?',
             reply_markup=create_kb_confirm()
@@ -174,11 +163,11 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         
         return
 
-    if data_btn['type_btn'] == 'back_main_menu':
+    else:
         await call.message.answer (
-            text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
+            text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
-
         await state.finish()
-        # ---> main_menu <---
+
+        return
