@@ -25,7 +25,7 @@ def get_data_chosen_request(request):
         recived_chunk_usd = ''
         recived_chunk_eur = ''
 
-        if request[12] != 0:
+        if request[12] != '0':
             value = str(request[12])
 
             if value[0] == '-':
@@ -34,7 +34,7 @@ def get_data_chosen_request(request):
             else:
                 recived_chunk_rub = value + '₽'
 
-        if request[13] != 0:
+        if request[13] != '0':
                 value = str(request[13])
 
                 if value[0] == '-':
@@ -43,7 +43,7 @@ def get_data_chosen_request(request):
                 else:
                     recived_chunk_usd = value + '$'
 
-        if request[14] != 0:
+        if request[14] != '0':
                 value = str(request[14])
 
                 if value[0] == '-':
@@ -53,13 +53,50 @@ def get_data_chosen_request(request):
                     recived_chunk_eur = value + '€'
 
         if ready_to_give_rub != '' or ready_to_give_usd != '' or ready_to_give_eur != '':
+            rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus_MNO(request)
 
-            if ready_to_give_rub != '': ready_to_give_rub + '\n'
-            if ready_to_give_usd != '': ready_to_give_usd + '\n'
+            if ready_to_give_rub != '' and rub[0] == '−':
+                ready_to_give_rub = rub + '\n'
+            else:
+                ready_to_give_rub = ''
 
-            reserve_to_ready = f'Отложенно к выдаче:\n{ready_to_give_rub} {ready_to_give_usd} {ready_to_give_eur}'
+            if ready_to_give_usd != '' and usd[0] == '−':
+                ready_to_give_usd = usd + '\n'
+            else:
+                ready_to_give_usd = ''
 
+            if ready_to_give_eur != '' and eur[0] == '−':
+                ready_to_give_eur = eur + '\n'
+            else:
+                ready_to_give_eur = ''
 
-        text = text + add_text
+            print(recived_chunk_rub)
+            print(rub)
+            if recived_chunk_rub != '' and rub[0] == '+':
+                recived_chunk_rub = rub + '\n'
+            else:
+                recived_chunk_rub = ''
+
+            if recived_chunk_usd != '' and usd[0] == '+':
+                recived_chunk_usd = usd + '\n'
+            else:
+                recived_chunk_usd = ''
+
+            if recived_chunk_eur != '' and eur[0] == '+':
+                recived_chunk_eur = eur + '\n'
+            else:
+                recived_chunk_eur = ''
+
+            if recived_chunk_rub == '' and recived_chunk_usd == '' and recived_chunk_eur == '':
+                recived_chunk = ''
+            else:
+                recived_chunk = f'Принято частично:\n{recived_chunk_rub}{recived_chunk_usd}{recived_chunk_eur}'
+
+            if ready_to_give_rub == '' and ready_to_give_usd == '' and ready_to_give_eur == '':
+                reserve_to_ready = ''
+            else:
+                reserve_to_ready = f'Отложенно к выдаче:\n{ready_to_give_rub}{ready_to_give_usd}{ready_to_give_eur}'
+
+        text = text + reserve_to_ready + recived_chunk
 
     return text
