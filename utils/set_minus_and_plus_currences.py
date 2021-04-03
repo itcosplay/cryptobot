@@ -1,3 +1,5 @@
+from data import all_emoji
+
 def set_minus_and_plus(request):
     '''
     Проверяет поля 5,6,7 заявки (FGH) и
@@ -13,12 +15,12 @@ def set_minus_and_plus(request):
             rub = int(rub)
             rub = f'{rub:,}'
             rub = rub.replace(',', '.')
-            rub = '−' + rub + '₽'
+            rub = all_emoji['минус'] + rub + '₽'
         else:
             rub = int(rub)
             rub = f'{rub:,}'
             rub = rub.replace(',', '.')
-            rub = '+' + rub + '₽'
+            rub = all_emoji['плюс'] + rub + '₽'
     else:
         rub = ''
 
@@ -30,12 +32,12 @@ def set_minus_and_plus(request):
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = '−' + usd + '$'
+            usd = all_emoji['минус'] + usd + '$'
         else:
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = '+' + usd + '$'
+            usd = all_emoji['плюс'] + usd + '$'
     else:
         usd = ''
 
@@ -47,12 +49,12 @@ def set_minus_and_plus(request):
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = '−' + eur + '€'
+            eur = all_emoji['минус'] + eur + '€'
         else:
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = '+' + eur + '€'
+            eur = all_emoji['плюс'] + eur + '€'
     else: eur = ''
 
     return rub, usd, eur
@@ -72,12 +74,12 @@ def set_minus_and_plus_MNO(request):
             rub = int(rub)
             rub = f'{rub:,}'
             rub = rub.replace(',', '.')
-            rub = '−' + rub + '₽'
+            rub = all_emoji['минус'] + rub + '₽'
         else:
             rub = int(rub)
             rub = f'{rub:,}'
             rub = rub.replace(',', '.')
-            rub = '+' + rub + '₽'
+            rub = all_emoji['плюс'] + rub + '₽'
     else:
         rub = ''
 
@@ -89,12 +91,12 @@ def set_minus_and_plus_MNO(request):
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = '−' + usd + '$'
+            usd = all_emoji['минус'] + usd + '$'
         else:
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = '+' + usd + '$'
+            usd = all_emoji['плюс'] + usd + '$'
     else:
         usd = ''
 
@@ -106,69 +108,12 @@ def set_minus_and_plus_MNO(request):
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = '−' + eur + '€'
+            eur = all_emoji['минус'] + eur + '€'
         else:
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = '+' + eur + '€'
+            eur = all_emoji['плюс'] + eur + '€'
     else: eur = ''
 
     return rub, usd, eur
-
-
-
-
-
-
-
-
-
-
-  # убираем минусы и при обмене - добавляем плюсы
-            # if request[3] == 'обмен':
-                # if not request[5] == '-':
-                #     rub = request[5]
-                #     rub = str(rub)
-                #     if rub[0] == '-': rub = rub + '₽  '
-                #     else: rub = '+' + rub + '₽  '
-                # else:
-                #     rub = ''
-
-                # if not request[6] == '-':
-                #     usd = request[6]
-                #     usd = str(usd)
-                #     if usd[0] == '-': usd = usd + '$  '
-                #     else: usd = '+' + usd + '$  '
-                # else:
-                #     usd = ''
-
-                # if not request[7] == '-':
-                #     eur = request[7]
-                #     eur = str(eur)
-                #     if eur[0] == '-': eur = eur + '€'
-                #     else: eur = '+' + eur + '€'
-            #     else:
-            #         eur = ''
-
-            # else:
-            #     if not request[5] == '-':
-            #         rub = request[5]
-            #         rub = str(rub)
-            #         if rub[0] == '-': rub = rub[1:] + '₽  '
-            #         else: rub = rub + '₽  '
-            #     else: rub = ''
-
-            #     if not request[6] == '-':
-            #         usd = request[6]
-            #         usd = str(usd)
-            #         if usd[0] == '-': usd = usd[1:] + '$  '
-            #         else: usd = usd + '$  '
-            #     else: usd = ''
-
-            #     if not request[7] == '-':
-            #         eur = request[7]
-            #         eur = str(eur)
-            #         if eur[0] == '-': eur = eur[1:] + '€'
-            #         else: eur = eur + '€'
-            #     else: eur = ''

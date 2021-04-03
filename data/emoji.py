@@ -16,6 +16,9 @@ warning = emojize(':exclamation:', use_aliases=True)
 permit_ready = emojize(':ticket:', use_aliases=True)
 permit_end = emojize(':white_check_mark:', use_aliases=True)
 
+plus = emojize(':heavy_plus_sign:', use_aliases=True)
+minus = emojize(':heavy_minus_sign:', use_aliases=True)
+
 buy = '🛍'
 transfer = '🤽🏼‍♂️'
 replenishment = '📈'
@@ -44,5 +47,7 @@ all_emoji = {
     'Перевод': transfer,
     'Пополнение': replenishment,
     'Снятие': cashoutatm,
-    'Другие': other
+    'Другие': other,
+    'плюс': plus,
+    'минус': minus
 }

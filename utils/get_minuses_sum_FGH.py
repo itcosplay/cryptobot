@@ -1,3 +1,5 @@
+from data import all_emoji
+
 def get_minus_FGH(request):
     '''
     Возвращает из полей 5,6,7 заявки (FGH)
@@ -12,7 +14,7 @@ def get_minus_FGH(request):
             rub = int(rub)
             rub = f'{rub:,}'
             rub = rub.replace(',', '.')
-            rub = '−' + rub + '₽'
+            rub = all_emoji['минус'] + rub + '₽'
         else:
             rub = ''
     else:
@@ -26,7 +28,7 @@ def get_minus_FGH(request):
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = '−' + usd + '$'
+            usd = all_emoji['минус'] + usd + '$'
         else:
             usd = ''
     else:
@@ -40,7 +42,7 @@ def get_minus_FGH(request):
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = '−' + eur + '€'
+            eur = all_emoji['минус'] + eur + '€'
         else:
             eur = ''
     else: eur = ''
