@@ -11,5 +11,6 @@ class Processing(StatesGroup):
     enter_chosen_request_menu = State()
     enter_reserve_to_ready_menu = State()
     enter_correct_sum_to_ready_menu = State()
+    enter_to_confirm_reserve_menu = State()
     message_to_delete = State()
     

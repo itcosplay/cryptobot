@@ -1,21 +1,14 @@
-from emoji import emojize
-
 from aiogram.types import Message, CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, bot, sheet
+from loader import dp, bot
 from states import Processing
 from utils import get_minus_FGH
 from utils import get_data_chosen_request
 from keyboards import cb_what_sum_correct
-from keyboards import create_kb_chosen_request
-from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
-from keyboards import create_kb_corrected_sum
-from keyboards import cb_corrected_sum
-from keyboards import create_kb_what_sum_correct
-from keyboards import create_kb_what_blue
 from keyboards import cb_what_sum_correct
+from keyboards import create_kb_confirm_reserve
 
 
 # from: enter_reserve_to_ready_menu.py
@@ -97,6 +90,7 @@ async def reserve_to_ready__sum_set(message:Message, state:FSMContext):
 
     if reserve_to_ready__currency == 'rub':
         pass
+        # тут откладывается колличество синих купюр
 
     else:
         chosen_request = data_state['chosen_request']
@@ -108,10 +102,14 @@ async def reserve_to_ready__sum_set(message:Message, state:FSMContext):
         elif reserve_to_ready__currency == 'eur':
             chosen_request[14] = 0 - reserve_to_ready__sum
 
+        await state.update_data(chosen_request=chosen_request)
+
         text = get_data_chosen_request(chosen_request)
         await message.answer (
-            text=text
+            text=text,
+            reply_markup=create_kb_confirm_reserve()
         )
+        await Processing.enter_to_confirm_reserve_menu.set()
 
         return
 
@@ -172,24 +170,24 @@ async def reserve_to_ready__sum_set(message:Message, state:FSMContext):
 #         request[11] = 'Готово к выдаче'
 #         request[16] = '0' # тут синих быть не должно
 
-#         try:
-#             result = await call.message.answer_sticker (
-#             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
-#             )
-#             sheet.replace_row(request)
+        # try:
+        #     result = await call.message.answer_sticker (
+        #     'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
+        #     )
+        #     sheet.replace_row(request)
 
-#         except Exception as e:
-#             print(e)
-#             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
-#             await call.message.answer_sticker (
-#                 'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
-#             )
-#             await call.message.answer (
-#                 text='Не удалось соединиться с гугл таблицей',
-#                 reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
-#             )
+        # except Exception as e:
+        #     print(e)
+        #     await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+        #     await call.message.answer_sticker (
+        #         'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+        #     )
+        #     await call.message.answer (
+        #         text='Не удалось соединиться с гугл таблицей',
+        #         reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        #     )
 
-#             return
+        #     return
 
 #         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 

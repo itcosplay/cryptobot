@@ -2,9 +2,9 @@ from utils import set_minus_and_plus_currences
 from data import all_emoji
 
 def get_data_chosen_request(request):
+    print('Функция get_data_chosen_request')
     print(request)
     
-
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]
@@ -55,34 +55,32 @@ def get_data_chosen_request(request):
         if ready_to_give_rub != '' or ready_to_give_usd != '' or ready_to_give_eur != '':
             rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus_MNO(request)
 
-            if ready_to_give_rub != '' and rub[0] == '−':
+            if ready_to_give_rub != '' and rub[0] == all_emoji['минус']:
                 ready_to_give_rub = rub + '\n'
             else:
                 ready_to_give_rub = ''
 
-            if ready_to_give_usd != '' and usd[0] == '−':
+            if ready_to_give_usd != '' and usd[0] == all_emoji['минус']:
                 ready_to_give_usd = usd + '\n'
             else:
                 ready_to_give_usd = ''
 
-            if ready_to_give_eur != '' and eur[0] == '−':
+            if ready_to_give_eur != '' and eur[0] == all_emoji['минус']:
                 ready_to_give_eur = eur + '\n'
             else:
                 ready_to_give_eur = ''
 
-            print(recived_chunk_rub)
-            print(rub)
-            if recived_chunk_rub != '' and rub[0] == '+':
+            if recived_chunk_rub != '' and rub[0] == all_emoji['плюс']:
                 recived_chunk_rub = rub + '\n'
             else:
                 recived_chunk_rub = ''
 
-            if recived_chunk_usd != '' and usd[0] == '+':
+            if recived_chunk_usd != '' and usd[0] == all_emoji['плюс']:
                 recived_chunk_usd = usd + '\n'
             else:
                 recived_chunk_usd = ''
 
-            if recived_chunk_eur != '' and eur[0] == '+':
+            if recived_chunk_eur != '' and eur[0] == all_emoji['плюс']:
                 recived_chunk_eur = eur + '\n'
             else:
                 recived_chunk_eur = ''

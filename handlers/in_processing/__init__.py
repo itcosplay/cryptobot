@@ -3,6 +3,7 @@ from .chosen_request import dp
 from .enter_chosen_request_menu import dp
 from .enter_reserve_to_ready_menu import dp
 from .enter_correct_sum_to_ready_menu import dp
+from .enter_to_confirm_reserve_menu import dp
 
 # from .confirm_cancel_request import dp
 # from .currenсy_and_sum_to_ready import dp

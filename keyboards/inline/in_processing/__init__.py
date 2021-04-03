@@ -24,3 +24,6 @@ from .blue_keyboard import cb_confirm_blue
 
 from .keyboards_correct_to_ready import create_kb_corrected_sum
 from .keyboards_correct_to_ready import cb_corrected_sum
+
+from .confirm_reserve_to_ready import create_kb_confirm_reserve
+from .confirm_reserve_to_ready import cb_confirm_reserve
