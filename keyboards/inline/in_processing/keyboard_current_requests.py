@@ -60,8 +60,10 @@ def create_kb_current_requests(processing_req, ready_req):
             # добавляем плюсы только для отображения
             rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
 
-            if usd != '': usd = ', ' + usd
-            if eur != '': eur = ', ' + eur
+            if (rub != '' and usd != '') or (rub != '' and eur != ''):
+                rub = rub + ', '
+            if usd != '' and eur != '':
+                usd = usd + ', '
             
             keyboard.add (
                 InlineKeyboardButton (

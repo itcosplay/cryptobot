@@ -4,9 +4,13 @@ from keyboards.inline import request_kb
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
+from data import sticker
 from loader import dp, bot
 from states import Processing
 from loader import sheet
+from utils import get_data_chosen_request
+from utils import notify_someone
+from utils import notify_in_group_chat
 from keyboards import cb_what_sum
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_what_sum_correct
@@ -43,42 +47,43 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'confirm_sum':
-        await call.answer()
-        await call.message.delete()
-
-        await state.update_data(chosen_sum_to_ready='with_current')
-
         data_state = await state.get_data()
-        request = data_state['chosen_request']
+        chosen_request = data_state['chosen_request']
         
-        ###########################
-        if request[5] != '0':
+        # Проверка для синих купюр если рублевая заявка
+        if chosen_request[5] != '0':
             await call.message.answer (
                 text='Сколько синих?',
                 reply_markup=create_kb_what_blue()
+                # > без синих
+                # > ввести колличество синих
+                # > вернуться к заявке
+                # > назад - главное меню
             )
             
-            await Processing.blue_amount.set()
+            await Processing.enter_to_blue_amount_menu.set()
             # to blue_amount_handlers.py
             return
-        ###########################
+        # Проверка для синих купюр если рублевая заявка
+        ###############################################
 
-        request[13] = request[6]
-        request[14] = request[7]
-        request[11] = 'Готово к выдаче'
-        request[16] = '0' # тут синих быть не должно
+        chosen_request[11] = 'Готово к выдаче'
+        chosen_request[10] = call.message.chat.username
+        chosen_request[13] = chosen_request[6]
+        chosen_request[14] = chosen_request[7]
+        chosen_request[16] = '0' # тут синих быть не должно
 
         try:
             result = await call.message.answer_sticker (
-            'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
+                sticker['go_to_table']
             )
-            sheet.replace_row(request)
+            sheet.replace_row(chosen_request)
 
         except Exception as e:
             print(e)
             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
             await call.message.answer_sticker (
-                'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+                sticker['not_connection']
             )
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей',
@@ -89,100 +94,55 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
-        data_state = await state.get_data()
-        request = data_state['chosen_request']
+        text = get_data_chosen_request(chosen_request)
 
-        id_request = request[2]
+        await notify_someone(text, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(text)
 
+        request_id = chosen_request[2]
         await call.message.answer (
-            text=f'Заявка #{id_request} отложена к выдаче.',
+            text=f'Заявка #N{request_id} отложена на выдачу',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
-
         await state.finish()
 
         return
 
     elif data_btn['type_btn'] == 'back_to_chosen_request':
-        await call.answer()
-        await call.message.delete()
+        data_state = await state.get_data()
+        current_requests = data_state['current_requests']
+        chosen_request = data_state['chosen_request']
+        request_id = chosen_request[2]
+
+        for request in current_requests:
+
+            if request_id == request[2]:
+                await state.update_data(chosen_request=request)
+
+                break
 
         data_state = await state.get_data()
-        request = data_state['chosen_request']
-
-        id_request = request[2]
-        date_request = request[0]
-        operation_type_request = request[3]
-
-        # убираем минусы и при обмене - добавляем плюсы
-        if request[3] == 'обмен':
-            if not request[5] == '0':
-                rub = request[5]
-                rub = str(rub)
-                if rub[0] == '-': rub = rub + '₽  '
-                else: rub = '+' + rub + '₽  '
-            else:
-                rub = ''
-
-            if not request[6] == '0':
-                usd = request[6]
-                usd = str(usd)
-                if usd[0] == '-': usd = usd + '$  '
-                else: usd = '+' + usd + '$  '
-            else:
-                usd = ''
-
-            if not request[7] == '0':
-                eur = request[7]
-                eur = str(eur)
-                if eur[0] == '-': eur = eur + '€'
-                else: eur = '+' + eur + '€'
-            else:
-                eur = ''
-
-        else:
-            if not request[5] == '0':
-                rub = request[5]
-                rub = str(rub)
-                if rub[0] == '-': rub = rub[1:] + '₽  '
-                else: rub = rub + '₽  '
-            else: rub = ''
-
-            if not request[6] == '0':
-                usd = request[6]
-                usd = str(usd)
-                if usd[0] == '-': usd = usd[1:] + '$  '
-                else: usd = usd + '$  '
-            else: usd = ''
-
-            if not request[7] == '0':
-                eur = request[7]
-                eur = str(eur)
-                if eur[0] == '-': eur = eur[1:] + '€'
-                else: eur = eur + '€'
-            else: eur = ''
+        chosen_request = data_state['chosen_request']
+        text = get_data_chosen_request(chosen_request)
 
         await call.message.answer (
-            'Заявка #{} от {}\n{}\n{}{}{}'.format (
-                id_request, 
-                date_request, 
-                operation_type_request,
-                rub,
-                usd,
-                eur
-            ),
+            text=text,
             reply_markup=create_kb_chosen_request(request)
-        )
-
-        await Processing.chosen_request_menu.set()
+            # > принято частично (для приема кэша, снятия с карт, обмена)
+            # > отложить на выдачу (для доставки, кэшина, обмена)
+            # > закрыть заявку
+            # > сообщение
+            # > изменить заявку
+            # > отменить заявку
+            # > назад главное меню
+        )   
+        await Processing.enter_chosen_request_menu.set()
 
         return
 
-    else: # type_btn = back_main_menu
-        await call.answer()
-        await call.message.delete()
+    elif data_btn['type_btn'] == 'back_main_menu':
         await call.message.answer (
-            text='===========\nВыход из меню "в работе". Используйте главное меню\n===========',
+            text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()

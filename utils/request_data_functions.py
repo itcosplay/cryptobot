@@ -1,6 +1,7 @@
 from utils import set_minus_and_plus_currences
 from data import all_emoji
 
+
 def get_data_chosen_request(request):
     print('Функция get_data_chosen_request')
     print(request)
@@ -15,6 +16,7 @@ def get_data_chosen_request(request):
     
     if rub != '': rub = rub + '\n'
     if usd != '': usd = usd + '\n'
+    if eur != '': eur = eur + '\n'
 
     text = f'Заявка {operation_type_emoji} #N{id_request} от {date_request} {request_status},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
 
@@ -57,7 +59,10 @@ def get_data_chosen_request(request):
             rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus_MNO(request)
 
             if ready_to_give_rub != '' and rub[0] == all_emoji['минус']:
-                ready_to_give_rub = rub + '\n'
+                if request[16] != '0':
+                    ready_to_give_rub = rub + ' ' + set_minus_and_plus_currences.get_blue(request) + '\n'
+                else:
+                    ready_to_give_rub = rub + '\n'
             else:
                 ready_to_give_rub = ''
 
@@ -72,7 +77,10 @@ def get_data_chosen_request(request):
                 ready_to_give_eur = ''
 
             if recived_chunk_rub != '' and rub[0] == all_emoji['плюс']:
-                recived_chunk_rub = rub + '\n'
+                if request[16] != '0':
+                    recived_chunk_rub = rub + ' ' + set_minus_and_plus_currences.get_blue(request) + '\n'
+                else:
+                    recived_chunk_rub = rub + '\n'
             else:
                 recived_chunk_rub = ''
 

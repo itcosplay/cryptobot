@@ -29,7 +29,7 @@ def create_kb_what_sum():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'назад',
+            text = 'вернуться к заявке',
             callback_data = cb_what_sum.new(type_btn='back_to_chosen_request')
         )
     )

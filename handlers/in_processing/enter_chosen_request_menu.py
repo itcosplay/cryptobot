@@ -34,9 +34,9 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     if data_btn['type_btn'] == 'to_ready_for_give':  
         data_state = await state.get_data()
-        request = data_state['chosen_request']
+        chosen_request = data_state['chosen_request']
 
-        rub, usd, eur = get_minus_FGH(request)
+        rub, usd, eur = get_minus_FGH(chosen_request)
 
         if not rub == '': rub = rub + '\n'
         if not usd == '': usd = usd + '\n'
@@ -44,6 +44,10 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await call.message.answer (
             text=f'Откладываем на выдачу:\n{rub}{usd}{eur}',
             reply_markup=create_kb_what_sum()
+            # > скорректировать
+            # > подтвердить
+            # > вернуться к заявке
+            # > назад - главное меню
         )
         await Processing.enter_reserve_to_ready_menu.set()
 

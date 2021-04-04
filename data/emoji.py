@@ -21,6 +21,8 @@ minus = emojize(':heavy_minus_sign:', use_aliases=True)
 
 persone = emojize(':bust_in_silhouette:', use_aliases=True)
 
+blue = emojize(':large_blue_circle:', use_aliases=True)
+
 buy = '🛍'
 transfer = '🤽🏼‍♂️'
 replenishment = '📈'
@@ -52,5 +54,6 @@ all_emoji = {
     'Другие': other,
     'плюс': plus,
     'минус': minus,
-    'персона': persone
+    'персона': persone,
+    'синих': blue
 }

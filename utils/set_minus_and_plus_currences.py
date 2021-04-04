@@ -1,5 +1,6 @@
 from data import all_emoji
 
+
 def set_minus_and_plus(request):
     '''
     Проверяет поля 5,6,7 заявки (FGH) и
@@ -59,6 +60,7 @@ def set_minus_and_plus(request):
 
     return rub, usd, eur
 
+
 def set_minus_and_plus_MNO(request):
     '''
     Проверяет поля 12,13,14 заявки (MNO) и
@@ -117,3 +119,28 @@ def set_minus_and_plus_MNO(request):
     else: eur = ''
 
     return rub, usd, eur
+
+
+def get_blue(request):
+    '''
+    Проверяет поле 16 заявки (Q) и
+    возвращает значения с плюсом или минусом
+    '''
+    if not request[16] == '0':
+        blue = request[16]
+        blue = str(blue)
+        if blue[0] == '-':
+            blue = blue[1:]
+            blue = int(blue)
+            blue = f'{blue:,}'
+            blue = blue.replace(',', '.')
+            blue = all_emoji['синих'] + blue + '₽'
+        else:
+            blue = int(blue)
+            blue = f'{blue:,}'
+            blue = blue.replace(',', '.')
+            blue = all_emoji['синих'] + blue + '₽'
+    else:
+        blue = ''
+
+    return blue

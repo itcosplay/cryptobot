@@ -56,6 +56,14 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
         # > отменить заявку
         # > назад главное меню
     )
+    # сбрасываем имя пользователя чтобы не отображалось
+    data_state = await state.get_data()
+    chosen_request = data_state['chosen_request']
+    chosen_request[10] = '0'
+    await state.update_data(chosen_request=chosen_request)
+    # сбрасываем имя пользователя чтобы не отображалось
+    ###################################################
+
     await Processing.enter_chosen_request_menu.set()
 
     return
