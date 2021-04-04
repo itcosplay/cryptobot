@@ -9,13 +9,14 @@ def get_data_chosen_request(request):
     date_request = request[0]
     operation_type_request = request[3]
     operation_type_emoji = all_emoji[operation_type_request]
+    request_status = all_emoji[request[11]]
 
     rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
     
     if rub != '': rub = rub + '\n'
     if usd != '': usd = usd + '\n'
 
-    text = f'Заявка {operation_type_emoji} #N{id_request} от {date_request},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
+    text = f'Заявка {operation_type_emoji} #N{id_request} от {date_request} {request_status},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
 
     if request[12] != '0' or request[13] != '0' or request[14] != '0':
         ready_to_give_rub = ''
@@ -96,5 +97,9 @@ def get_data_chosen_request(request):
                 reserve_to_ready = f'Отложенно к выдаче:\n{ready_to_give_rub}{ready_to_give_usd}{ready_to_give_eur}'
 
         text = text + reserve_to_ready + recived_chunk
+
+    if request[10] != '0':
+        persone = all_emoji['персона']
+        text = text + f'{persone} {request[10]}'
 
     return text

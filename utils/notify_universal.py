@@ -1,7 +1,7 @@
 async def notify_someone(text, *args):
     '''
     *args - statuses of users. For ex.:
-    notify_someone(text, admin, changer, operator, secretary)
+    notify_someone(text, 'admin', 'changer', 'operator', 'secretary')
     '''
     from loader import dp, db
     from data.config import super_admins

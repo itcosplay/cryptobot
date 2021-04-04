@@ -1,10 +1,13 @@
+from os import stat
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
 from data import sticker
 from loader import dp, sheet, bot
 from states import Processing
-from utils import get_data_chosen_request, request_data_functions
+from utils import get_data_chosen_request
+from utils import notify_someone
+from utils import notify_in_group_chat
 from keyboards import cb_confirm_reserve
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
@@ -29,6 +32,7 @@ async def confirm_reserve_menu_handler(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
         chosen_request[11] = 'Готово к выдаче'
+        chosen_request[10] = call.message.chat.username
 
         try:
             result = await call.message.answer_sticker (
@@ -53,10 +57,15 @@ async def confirm_reserve_menu_handler(call:CallbackQuery, state:FSMContext):
 
         text = get_data_chosen_request(chosen_request)
 
+        await notify_someone(text, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(text)
+
+        request_id = chosen_request[2]
         await call.message.answer (
-            text=text,
+            text=f'Заявка #N{request_id} отложена на выдачу',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+        await state.finish()
 
         return
 

@@ -14,6 +14,8 @@ super_admins = [
     59677456,
 ]
 
+group_chat = '-1001185491120'
+
 
 
 # ADMIN_ID = os.getenv('ADMIN_ID')
