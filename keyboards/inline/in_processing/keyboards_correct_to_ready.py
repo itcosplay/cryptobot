@@ -1,4 +1,4 @@
-from emoji import emojize
+from data import all_emoji
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -7,7 +7,7 @@ from aiogram.utils.callback_data import CallbackData
 
 cb_corrected_sum = CallbackData('cb_cors', 'type_btn')
 def create_kb_corrected_sum():
-    emo_snail = emojize(':snail:', use_aliases=True)
+    emo_snail = all_emoji['back__main_menu']
     keyboard = InlineKeyboardMarkup()
 
     keyboard.add (

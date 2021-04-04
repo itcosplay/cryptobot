@@ -32,7 +32,15 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     data_btn = cb_chosen_requests.parse(call.data)
 
-    if data_btn['type_btn'] == 'to_ready_for_give':  
+    if data_btn['type_btn'] == 'to_ready_for_give':
+        # сбрасываем имя пользователя в текущей заявке
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+        chosen_request[10] = '0'
+        await state.update_data(chosen_request=chosen_request)
+        # сбрасываем имя пользователя чтобы не отображалось
+        ###################################################
+
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
 
@@ -42,7 +50,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         if not usd == '': usd = usd + '\n'
 
         await call.message.answer (
-            text=f'Откладываем на выдачу:\n{rub}{usd}{eur}',
+            text=f'Откладываем на выдачу полные суммы по заявке:\n{rub}{usd}{eur}\nили корректировать суммы?',
             reply_markup=create_kb_what_sum()
             # > скорректировать
             # > подтвердить

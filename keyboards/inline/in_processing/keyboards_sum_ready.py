@@ -1,5 +1,5 @@
 
-from emoji import emojize
+from data import all_emoji
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
@@ -49,7 +49,7 @@ def create_kb_what_sum():
 
 cb_choose_currency = CallbackData('anprix', 'curr', 'type_btn')
 def create_kb_choose_currency_processing(request):
-    emo_snail = emojize(':snail:', use_aliases=True)
+    emo_snail = all_emoji['back__main_menu']
 
     # добавляет плюсы и оставляет минусы если операция - обмен
     if request[3] == 'обмен':
@@ -176,7 +176,7 @@ def create_kb_what_sum_correct(request):
             )
         )
 
-    emo_snail = emojize(':snail:', use_aliases=True)
+    emo_snail = all_emoji['back__main_menu']
     keyboard.add (
         InlineKeyboardButton (
             text=f'назад {emo_snail} главное меню',

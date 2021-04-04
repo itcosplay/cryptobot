@@ -1,4 +1,5 @@
 from emoji import emojize
+from data import all_emoji
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -9,7 +10,7 @@ cb_confirm = CallbackData('cb_cm', 'type_btn')
 
 
 def create_kb_confirm():
-    emo_snail = emojize(':snail:', use_aliases=True)
+    emo_snail = all_emoji['back__main_menu']
     keyboard = InlineKeyboardMarkup()
     keyboard.add (
         InlineKeyboardButton (

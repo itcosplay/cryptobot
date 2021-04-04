@@ -134,12 +134,12 @@ def get_blue(request):
             blue = int(blue)
             blue = f'{blue:,}'
             blue = blue.replace(',', '.')
-            blue = all_emoji['синих'] + blue + '₽'
+            blue = all_emoji['синих'] + blue
         else:
             blue = int(blue)
             blue = f'{blue:,}'
             blue = blue.replace(',', '.')
-            blue = all_emoji['синих'] + blue + '₽'
+            blue = all_emoji['синих'] + blue
     else:
         blue = ''
 

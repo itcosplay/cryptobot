@@ -39,7 +39,7 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         request = data_state['chosen_request']
 
         await call.message.answer (
-            text='Выберите сумму',
+            text='Выберите одну из исходных сумм по заявке',
             reply_markup=create_kb_what_sum_correct(request)
         )
         await Processing.enter_correct_sum_to_ready_menu.set()
@@ -51,7 +51,16 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         chosen_request = data_state['chosen_request']
         
         # Проверка для синих купюр если рублевая заявка
-        if chosen_request[5] != '0':
+        if chosen_request[5][0] == '-':
+            chosen_request[12] = chosen_request[5]
+
+            if chosen_request[6][0] == '-':
+                chosen_request[13] = chosen_request[6]
+        
+            if chosen_request[7][0] == '-':
+                chosen_request[14] = chosen_request[7]
+
+            await state.update_data(chosen_request=chosen_request)
             await call.message.answer (
                 text='Сколько синих?',
                 reply_markup=create_kb_what_blue()
@@ -69,8 +78,13 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         chosen_request[11] = 'Готово к выдаче'
         chosen_request[10] = call.message.chat.username
-        chosen_request[13] = chosen_request[6]
-        chosen_request[14] = chosen_request[7]
+
+        if chosen_request[6][0] == '-':
+            chosen_request[13] = chosen_request[6]
+        
+        if chosen_request[7][0] == '-':
+            chosen_request[14] = chosen_request[7]
+
         chosen_request[16] = '0' # тут синих быть не должно
 
         try:
