@@ -7,6 +7,8 @@ class Processing(StatesGroup):
     reserve_to_ready__currency = State()
     reserve_to_ready__sum = State()
     blue_amount = State()
+    chunk_recive__currency = State()
+    chunk_recive__sum = State()
 
     enter_chosen_request_menu = State()
     enter_reserve_to_ready_menu = State()
@@ -15,4 +17,9 @@ class Processing(StatesGroup):
     enter_to_blue_amount_menu = State()
     enter_to_confirm_blue_menu = State()
     message_to_delete = State()
+
+    enter_correct_sum_chunk_menu = State()
+    enter_to_confirm_chunk_menu = State()
+    enter_blue_amount_chunk_menu = State()
+    
     

@@ -25,6 +25,7 @@ from .inline import create_kb_who_waste
 from .inline import create_kb_yes_no_note
 from .inline import create_kb_for_what_waste
 from .inline import create_kb_confirm_reserve
+from .inline import create_kb_sum_correct_chunk
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -41,3 +42,4 @@ from .inline import cb_who_waste
 from .inline import cb_yes_no_note
 from .inline import cb_for_what_waste
 from .inline import cb_confirm_reserve
+from .inline import cb_sum_correct_chunk

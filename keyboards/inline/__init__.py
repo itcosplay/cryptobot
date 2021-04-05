@@ -18,6 +18,7 @@ from .in_processing import create_kb_what_blue
 from .in_processing import create_kb_confirm_blue
 from .in_processing import create_kb_corrected_sum
 from .in_processing import create_kb_confirm_reserve
+from .in_processing import create_kb_sum_correct_chunk
 
 from .in_processing import cb_current_requests
 from .in_processing import cb_chosen_requests
@@ -29,6 +30,7 @@ from .in_processing import cb_what_bluе
 from .in_processing import cb_confirm_blue
 from .in_processing import cb_corrected_sum
 from .in_processing import cb_confirm_reserve
+from .in_processing import cb_sum_correct_chunk
 
 from .permits import create_kb_all_permits
 from .permits import create_kb_set_status_permit

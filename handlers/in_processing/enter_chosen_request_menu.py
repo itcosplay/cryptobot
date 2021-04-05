@@ -6,12 +6,15 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
+from utils import get_plus_FGH
 from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
 from keyboards import create_kb_choose_currency_processing
 from keyboards import create_kb_confirm
+from keyboards import create_kb_what_sum_correct
+from keyboards import create_kb_sum_correct_chunk
 
 
 # <--- show_chosen_request.py --->
@@ -62,7 +65,28 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'recived_chunck':
-        pass
+        # сбрасываем имя пользователя в текущей заявке
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+        chosen_request[10] = '0'
+        await state.update_data(chosen_request=chosen_request)
+        # сбрасываем имя пользователя чтобы не отображалось
+        ###################################################
+
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+
+        await call.message.answer (
+            text='Какая из исходных сумм по заявке принята частично?',
+            reply_markup=create_kb_sum_correct_chunk(chosen_request)
+            # > rub
+            # > usd
+            # > eur
+            # > назад - главное меню
+        )
+        await Processing.enter_correct_sum_chunk_menu.set()
+
+        return
 
     elif data_btn['type_btn'] == 'close_request':
         # суммы в M(12),N(13),O(14) копируются в F(5),G(6),H(7)
