@@ -35,7 +35,7 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'without_blue':
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
-        chosen_request[12] = chosen_request[5]
+        # chosen_request[12] = chosen_request[5]
         chosen_request[10] = '0'
         await state.update_data(chosen_request=chosen_request)
 
@@ -57,7 +57,7 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
             'Введите колличество синих'
         )
         await state.update_data(message_to_delete=result.message_id)
-        await Processing.blue_amount.set()
+        await Processing.blue_amount_chunk.set()
 
         return
     
@@ -103,7 +103,7 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         return
 
 
-@dp.message_handler(state=Processing.blue_amount)
+@dp.message_handler(state=Processing.blue_amount_chunk)
 async def set_blue_amount(message:Message, state:FSMContext):
     data_state = await state.get_data()
     await bot.delete_message (
@@ -117,10 +117,8 @@ async def set_blue_amount(message:Message, state:FSMContext):
 
     try:
         chosen_request = data_state['chosen_request']
-        print('REQUEST IN SET BLUE AMOUNT')
-        print(chosen_request)
-        blue_amount = int(message.text)
-        blue_amount = str(blue_amount)
+        blue_amount_chunk = int(message.text)
+        blue_amount_chunk = str(blue_amount_chunk)
         
     except Exception as e:
         print(e)
@@ -136,9 +134,9 @@ async def set_blue_amount(message:Message, state:FSMContext):
     chosen_request = data_state['chosen_request']
     
     if chosen_request[5][0] == '-':
-        blue_amount = '-' + blue_amount
+        blue_amount_chunk = '-' + blue_amount_chunk
 
-    chosen_request[16] = blue_amount
+    chosen_request[16] = blue_amount_chunk
     await state.update_data(chosen_request=chosen_request)
 
     text = get_data_chosen_request(chosen_request)
@@ -151,12 +149,12 @@ async def set_blue_amount(message:Message, state:FSMContext):
         # > назад - главное меню
     )
 
-    await Processing.enter_to_confirm_blue_menu.set()
+    await Processing.enter_to_confirm_blue_menu_chunk.set()
 
     return
 
 
-@dp.callback_query_handler(state=Processing.enter_to_confirm_blue_menu)
+@dp.callback_query_handler(state=Processing.enter_to_confirm_blue_menu_chunk)
 async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
     '''
     Обрабатывает кнопки из keyboards/blue_keyboard.py
@@ -166,7 +164,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
     '''
     await call.answer()
     await call.message.delete()
-    await state.update_data(enter_to_confirm_blue_menu='+')
+    await state.update_data(enter_to_confirm_blue_menu_chunk='+')
 
     data_btn = cb_confirm_blue.parse(call.data)
 
@@ -203,7 +201,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
 
         request_id = chosen_request[2]
         await call.message.answer (
-            text=f'Заявка #N{request_id} отложена на выдачу',
+            text=f'Принято частично по заявке #N{request_id}',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()

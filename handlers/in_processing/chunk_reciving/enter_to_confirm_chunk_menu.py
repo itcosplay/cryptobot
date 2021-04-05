@@ -7,7 +7,7 @@ from states import Processing
 from utils import get_data_chosen_request
 from utils import notify_someone
 from utils import notify_in_group_chat
-from keyboards import cb_confirm_reserve
+from keyboards import cb_confirm_blue
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
 
@@ -24,7 +24,7 @@ async def confirm_reserve_menu_handler(call:CallbackQuery, state:FSMContext):
     await call.message.delete()
     await state.update_data(enter_to_confirm_chunk_menu='+')
 
-    data_btn = cb_confirm_reserve.parse(call.data)
+    data_btn = cb_confirm_blue.parse(call.data)
 
     if data_btn['type_btn'] == 'confirm':
         data_state = await state.get_data()

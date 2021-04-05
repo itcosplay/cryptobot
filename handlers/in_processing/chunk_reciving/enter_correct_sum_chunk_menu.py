@@ -1,3 +1,4 @@
+from keyboards.inline.in_processing.blue_keyboard import create_kb_confirm_blue
 from aiogram.types import Message
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
@@ -124,7 +125,7 @@ async def recive_chunk__sum_set(message:Message, state:FSMContext):
 
         await message.answer (
             text=text,
-            reply_markup=create_kb_confirm_reserve()
+            reply_markup=create_kb_confirm_blue()
         )
         await Processing.enter_to_confirm_chunk_menu.set()
 

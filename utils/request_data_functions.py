@@ -27,6 +27,8 @@ def get_data_chosen_request(request):
         recived_chunk_rub = ''
         recived_chunk_usd = ''
         recived_chunk_eur = ''
+        # reserve_to_ready = ''
+        # recived_chunk = ''
 
         if request[12] != '0':
             value = str(request[12])
@@ -55,7 +57,7 @@ def get_data_chosen_request(request):
                 else:
                     recived_chunk_eur = value + '€'
 
-        if ready_to_give_rub != '' or ready_to_give_usd != '' or ready_to_give_eur != '':
+        if ready_to_give_rub != '' or ready_to_give_usd != '' or ready_to_give_eur != '' or recived_chunk_rub != '' or recived_chunk_usd != '' or recived_chunk_usd != '':
             rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus_MNO(request)
 
             if ready_to_give_rub != '' and rub[0] == all_emoji['минус']:
