@@ -14,7 +14,7 @@ from .inline import create_kb_chosen_request
 from .inline import create_kb_what_sum
 from .inline import create_kb_choose_currency_processing
 from .inline import create_kb_choose_date
-from .inline import create_kb_confirm
+from .inline import create_kb_confirm_close
 from .inline import create_kb_what_sum_correct
 from .inline import create_kb_what_blue
 from .inline import create_kb_confirm_blue
@@ -26,12 +26,13 @@ from .inline import create_kb_yes_no_note
 from .inline import create_kb_for_what_waste
 from .inline import create_kb_confirm_reserve
 from .inline import create_kb_sum_correct_chunk
+from .inline import create_kb_message_keyboard
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
 from .inline import cb_what_sum
 from .inline import cb_choose_currency
-from .inline import cb_confirm
+from .inline import cb_confirm_close
 from .inline import cb_what_sum_correct
 from .inline import cb_what_bluе
 from .inline import cb_confirm_blue
@@ -43,3 +44,4 @@ from .inline import cb_yes_no_note
 from .inline import cb_for_what_waste
 from .inline import cb_confirm_reserve
 from .inline import cb_sum_correct_chunk
+from .inline import cb_message_keyboard

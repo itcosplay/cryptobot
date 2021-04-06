@@ -7,14 +7,17 @@ from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
 from utils import get_plus_FGH
+from utils import get_text_before_close_request
+from utils import get_text_message_to
 from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
 from keyboards import create_kb_choose_currency_processing
-from keyboards import create_kb_confirm
+from keyboards import create_kb_confirm_close
 from keyboards import create_kb_what_sum_correct
 from keyboards import create_kb_sum_correct_chunk
+from keyboards import create_kb_message_keyboard
 
 
 # <--- show_chosen_request.py --->
@@ -94,77 +97,29 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         # L(11) - "Исполнено"
         # P(15) - Дата и время исполнения
         # K(10) - Исполнитель - имя исполнителя из телеги
-
         data_state = await state.get_data()
-        request = data_state['chosen_request']
+        chosen_request = data_state['chosen_request']
 
-        comment = request[8]
-
-        if not request[12] == request[5]:
-            old_sum_rub = '(' + str(request[5]) + 'RUB' + ')'
-            request[5] = request [12]
-        else:
-            old_sum_rub = ''
-
-        if not request[13] == request[6]:
-            old_sum_usd = '(' + str(request[6]) + 'USD' + ')'
-            request[6] = request [13]
-        else:
-            old_sum_usd = ''
-
-        if not request[14] == request[7]:
-            old_sum_eur = '(' + str(request[7]) + 'EUR' + ')'
-            request[7] = request [14]
-        else:
-            old_sum_eur = ''
-
-        if not old_sum_rub == '' or \
-            not old_sum_usd == '' or \
-            not old_sum_eur == '':
-            comment = comment + \
-                '>>старые суммы перед закрытием: ' + \
-                old_sum_rub + \
-                old_sum_usd + \
-                old_sum_eur + \
-                '<<'
-        else:
-            pass
-
-        
-        request[11] = 'Исполнено'
-
-        current_time = datetime.now().strftime("%H:%M %d-%m")
-        request[15] = current_time
-
-        name = call.from_user.username
-        request[10] = name
-
-        result = await call.message.answer_sticker (
-            'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
-        )
-
-        try:
-            sheet.replace_row(request)
-
-        except Exception as e:
-            print(e)
-            await call.message.answer_sticker (
-                'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
-            )
-            await call.message.answer (
-                text='Не удалось соединиться с гугл таблицей...',
-                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
-            )
-
-            return
-        
-        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+        text = get_text_before_close_request(chosen_request)
 
         await call.message.answer (
-            f'Заявка {request[2]} закрыта.',
-            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            text=text,
+            reply_markup=create_kb_confirm_close()
         )
-        await state.finish()
+
+        return
+
+    elif data_btn['type_btn'] == 'message_to':
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+
+        text = get_text_message_to(chosen_request)
+
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_message_keyboard()
+        )
+        await Processing.message_processing.set()
 
         return
 

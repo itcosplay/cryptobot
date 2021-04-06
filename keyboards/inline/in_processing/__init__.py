@@ -10,8 +10,8 @@ from .keyboards_sum_ready import cb_what_sum
 from .keyboards_sum_ready import create_kb_choose_currency_processing
 from .keyboards_sum_ready import cb_choose_currency
 
-from .confirm_keyboard import create_kb_confirm
-from .confirm_keyboard import cb_confirm
+from .confirm_keyboard import create_kb_confirm_close
+from .confirm_keyboard import cb_confirm_close
 
 from .keyboards_sum_ready import create_kb_what_sum_correct
 from .keyboards_sum_ready import cb_what_sum_correct
@@ -30,3 +30,6 @@ from .keyboards_correct_to_ready import cb_corrected_sum
 
 from .confirm_reserve_to_ready import create_kb_confirm_reserve
 from .confirm_reserve_to_ready import cb_confirm_reserve
+
+from .message_keyboards import create_kb_message_keyboard
+from .message_keyboards import cb_message_keyboard
