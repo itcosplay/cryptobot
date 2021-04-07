@@ -14,7 +14,7 @@ from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
 from keyboards import create_kb_choose_currency_processing
-from keyboards import create_kb_confirm_close
+from keyboards import create_kb_confirm_close_request
 from keyboards import create_kb_what_sum_correct
 from keyboards import create_kb_sum_correct_chunk
 from keyboards import create_kb_message_keyboard
@@ -92,8 +92,6 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'close_request':
-        # суммы в M(12),N(13),O(14) копируются в F(5),G(6),H(7)
-        # если MNO!=FGH добавить в коменты ">>старые суммы перед закрытием: (F)(G)(H)<<"
         # L(11) - "Исполнено"
         # P(15) - Дата и время исполнения
         # K(10) - Исполнитель - имя исполнителя из телеги
@@ -104,8 +102,14 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=text,
-            reply_markup=create_kb_confirm_close()
+            reply_markup=create_kb_confirm_close_request(chosen_request)
+            # > подтверждаю!
+            # > закрыть с другой суммой
+            # > скорректировать синие
+            # > вернуться к заявке
+            # > назад - главное меню
         )
+        await Processing.close_request_menu.set()
 
         return
 

@@ -138,81 +138,37 @@ def get_text_before_close_request(request):
     Возвращает текст сообщения перед
     закрытием заявки
     '''
+    from utils import get_values_FGH
+
     request_id = request[2]
     request_date = request[0] 
     request_type_emoji = all_emoji[request[3]]
 
-    rub = ''
-    usd = ''
-    eur = ''
+    rub, usd, eur = get_values_FGH(request)
+    blue = set_minus_and_plus_currences.get_blue(request)
 
-    if request[12] != '0':
-        rub = request[12]
-        rub = int(rub)
-        rub = f'{rub:,}'
-        rub = rub.replace(',', '.')
-        rub = str(rub)
-
-        if rub[0] == '-': rub = all_emoji['минус'] + rub + '₽' + '\n'
-        else: rub = all_emoji['плюс'] + rub + '₽' + '\n'
-
-    else:
-        if request[5] != '0':
-            rub = request[5]
-            rub = int(rub)
-            rub = f'{rub:,}'
-            rub = rub.replace(',', '.')
-            rub = str(rub)
-
-            if rub[0] == '-': rub = all_emoji['минус'] + rub + '₽' + '\n'
-            else: rub = all_emoji['плюс'] + rub + '₽' + '\n'
-
-    if request[13] != '0':
-        usd = request[13]
-        usd = int(usd)
-        usd = f'{usd:,}'
-        usd = usd.replace(',', '.')
-        usd = str(usd)
-
-        if usd[0] == '-': usd = all_emoji['минус'] + usd + '$' + '\n'
-        else: usd = all_emoji['плюс'] + usd + '$' + '\n'
-
-    else:
-        if request[6] != '0':
-            usd = request[6]
-            usd = int(usd)
-            usd = f'{usd:,}'
-            usd = usd.replace(',', '.')
-            usd = str(usd)
-
-            if usd[0] == '-': usd = all_emoji['минус'] + usd + '$' + '\n'
-            else: usd = all_emoji['плюс'] + usd + '$' + '\n'
-
-    if request[14] != '0':
-        eur = request[14]
-        eur = int(eur)
-        eur = f'{eur:,}'
-        eur = eur.replace(',', '.')
-        eur = str(eur)
-
-        if eur[0] == '-': eur = all_emoji['минус'] + eur + '€'
-        else: eur = all_emoji['плюс'] + eur + '€'
-
-    else:
-        if request[7] != 0:
-            eur = request[7]
-            eur = int(eur)
-            eur = f'{eur:,}'
-            eur = eur.replace(',', '.')
-            eur = str(eur)
-
-            if eur[0] == '-': eur = all_emoji['минус'] + eur + '€'
-            else: eur = all_emoji['плюс'] + eur + '€'
-
-    text = f'Заявка {request_type_emoji} #N{request_id} от {request_date} будет закрыта с суммами:\n{rub}{usd}{eur}\nПодтверждаете?'
+    if rub != '': rub = rub + blue + '\n'
+    if usd != '': usd = usd + '\n'
+    if eur != '': eur = eur + '\n'
+    
+    text = f'Заявка {request_type_emoji} #N{request_id} от {request_date} будет закрыта с суммами:\n{rub}{usd}{eur}Подтверждаете?'
 
     return text
 
+
+def get_text_after_close_request(request):
+    '''
+    Возвращает текст сообщения оповещния 
+    и информации по закрытой заявке
+    '''
+    request_type_emoji = all_emoji[request[3]]
+    request_id = request[2]
+    request_date = request[0]
+    persone = all_emoji['персона']
+
+    text = f'Заявка {request_type_emoji} #N{request_id} от {request_date} ИСПОЛНЕННА\n{persone} {request[10]}'
+
+    return text
 
 def get_text_message_to(request):
     request_id = request[2]

@@ -6,8 +6,11 @@ class Processing(StatesGroup):
     chosen_request = State()
     reserve_to_ready__currency = State()
     reserve_to_ready__sum = State()
+    close__currency = State()
+    close__sum = State()
     blue_amount = State()
     blue_amount_chunk = State()
+    blue_amount_close = State()
     chunk_recive__currency = State()
     chunk_recive__sum = State()
     other_message = State()
@@ -27,4 +30,5 @@ class Processing(StatesGroup):
 
     message_processing = State()
     
-    
+    close_request_menu = State()
+    which_sum_correct_menu = State()

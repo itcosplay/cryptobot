@@ -33,3 +33,9 @@ from .confirm_reserve_to_ready import cb_confirm_reserve
 
 from .message_keyboards import create_kb_message_keyboard
 from .message_keyboards import cb_message_keyboard
+
+from .keyboards_close_request import create_kb_confirm_close_request
+from .keyboards_close_request import cb_confirm_close_request
+
+from .keyboards_close_request import create_kb_which_sum_close
+from .keyboards_close_request import cb_which_sum_close
