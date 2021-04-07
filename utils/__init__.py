@@ -16,6 +16,7 @@ from .notify_universal import notify_someone
 from .get_minuses_sum_FGH import get_minus_FGH
 from .get_values_FGH_MNO import get_plus_FGH
 from .get_values_FGH_MNO import get_values_FGH
+from .get_values_FGH_MNO import get_single_value
 from .notify_chat import notify_in_group_chat
 
 

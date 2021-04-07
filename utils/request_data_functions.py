@@ -156,19 +156,76 @@ def get_text_before_close_request(request):
     return text
 
 
-def get_text_after_close_request(request):
+def get_text_after_close_request(request, initial_rub, initial_usd, initial_eur):
     '''
     Возвращает текст сообщения оповещния 
     и информации по закрытой заявке
     '''
+    from utils import get_single_value
+    from utils import get_blue
+
+    print('INITIAL SUMM:')
+    print(initial_rub)
+    print(initial_usd)
+    print(initial_eur)
+    print('SUM ON CLOSE:')
+    print(request[5])
+    print(request[6])
+    print(request[7])
+    print(request)
     request_type_emoji = all_emoji[request[3]]
     request_id = request[2]
-    request_date = request[0]
     persone = all_emoji['персона']
 
-    text = f'Заявка {request_type_emoji} #N{request_id} от {request_date} ИСПОЛНЕННА\n{persone} {request[10]}'
+    text = f'✅ ✅ ✅\n{request_type_emoji} #N{request_id}\n'
+
+    if initial_rub == request[5] and initial_usd == request[6] and initial_eur == request[7]:
+        if initial_rub != '0':
+            initial_rub = get_single_value(initial_rub, 'rub')
+            blue = get_blue(request)
+            text = text + f'{initial_rub}{blue}\n'
+        if initial_usd != '0':
+            initial_usd = get_single_value(initial_usd, 'usd')
+            text = text + f'{initial_usd}\n'
+        if initial_eur != '0':
+            initial_eur = get_single_value(initial_eur, 'eur')
+            text = text + f'{initial_eur}\n'
+
+        text = text + f'{persone}{request[10]}'
+
+        return text
+
+    if initial_rub != request[5]:
+        initial_rub = get_single_value(initial_rub, 'rub')
+        final_rub = get_single_value(request[5], 'rub')
+        blue = get_blue(request)
+        text = text + f'{initial_rub}👉{final_rub}{blue}\n'
+    elif initial_rub == request[5] and initial_rub != '0':
+        initial_rub = get_single_value(initial_rub, 'rub')
+        blue = get_blue(request)
+        text = text + f'{initial_rub}{blue}\n'
+
+
+    if initial_usd != request[6]:
+        initial_usd = get_single_value(initial_usd, 'usd')
+        final_usd = get_single_value(request[6], 'usd')
+        text = text + f'{initial_usd}👉{final_usd}\n'
+    elif initial_usd == request[6] and initial_usd != '0':
+        initial_usd = get_single_value(initial_usd, 'usd')
+        text = text + f'{initial_usd}\n'
+
+    if initial_eur != request[7]:
+        initial_eur = get_single_value(initial_eur, 'eur')
+        final_eur = get_single_value(request[7], 'eur')
+        text = text + f'{initial_eur}👉{final_eur}\n'
+    elif initial_eur == request[7] and initial_eur != '0':
+        initial_eur = get_single_value(initial_eur, 'eur')
+        text = text + f'{initial_eur}\n'
+
+    text = text + f'{persone}{request[10]}\n'
 
     return text
+
 
 def get_text_message_to(request):
     request_id = request[2]

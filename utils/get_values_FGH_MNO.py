@@ -106,3 +106,28 @@ def get_values_FGH(request):
         eur = ''
 
     return rub, usd, eur
+
+
+def get_single_value(value:str, currency:str):
+    '''
+    ('-234', 'usd')
+    Возвращает из красивое значение
+    со знаком минус или плюс и валютой
+    '''
+    if value[0] == '-':
+        value = value[1:]
+        value = int(value)
+        value = f'{value:,}'
+        value = value.replace(',', '.')
+        value = all_emoji['минус'] + value
+    else:
+        value = int(value)
+        value = f'{value:,}'
+        value = value.replace(',', '.')
+        value = all_emoji['плюс'] + value
+
+    if currency == 'rub': value = value + '₽'
+    if currency == 'usd': value = value + '$'
+    if currency == 'eur': value = value + '€'
+
+    return value

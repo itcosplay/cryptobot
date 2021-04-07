@@ -1,25 +1,20 @@
 from datetime import datetime
 
-from utils.notify_chat import notify_in_group_chat
-from utils.notify_universal import notify_someone
-from emoji import emojize
-
 from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext
 
-from data import sticker
-from loader import dp, bot
+from loader import dp, bot, sheet
 from states import Processing
-from loader import sheet
 from utils import get_data_chosen_request
 from utils import get_text_before_close_request
+from utils import get_text_after_close_request
+from utils import notify_someone
+from utils import notify_in_group_chat
 from keyboards import create_kb_coustom_main_menu
-from keyboards import cb_confirm_close_request
-from keyboards import create_kb_confirm_blue
-from keyboards import cb_confirm_blue
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_confirm_close_request
 from keyboards import create_kb_which_sum_close
+from keyboards import cb_confirm_close_request
 
 # from: chosen_request_menu
 @dp.callback_query_handler(state=Processing.close_request_menu)
@@ -42,10 +37,6 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         current_requests = data_state['current_requests']
         chosen_request = data_state['chosen_request']
         request_id = chosen_request[2]
-
-        initial_rub = ''
-        initial_usd = ''
-        initial_eur = ''
         initial_com = chosen_request[8]
 
         for request in current_requests:
@@ -78,12 +69,17 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
 
         print(chosen_request)
 
-        text='заявка типа закрыта'
+        text=get_text_after_close_request(chosen_request, initial_rub, initial_usd, initial_eur)
 
         await call.message.answer (
-            text=text,
+            text='Заявка закрыта!',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
+        await notify_someone(text, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(text)
+
+        await state.finish()
 
         return
 
