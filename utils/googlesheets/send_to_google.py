@@ -2,7 +2,6 @@ from aiohttp.client import request
 import gspread
 import datetime
 
-from aiogram.dispatcher import FSMContext
 from oauth2client.service_account import ServiceAccountCredentials
 
 
@@ -289,6 +288,23 @@ def get_google_sheet():
     return sheet
 
 
+def get_google_sheet_2():
+    CREDENTIALS_FILE = 'sms.json'
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        'https://www.googleapis.com/auth/spreadsheets',
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name (
+        'sms.json',
+        scope
+    )
+    client = gspread.authorize(creds)
+    sheet = client.open("VTL учёт").sheet1  # Open the spreadhseet
+
+    return sheet
+
 # data = ['14.03', '8', '1311', 'выдача в офисе', 'change', '-500', '-', '-', '-', '-', '-', 'Готово к выдаче', '-500', '-', '-', '-', '-']
 
 # test_sheet = DataFromSheet()
@@ -298,3 +314,6 @@ def get_google_sheet():
 # last_row = sheet.get('C32:C62')
 # last_row = sum(last_row, [])
 # print(last_row)
+
+sheet = get_google_sheet_2()
+print(sheet)
