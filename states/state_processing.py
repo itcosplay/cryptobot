@@ -36,4 +36,7 @@ class Processing(StatesGroup):
     change_request_menu = State()
     which_sum_correct_menu = State()
 
+    select_date = State()
+    typing_coustom_date = State()
+
     add_permit = State()

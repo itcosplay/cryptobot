@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from emoji import emojize
+from data import all_emoji
 
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
@@ -292,7 +293,7 @@ def create_kb_plus_minus():
 
 
 def create_kb_choose_date():
-    emo_snail = emojize(':snail:', use_aliases=True)
+    emo_snail = all_emoji['back__main_menu']
     current_date = datetime.today().strftime('%d.%m')
     tomorrow_date =  (datetime.now() + timedelta(days=1)).strftime("%d.%m")
     after_tomorrow_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m")

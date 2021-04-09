@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timedelta
+
 from data import all_emoji
 
 from aiogram.types import InlineKeyboardMarkup
@@ -54,6 +57,47 @@ def create_kb_change_request(request):
         InlineKeyboardButton (
             text = f'назад {emo_snail} главное меню',
             callback_data = cb_change_request.new(type_btn='back__main_menu')
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_change_date():
+    emo_snail = all_emoji['back__main_menu']
+    # current_date = datetime.today().strftime('%d.%m')
+    tomorrow_date =  (datetime.now() + timedelta(days=1)).strftime("%d.%m")
+    after_tomorrow_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m")
+
+    keyboard = InlineKeyboardMarkup()
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'на завтра ({tomorrow_date})',
+            callback_data = 'set_tomorrow_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'на послезавтара ({after_tomorrow_date})',
+            callback_data = 'set_after_tomorrow_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'ввести дату в ручную',
+            callback_data = 'enter_coustom_date'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'вернуться к заявке',
+            callback_data = 'back_to_request'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'отменить {emo_snail} главное меню',
+            callback_data = 'back__main_menu'
         )
     )
 

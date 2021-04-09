@@ -10,5 +10,6 @@ from .message_processing import dp
 from .add_permit_message_handler import dp
 from .chunk_reciving import dp
 from .close_request import dp
+from .change_request import dp
 
 __all__ = ['dp']

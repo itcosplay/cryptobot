@@ -24,6 +24,7 @@ from .in_processing import create_kb_confirm_close_request
 from .in_processing import create_kb_which_sum_close
 from .in_processing import create_kb_change_request
 from .in_processing import create_kb_change_request
+from .in_processing import create_kb_change_date
 
 from .in_processing import cb_current_requests
 from .in_processing import cb_chosen_requests

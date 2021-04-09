@@ -2,9 +2,7 @@ from utils import set_minus_and_plus_currences
 from data import all_emoji
 
 
-def get_data_chosen_request(request):
-    print('Функция get_data_chosen_request')
-    
+def get_data_chosen_request(request):    
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]
@@ -163,15 +161,6 @@ def get_text_after_close_request(request, initial_rub, initial_usd, initial_eur)
     from utils import get_single_value
     from utils import get_blue
 
-    print('INITIAL SUMM:')
-    print(initial_rub)
-    print(initial_usd)
-    print(initial_eur)
-    print('SUM ON CLOSE:')
-    print(request[5])
-    print(request[6])
-    print(request[7])
-    print(request)
     request_type_emoji = all_emoji[request[3]]
     request_id = request[2]
     persone = all_emoji['персона']
