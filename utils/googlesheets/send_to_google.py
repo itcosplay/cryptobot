@@ -315,5 +315,5 @@ def get_google_sheet_2():
 # last_row = sum(last_row, [])
 # print(last_row)
 
-sheet = get_google_sheet_2()
-print(sheet)
+# sheet = get_google_sheet_2()
+# print(sheet)

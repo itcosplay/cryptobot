@@ -28,7 +28,12 @@ class Processing(StatesGroup):
     enter_blue_amount_chunk_menu = State()
     enter_to_confirm_blue_menu_chunk = State()
 
+    
+
     message_processing = State()
     
     close_request_menu = State()
+    change_request_menu = State()
     which_sum_correct_menu = State()
+
+    add_permit = State()

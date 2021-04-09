@@ -18,6 +18,7 @@ from keyboards import create_kb_confirm_close_request
 from keyboards import create_kb_what_sum_correct
 from keyboards import create_kb_sum_correct_chunk
 from keyboards import create_kb_message_keyboard
+from keyboards import create_kb_change_request
 
 
 # <--- show_chosen_request.py --->
@@ -129,14 +130,13 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'change_request':
         data_state = await state.get_data()
-        request = data_state['chosen_request']
+        chosen_request = data_state['chosen_request']
         
         await call.message.answer (
-            'Какую сумму меняем?',
-            reply_markup=create_kb_choose_currency_processing(request)
+            text='Выберите изменение',
+            reply_markup=create_kb_change_request(chosen_request)
         )
-        await Processing.sum_currency_to_change.set()
-        # to set_new_sum_handlers
+        await Processing.change_request_menu.set()
 
         return
 

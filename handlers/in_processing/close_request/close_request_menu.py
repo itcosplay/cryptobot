@@ -3,6 +3,7 @@ from datetime import datetime
 from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext
 
+from data import sticker
 from loader import dp, bot, sheet
 from states import Processing
 from utils import get_data_chosen_request
@@ -70,6 +71,27 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         print(chosen_request)
 
         text=get_text_after_close_request(chosen_request, initial_rub, initial_usd, initial_eur)
+
+        try:
+            result = await call.message.answer_sticker (
+                sticker['go_to_table']
+            )
+            sheet.replace_row(chosen_request)
+
+        except Exception as e:
+            print(e)
+            await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            return
+        
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
         await call.message.answer (
             text='Заявка закрыта!',

@@ -39,3 +39,6 @@ from .keyboards_close_request import cb_confirm_close_request
 
 from .keyboards_close_request import create_kb_which_sum_close
 from .keyboards_close_request import cb_which_sum_close
+
+from .change_request_keyboards import create_kb_change_request
+from .change_request_keyboards import cb_change_request

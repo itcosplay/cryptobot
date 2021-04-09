@@ -4,7 +4,6 @@ from data import all_emoji
 
 def get_data_chosen_request(request):
     print('Функция get_data_chosen_request')
-    print(request)
     
     id_request = request[2]
     date_request = request[0]
