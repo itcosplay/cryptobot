@@ -44,3 +44,4 @@ from .change_request_keyboards import create_kb_change_request
 from .change_request_keyboards import cb_change_request
 
 from .change_request_keyboards import create_kb_change_date
+from .change_request_keyboards import create_kb_new_request_type

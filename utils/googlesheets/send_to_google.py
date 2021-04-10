@@ -137,6 +137,7 @@ class DataFromSheet:
 
                 return
 
+
 def send_to_google(state): 
     sheet = get_google_sheet() 
     numb_of_last_row = len(sheet.col_values(1))

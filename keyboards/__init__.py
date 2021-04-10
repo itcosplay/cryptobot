@@ -31,6 +31,7 @@ from .inline import create_kb_confirm_close_request
 from .inline import create_kb_which_sum_close
 from .inline import create_kb_change_request
 from .inline import create_kb_change_date
+from .inline import create_kb_new_request_type
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests

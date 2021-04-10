@@ -4,6 +4,7 @@ from aiogram.dispatcher import FSMContext
 
 from keyboards import cb_change_request
 from keyboards import create_kb_change_date
+from keyboards import create_kb_new_request_type
 from loader import dp
 from states import Processing
 
@@ -31,17 +32,26 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
             text='Выберите дату',
             reply_markup=create_kb_change_date()
         )
-
         await Processing.select_date.set()
 
-        return
-
-    if data_btn['type_btn'] == 'new_id':
+    elif data_btn['type_btn'] == 'new_id':
         result = await call.message.answer (
             text='Введите новый четырех значный номер заявки'
         )
         
         await state.update_data(message_to_delete=result.message_id)
         await Processing.new_request_id.set()
+
+        return
+
+    elif data_btn['type_btn'] == 'change_type':
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+
+        await call.message.answer (
+            text='Выберите новый тип заявки',
+            reply_markup=create_kb_new_request_type(chosen_request[3])
+        )
+        await Processing.new_request_type.set()
 
         return

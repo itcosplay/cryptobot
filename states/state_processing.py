@@ -28,8 +28,6 @@ class Processing(StatesGroup):
     enter_blue_amount_chunk_menu = State()
     enter_to_confirm_blue_menu_chunk = State()
 
-    
-
     message_processing = State()
     
     close_request_menu = State()
@@ -39,5 +37,6 @@ class Processing(StatesGroup):
     select_date = State()
     typing_coustom_date = State()
     new_request_id = State()
+    new_request_type = State()
 
     add_permit = State()
