@@ -38,5 +38,6 @@ class Processing(StatesGroup):
 
     select_date = State()
     typing_coustom_date = State()
+    new_request_id = State()
 
     add_permit = State()

@@ -35,3 +35,13 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         await Processing.select_date.set()
 
         return
+
+    if data_btn['type_btn'] == 'new_id':
+        result = await call.message.answer (
+            text='Введите новый четырех значный номер заявки'
+        )
+        
+        await state.update_data(message_to_delete=result.message_id)
+        await Processing.new_request_id.set()
+
+        return

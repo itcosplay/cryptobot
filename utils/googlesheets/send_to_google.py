@@ -115,7 +115,27 @@ class DataFromSheet:
 
                 return
             
+    def update_id_row(self, old_id, new_id):
+        try:
+            sheet = self.get_google_sheet()
+            numb_of_last_row = len(sheet.col_values(1))
+            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
+        except Exception as e:
+            print(e)
+
+            return e
+        
+        index = numb_of_last_row - 20 - 1
+
+        for row in data:
+            index += 1
+            
+            if row[2] == old_id:
+                new_id = int(new_id)
+                sheet.update_cell(index, 3, new_id)
+
+                return
 
 def send_to_google(state): 
     sheet = get_google_sheet() 
