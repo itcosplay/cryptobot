@@ -36,3 +36,29 @@ def create_kb_confirm_close():
     )
 
     return keyboard
+
+
+def create_kb_confirm_cancel_request():
+    emo_snail = all_emoji['back__main_menu']
+    keyboard = InlineKeyboardMarkup()
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'отменить заявку',
+            callback_data = 'cancel'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'вернуться к заявке',
+            callback_data = 'back_to_request'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'назад {emo_snail} главное меню',
+            callback_data = 'back__main_menu'
+        )
+    )
+
+    return keyboard

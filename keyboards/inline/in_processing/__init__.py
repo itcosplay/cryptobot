@@ -13,6 +13,8 @@ from .keyboards_sum_ready import cb_choose_currency
 from .confirm_keyboard import create_kb_confirm_close
 from .confirm_keyboard import cb_confirm_close
 
+from .confirm_keyboard import create_kb_confirm_cancel_request
+
 from .keyboards_sum_ready import create_kb_what_sum_correct
 from .keyboards_sum_ready import cb_what_sum_correct
 

@@ -51,3 +51,5 @@ class Processing(StatesGroup):
     add_another_comment = State()
 
     add_permit = State()
+
+    confirm_cancel_request = State()

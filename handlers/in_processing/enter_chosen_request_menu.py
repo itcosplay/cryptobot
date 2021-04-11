@@ -1,24 +1,19 @@
-from datetime import datetime
-
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, sheet, bot
+from loader import dp
 from states import Processing
 from utils import get_minus_FGH
-from utils import get_plus_FGH
 from utils import get_text_before_close_request
 from utils import get_text_message_to
-from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
-from keyboards import create_kb_choose_currency_processing
 from keyboards import create_kb_confirm_close_request
-from keyboards import create_kb_what_sum_correct
 from keyboards import create_kb_sum_correct_chunk
 from keyboards import create_kb_message_keyboard
 from keyboards import create_kb_change_request
+from keyboards import create_kb_confirm_cancel_request
 
 
 # <--- show_chosen_request.py --->
@@ -150,8 +145,8 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'cancel_request':
         await call.message.answer (
-            text='Подтверждаете отмену заявки?',
-            reply_markup=create_kb_confirm()
+            text='Отменить заявку?',
+            reply_markup=create_kb_confirm_cancel_request()
         )
         await Processing.confirm_cancel_request.set()
         # to confirm_cancel_requeest.py
