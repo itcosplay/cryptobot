@@ -50,7 +50,7 @@ def create_kb_change_request(request):
     keyboard.add (
         InlineKeyboardButton (
             text = 'добавить коментарий',
-            callback_data = cb_change_request.new(type_btn='add_commetn')
+            callback_data = cb_change_request.new(type_btn='add_comment')
         )
     )
 

@@ -47,6 +47,7 @@ class Processing(StatesGroup):
     another_currency__give_recive = State()
     another_currecy__currency = State()
     another_currecy__amount = State()
-
+    
+    add_another_comment = State()
 
     add_permit = State()

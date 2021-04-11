@@ -3,13 +3,17 @@ from aiogram.types import Message
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
+from data import sticker
+from data import all_emoji
 from keyboards import cb_change_request
 from keyboards import create_kb_change_date
 from keyboards import create_kb_new_request_type
 from keyboards import create_kb_which_sum_close
 from keyboards import create_kb_another_currecy_add
-from loader import dp
+from loader import dp, bot, sheet
 from states import Processing
+from utils import notify_in_group_chat
+from utils import notify_someone
 
 
 @dp.callback_query_handler(state=Processing.change_request_menu)
@@ -21,7 +25,7 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
     > переопределить тип    change_type
     > изменить сумму        update_sum
     > другая валюта         more_currency
-    > добавить коментарий   add_commetn
+    > добавить коментарий   add_comment
     > назад - главное меню  back__main_menu
     '''
     await call.answer()
@@ -89,3 +93,69 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
             await state.finish()
 
         return
+
+    elif data_btn['type_btn'] == 'add_comment':
+        await call.message.answer (
+            text='Введите коментарий'
+        )
+        await Processing.add_another_comment.set()
+
+        return
+
+    elif data_btn['type_btn'] == 'back__main_menu':
+        await call.message.answer (
+            text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+        await state.finish()
+        
+        return
+    
+
+@dp.message_handler(state=Processing.add_another_comment)
+async def add_another_comment(message:Message, state:FSMContext):
+    data_state = await state.get_data()
+    chosen_request = data_state['chosen_request']
+    comment = chosen_request[8]
+    comment = comment + '||' + message.text
+    chosen_request[8] = comment
+
+    try:
+        result = await message.answer_sticker (
+            sticker['go_to_table']
+        )
+        sheet.replace_row(chosen_request)
+
+    except Exception as e:
+        print(e)
+        await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+        await message.answer_sticker (
+            sticker['not_connection']
+        )
+        await message.answer (
+            text='Не удалось соединиться с гугл таблицей',
+            reply_markup=create_kb_coustom_main_menu(message.chat.id)
+        )
+
+        return
+
+    await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+
+    request_type_emoji = all_emoji[chosen_request[3]]
+    request_id = chosen_request[2]
+    persone = all_emoji['персона']
+    username = message.chat.username
+
+    text = f'{request_type_emoji} #N{request_id}\nдобавлен коментарий\n-----\n{message.text}\n-----\n{persone} {username}'
+
+    await message.answer (
+        text='Коментарий добавлен',
+        reply_markup=create_kb_coustom_main_menu(message.chat.id)
+    )
+
+    await notify_someone(text, 'admin', 'changer', 'executor')
+    await notify_in_group_chat(text)
+
+    await state.finish()
+
+    return
