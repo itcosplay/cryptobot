@@ -32,6 +32,8 @@ from .inline import create_kb_which_sum_close
 from .inline import create_kb_change_request
 from .inline import create_kb_change_date
 from .inline import create_kb_new_request_type
+from .inline import create_kb_another_currecy_add
+from .inline import create_kb_choose_give_recive_change
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -53,3 +55,4 @@ from .inline import cb_message_keyboard
 from .inline import cb_confirm_close_request
 from .inline import cb_which_sum_close
 from .inline import cb_change_request
+from .inline import cb_anoter_currency_add

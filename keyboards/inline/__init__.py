@@ -26,6 +26,8 @@ from .in_processing import create_kb_change_request
 from .in_processing import create_kb_change_request
 from .in_processing import create_kb_change_date
 from .in_processing import create_kb_new_request_type
+from .in_processing import create_kb_another_currecy_add
+from .in_processing import create_kb_choose_give_recive_change
 
 from .in_processing import cb_current_requests
 from .in_processing import cb_chosen_requests
@@ -42,6 +44,7 @@ from .in_processing import cb_message_keyboard
 from .in_processing import cb_confirm_close_request
 from .in_processing import cb_which_sum_close
 from .in_processing import cb_change_request
+from .in_processing import cb_anoter_currency_add
 
 from .permits import create_kb_all_permits
 from .permits import create_kb_set_status_permit

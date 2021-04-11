@@ -57,6 +57,7 @@ def get_values_FGH(request):
     if request[5] != '0':
         rub = request[5]
         rub = str(rub)
+        print('we into rub')
         if rub[0] == '-':
             rub = rub[1:]
             rub = int(rub)
@@ -74,6 +75,7 @@ def get_values_FGH(request):
     if request[6] != '0':
         usd = request[6]
         usd = str(usd)
+
         if usd[0] == '-':
             usd = usd[1:]
             usd = int(usd)
@@ -86,17 +88,19 @@ def get_values_FGH(request):
             usd = usd.replace(',', '.')
             usd = all_emoji['плюс'] + usd + '$'
     else:
+
         usd = ''
 
     if request[7] != '0':
         eur = request[7]
         eur = str(eur)
+
         if eur[0] == '-':
             eur = eur[1:]
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            usd = all_emoji['минус'] + eur + '€'
+            eur = all_emoji['минус'] + eur + '€'
         else:
             eur = int(eur)
             eur = f'{eur:,}'

@@ -1,5 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
+import keyboards
 
 from data import all_emoji
 
@@ -136,6 +137,90 @@ def create_kb_new_request_type(request_type):
         InlineKeyboardButton (
             text = f'отменить {emo_snail} главное меню',
             callback_data = 'back__main_menu'
+        )
+    )
+
+    return keyboard
+
+
+cb_anoter_currency_add = CallbackData('cbacn', 'curr', 'type_btn')
+def create_kb_another_currecy_add(request):
+    from utils import get_values_FGH
+    
+    keyboard = InlineKeyboardMarkup()
+    rub, usd, eur = get_values_FGH(request)
+
+    if rub == '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='RUB',
+                callback_data = cb_anoter_currency_add.new (
+                    curr='rub',
+                    type_btn='add_curr'
+                )
+            )
+        )
+
+    if usd == '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='USD',
+                callback_data = cb_anoter_currency_add.new (
+                    curr='usd',
+                    type_btn='add_curr'
+                )
+            )
+        )
+
+    if eur == '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='EUR',
+                callback_data = cb_anoter_currency_add.new (
+                    curr='eur',
+                    type_btn='add_curr'
+                )
+            )
+        )
+
+    emo_snail = all_emoji['back__main_menu']
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {emo_snail} главное меню',
+            callback_data=cb_anoter_currency_add.new (
+                curr='-',
+                type_btn='back__main_menu'
+            )
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_choose_give_recive_change():
+    keyboard = InlineKeyboardMarkup()
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text='принимаем',
+            callback_data='recive_money'
+            
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text='выдаем',
+            callback_data='give_money'
+            
+        )
+    )
+
+    emo_snail = all_emoji['back__main_menu']
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {emo_snail} главное меню',
+            callback_data='back__main_menu'
+            
         )
     )
 
