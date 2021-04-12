@@ -6,6 +6,24 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 class DataFromSheet:
+    # def get_google_sheet(self):
+    #     CREDENTIALS_FILE = 'creds.json'
+    #     scope = [
+    #         "https://spreadsheets.google.com/feeds",
+    #         'https://www.googleapis.com/auth/spreadsheets',
+    #         "https://www.googleapis.com/auth/drive.file",
+    #         "https://www.googleapis.com/auth/drive"
+    #     ]
+    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
+    #         'creds.json',
+    #         scope
+    #     )
+    #     client = gspread.authorize(creds)
+    #     sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+
+    #     return sheet
+
     def get_google_sheet(self):
         CREDENTIALS_FILE = 'creds.json'
         scope = [
@@ -15,12 +33,13 @@ class DataFromSheet:
             "https://www.googleapis.com/auth/drive"
         ]
         creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'creds.json',
+            'sms.json',
             scope
         )
         client = gspread.authorize(creds)
-        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
         # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+        sheet = client.open("VTL учёт").sheet1
 
         return sheet
 
@@ -110,8 +129,12 @@ class DataFromSheet:
             index += 1
             
             if row[2] == request[2]:
-                sheet.delete_rows(index)
-                sheet.insert_row(request, index)
+                # ['14.04', '20', '1300', 'прием кэша', 'change', '0', 5000, 7000, '0', '0', 'itcosplay', 'В обработке', '0', '0', '0', '0', '0']
+                # print(request)
+                # print(index)
+                sheet.update(f'A{index}:Q{index}', [request])
+                # sheet.delete_rows(index)
+                # sheet.insert_row(request, index)
 
                 return
             
@@ -284,32 +307,35 @@ def send_to_google(state):
     inserRow.append(Q__total_blue)
 
     # number_of_empty_row = len(sheet.col_values(1)) + 1
-    sheet.insert_row(inserRow, numb_of_last_row + 1)
+    # print(inserRow)
+    # sheet.insert_row(inserRow, numb_of_last_row + 1)
+    numb_empty_row = numb_of_last_row + 1
+    sheet.update(f'A{numb_empty_row}:Q{numb_empty_row}', [inserRow])
 
     permit_text = state['permit']
 
     return C__id_of_request, permit_text
 
 
+# def get_google_sheet():
+#     CREDENTIALS_FILE = 'creds.json'
+#     scope = [
+#         "https://spreadsheets.google.com/feeds",
+#         'https://www.googleapis.com/auth/spreadsheets',
+#         "https://www.googleapis.com/auth/drive.file",
+#         "https://www.googleapis.com/auth/drive"
+#     ]
+#     creds = ServiceAccountCredentials.from_json_keyfile_name (
+#         'creds.json',
+#         scope
+#     )
+#     client = gspread.authorize(creds)
+#     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
+
+#     return sheet
+
+
 def get_google_sheet():
-    CREDENTIALS_FILE = 'creds.json'
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        'https://www.googleapis.com/auth/spreadsheets',
-        "https://www.googleapis.com/auth/drive.file",
-        "https://www.googleapis.com/auth/drive"
-    ]
-    creds = ServiceAccountCredentials.from_json_keyfile_name (
-        'creds.json',
-        scope
-    )
-    client = gspread.authorize(creds)
-    sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
-
-    return sheet
-
-
-def get_google_sheet_2():
     CREDENTIALS_FILE = 'sms.json'
     scope = [
         "https://spreadsheets.google.com/feeds",
@@ -326,15 +352,7 @@ def get_google_sheet_2():
 
     return sheet
 
-# data = ['14.03', '8', '1311', 'выдача в офисе', 'change', '-500', '-', '-', '-', '-', '-', 'Готово к выдаче', '-500', '-', '-', '-', '-']
 
-# test_sheet = DataFromSheet()
-# test_sheet.replace_row(data)
+# test = DataFromSheet()
 
-# sheet = get_google_sheet()
-# last_row = sheet.get('C32:C62')
-# last_row = sum(last_row, [])
-# print(last_row)
-
-# sheet = get_google_sheet_2()
-# print(sheet)
+# test.get_last_row()
