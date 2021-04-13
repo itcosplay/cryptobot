@@ -85,6 +85,6 @@ def get_data_to_show(request_data):
                     
                     result_data_to_show.append(temp_1 + temp_2)
 
-    result_data_to_show = 'Будет создана заявка с данными:\n' + '-----------\n'.join(result_data_to_show)
+    result_data_to_show = 'Будет создана заявка с данными:\n' + ''.join(result_data_to_show)
 
     return result_data_to_show, keyboard

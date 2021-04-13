@@ -176,6 +176,7 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
         chosen_request[10] = call.message.chat.username
+        chosen_request[11] = 'Готово к выдаче'
         
         try:
             result = await call.message.answer_sticker (

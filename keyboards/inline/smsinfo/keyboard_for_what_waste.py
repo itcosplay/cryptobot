@@ -26,6 +26,14 @@ def create_kb_for_what_waste(who_waste):
                 )
             )
         )
+        keyboard.add (
+            InlineKeyboardButton (
+                text='Не указано',
+                callback_data=cb_for_what_waste.new (
+                    type_btn='Не указано'
+                )
+            )
+        )
     else:
         keyboard.add (
             InlineKeyboardButton (
