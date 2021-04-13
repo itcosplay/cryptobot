@@ -3,11 +3,15 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiohttp.client import request
 
+from data import all_emoji
 from loader import dp, bot, permit
 from states import Request
 from utils import send_to_google
 from utils import notify_about_balance
 from utils import notify_about_permit_to_order
+from utils import notify_someone
+from utils import notify_in_group_chat
+from utils import get_data_chosen_request
 from keyboards import create_kb_plus_minus
 from keyboards.default.admin_keyboard import main_menu
 from keyboards import create_kb_coustom_main_menu
@@ -55,13 +59,13 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         await state.update_data(type_end=call.data)
         data_state = await state.get_data()
         request_date = data_state['data_request']
-
+        
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
         )
 
         try:
-            request_id, permit_text = send_to_google(request_data)
+            request_id, permit_text, created_request = send_to_google(request_data)
             if not permit_text == '':
                 permit.write_new_permit(request_id, request_date, permit_text)
                 await notify_about_permit_to_order()
@@ -79,9 +83,19 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
         await call.message.answer (
-            f'Заявка создана. Номер заявки: {request_id}\n===========',
+            f'Заявка успешно создана и в обработке!',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
+        sign = all_emoji['квз']
+        text_header = f'{sign}Новая заявка{sign}\n'
+        text = get_data_chosen_request(created_request)
+
+        text = text_header + text
+
+        await notify_someone(text, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(text)
+        
         await state.finish()
         await notify_about_balance()
 

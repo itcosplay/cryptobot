@@ -30,6 +30,7 @@ transfer = '🤽🏼‍♂️'
 replenishment = '📈'
 other = 'ℹ️'
 cashoutatm = '💵'
+comment = '📝'
 
 all_emoji = {
     'выдача в офисе': issuing_office,
@@ -59,5 +60,6 @@ all_emoji = {
     'персона': persone,
     'синих': blue,
 
-    'конверт': envelope
+    'конверт': envelope,
+    'коментарий': comment
 }

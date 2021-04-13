@@ -116,8 +116,15 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 async def add_another_comment(message:Message, state:FSMContext):
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
-    comment = chosen_request[8]
-    comment = comment + '||' + message.text
+    
+    if chosen_request[8] != '0':
+        comment = chosen_request[8] + ' * '
+
+    else:
+        comment = ''
+    
+
+    comment = comment + message.text
     chosen_request[8] = comment
 
     try:
@@ -146,7 +153,7 @@ async def add_another_comment(message:Message, state:FSMContext):
     persone = all_emoji['персона']
     username = message.chat.username
 
-    text = f'{request_type_emoji} #N{request_id}\nдобавлен коментарий\n-----\n{message.text}\n-----\n{persone} {username}'
+    text = f'{request_type_emoji} #N{request_id}\nдобавлен коментарий\n-----\n{message.text}\n{persone} {username}'
 
     await message.answer (
         text='Коментарий добавлен',

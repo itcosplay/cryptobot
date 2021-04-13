@@ -8,6 +8,7 @@ from data.config import super_admins
 
 from keyboards.default import admin_keyboard
 from keyboards import create_kb_coustom_main_menu
+from utils import notify_someone
 
 @dp.message_handler(CommandStart(), user_id=super_admins)
 async def bot_start(message:types.Message):
@@ -33,8 +34,11 @@ async def bot_start(message:types.Message):
         except sqlite3.IntegrityError as err:
             print(err)
         
-        for admin in super_admins:
-            await bot.send_message(chat_id=admin, text=f'поступил новый запрос от {name}')
+        # for admin in super_admins:
+        #     await bot.send_message(chat_id=admin, text=f'поступил новый запрос от {name}')
+        # text = f'поступил новый запрос от {name}'
+        await notify_someone(f'поступил новый запрос от {name}', 'admin')
+        
 
         await bot.send_message(chat_id=user_id, text=text)
 

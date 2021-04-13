@@ -76,7 +76,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
 
     if data_btn['type_btn'] == 'back__main_menu':
         await call.message.answer (
-            f'===========\nПросмотр пропусков отменен\n===========',
+            f'Выход из меню "ПРОПУСКА". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
         await state.finish()

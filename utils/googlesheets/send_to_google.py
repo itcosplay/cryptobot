@@ -6,24 +6,6 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 class DataFromSheet:
-    # def get_google_sheet(self):
-    #     CREDENTIALS_FILE = 'creds.json'
-    #     scope = [
-    #         "https://spreadsheets.google.com/feeds",
-    #         'https://www.googleapis.com/auth/spreadsheets',
-    #         "https://www.googleapis.com/auth/drive.file",
-    #         "https://www.googleapis.com/auth/drive"
-    #     ]
-    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         'creds.json',
-    #         scope
-    #     )
-    #     client = gspread.authorize(creds)
-    #     sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-    #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-
-    #     return sheet
-
     def get_google_sheet(self):
         CREDENTIALS_FILE = 'creds.json'
         scope = [
@@ -33,15 +15,33 @@ class DataFromSheet:
             "https://www.googleapis.com/auth/drive"
         ]
         creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'sms.json',
+            'creds.json',
             scope
         )
         client = gspread.authorize(creds)
-        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
         # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-        sheet = client.open("VTL учёт").sheet1
 
         return sheet
+
+    # def get_google_sheet(self):
+    #     CREDENTIALS_FILE = 'creds.json'
+    #     scope = [
+    #         "https://spreadsheets.google.com/feeds",
+    #         'https://www.googleapis.com/auth/spreadsheets',
+    #         "https://www.googleapis.com/auth/drive.file",
+    #         "https://www.googleapis.com/auth/drive"
+    #     ]
+    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
+    #         'sms.json',
+    #         scope
+    #     )
+    #     client = gspread.authorize(creds)
+    #     # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+    #     sheet = client.open("VTL учёт").sheet1
+
+    #     return sheet
 
     def get_balance_AEG3(self):
         sheet = self.get_google_sheet()
@@ -159,6 +159,26 @@ class DataFromSheet:
                 sheet.update_cell(index, 3, new_id)
 
                 return
+    
+    def get_request_by_id(self, request_id):
+        try:
+            sheet = self.get_google_sheet()
+            numb_of_last_row = len(sheet.col_values(1))
+            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
+
+        except Exception as e:
+            print(e)
+
+            return e
+        
+        index = numb_of_last_row - 20 - 1
+
+        for row in data:
+            index += 1
+            
+            if row[2] == request_id:
+
+                return row
 
 
 def send_to_google(state): 
@@ -314,29 +334,11 @@ def send_to_google(state):
 
     permit_text = state['permit']
 
-    return C__id_of_request, permit_text
-
-
-# def get_google_sheet():
-#     CREDENTIALS_FILE = 'creds.json'
-#     scope = [
-#         "https://spreadsheets.google.com/feeds",
-#         'https://www.googleapis.com/auth/spreadsheets',
-#         "https://www.googleapis.com/auth/drive.file",
-#         "https://www.googleapis.com/auth/drive"
-#     ]
-#     creds = ServiceAccountCredentials.from_json_keyfile_name (
-#         'creds.json',
-#         scope
-#     )
-#     client = gspread.authorize(creds)
-#     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
-
-#     return sheet
+    return C__id_of_request, permit_text, inserRow
 
 
 def get_google_sheet():
-    CREDENTIALS_FILE = 'sms.json'
+    CREDENTIALS_FILE = 'creds.json'
     scope = [
         "https://spreadsheets.google.com/feeds",
         'https://www.googleapis.com/auth/spreadsheets',
@@ -344,15 +346,28 @@ def get_google_sheet():
         "https://www.googleapis.com/auth/drive"
     ]
     creds = ServiceAccountCredentials.from_json_keyfile_name (
-        'sms.json',
+        'creds.json',
         scope
     )
     client = gspread.authorize(creds)
-    sheet = client.open("VTL учёт").sheet1  # Open the spreadhseet
+    sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
 
     return sheet
 
 
-# test = DataFromSheet()
+# def get_google_sheet():
+#     CREDENTIALS_FILE = 'sms.json'
+#     scope = [
+#         "https://spreadsheets.google.com/feeds",
+#         'https://www.googleapis.com/auth/spreadsheets',
+#         "https://www.googleapis.com/auth/drive.file",
+#         "https://www.googleapis.com/auth/drive"
+#     ]
+#     creds = ServiceAccountCredentials.from_json_keyfile_name (
+#         'sms.json',
+#         scope
+#     )
+#     client = gspread.authorize(creds)
+#     sheet = client.open("VTL учёт").sheet1  # Open the spreadhseet
 
-# test.get_last_row()
+#     return sheet

@@ -15,7 +15,7 @@ def get_data_chosen_request(request):
     if usd != '': usd = usd + '\n'
     if eur != '': eur = eur + '\n'
 
-    text = f'Заявка {operation_type_emoji} #N{id_request} от {date_request} {request_status},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
+    text = f'{operation_type_emoji} #N{id_request} от {date_request} {request_status},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
 
     if request[12] != '0' or request[13] != '0' or request[14] != '0':
         ready_to_give_rub = ''
@@ -108,6 +108,12 @@ def get_data_chosen_request(request):
     if request[10] != '0':
         persone = all_emoji['персона']
         text = text + f'{persone} {request[10]}'
+
+    if request[8] != '0':
+        comment = all_emoji['коментарий']
+        comment_text = request[8]
+
+        text = text + '\n' + f'{comment}{comment_text}'
 
     return text
 
