@@ -4,8 +4,8 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_choose_card
-from keyboards import create_kb_send_request_atm
-from keyboards.default.admin_keyboard import main_menu
+# from keyboards import create_kb_send_request_atm
+# from keyboards.default.admin_keyboard import main_menu
 from keyboards import create_kb_coustom_main_menu
 from handlers.order_request import permit
 from utils import get_data_to_show

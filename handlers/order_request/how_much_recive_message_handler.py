@@ -4,7 +4,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from keyboards import create_kb_smart_choose_curr
-from keyboards import main_menu
+# from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 
 

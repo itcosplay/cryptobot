@@ -14,7 +14,7 @@ from utils import notify_in_group_chat
 from keyboards import cb_what_sum
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_what_sum_correct
-from keyboards import main_menu
+# from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_what_blue
 

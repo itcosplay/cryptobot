@@ -4,7 +4,7 @@ from aiogram.types import message
 
 from loader import dp
 from states import Request
-from keyboards import main_menu
+# from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 
 

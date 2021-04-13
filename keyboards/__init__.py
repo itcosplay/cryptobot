@@ -1,4 +1,4 @@
-from .default import main_menu
+# from .default import main_menu
 from .default import create_kb_coustom_main_menu
 
 from .inline import create_kp_operation_type

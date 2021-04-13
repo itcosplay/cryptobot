@@ -23,18 +23,22 @@ def create_kb_coustom_main_menu(user_id):
         keyboard.add(KeyboardButton(text='пропуска'))
         keyboard.insert(KeyboardButton(text='создать пропуск'))
 
+    elif user_status == 'changer':
+        keyboard.add(KeyboardButton(text='создать заявку'))
+        keyboard.add(KeyboardButton(text='в работе'))
+        keyboard.add(KeyboardButton(text='создать пропуск'))
+
+    elif user_status == 'executor':
+        keyboard.add(KeyboardButton(text='в работе'))
+
     elif user_status == 'secretary':
         keyboard.add(KeyboardButton(text='информация о смс'))
         keyboard.add(KeyboardButton(text='пропуска'))
-        
+    
+    elif user_status == 'permit':
+        keyboard.add(KeyboardButton(text='создать пропуск'))
     else:
-        keyboard.add(KeyboardButton(text='права пользователей'))
-        keyboard.insert(KeyboardButton(text='информация о смс'))
-
-        keyboard.add(KeyboardButton(text='создать заявку'))
-        keyboard.insert(KeyboardButton(text='в работе'))
-
-        keyboard.add(KeyboardButton(text='пропуска'))
+        pass
 
     keyboard.resize_keyboard = True
     keyboard.one_time_keyboard = True
@@ -43,21 +47,21 @@ def create_kb_coustom_main_menu(user_id):
 
 
 
-main_menu = ReplyKeyboardMarkup (
+# main_menu = ReplyKeyboardMarkup (
 
-    keyboard = [
-        [
-            KeyboardButton(text='права пользователей'),
-            KeyboardButton(text='информация о смс')
-        ],
-        [
-            KeyboardButton(text='создать заявку'),
-            KeyboardButton(text='в работе')
-        ],
-        [
-            KeyboardButton(text='пропуска'),
-        ]
-    ],
-    resize_keyboard=True,
-    one_time_keyboard=True
-)
+#     keyboard = [
+#         [
+#             KeyboardButton(text='права пользователей'),
+#             KeyboardButton(text='информация о смс')
+#         ],
+#         [
+#             KeyboardButton(text='создать заявку'),
+#             KeyboardButton(text='в работе')
+#         ],
+#         [
+#             KeyboardButton(text='пропуска'),
+#         ]
+#     ],
+#     resize_keyboard=True,
+#     one_time_keyboard=True
+# )
