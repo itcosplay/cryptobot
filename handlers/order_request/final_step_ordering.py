@@ -45,27 +45,18 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             await Request.temp_sum_state.set()
             # to temp_sum_message_handler.py
 
-            
-
-
-            ### for logs ### delete later
-            request_data = await state.get_data()
-            print('=== state: ===')
-            print(request_data)
-            print('==============')
-            ### for logs ### delete later
-
     elif call.data == 'send_btn':
         await state.update_data(type_end=call.data)
         data_state = await state.get_data()
         request_date = data_state['data_request']
+        creator_name = call.message.chat.username
         
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
         )
 
         try:
-            request_id, permit_text, created_request = send_to_google(request_data)
+            request_id, permit_text, created_request = send_to_google(request_data, creator_name)
             if not permit_text == '':
                 permit.write_new_permit(request_id, request_date, permit_text)
                 await notify_about_permit_to_order()

@@ -1,3 +1,4 @@
+from os import stat
 from aiohttp.client import request
 import gspread
 import datetime
@@ -181,7 +182,7 @@ class DataFromSheet:
                 return row
 
 
-def send_to_google(state): 
+def send_to_google(state, creator_name):
     sheet = get_google_sheet() 
     numb_of_last_row = len(sheet.col_values(1))
     # print(numb_of_last_row)
@@ -253,7 +254,7 @@ def send_to_google(state):
     else:
         I__comment = '0'
     
-    if state['operation_type'] == 'recive': # sign +
+    if state['operation_type'] == 'recive' or state['operation_type'] == 'cash_atm': # sign +
         if state['sum_RUB__how_much'] != '':
             F__sum = int(state['sum_RUB__how_much'])
         if state['sum_USD__how_much'] != '':
@@ -295,11 +296,11 @@ def send_to_google(state):
             G__sum = 0 - int(state['sum_give_USD'])
         if state['sum_give_EUR'] != '':
             H__sum = 0 - int(state['sum_give_EUR'])    
-    elif state['operation_type'] == 'cache_atm': # sing +
-        pass
+    # elif state['operation_type'] == 'cache_atm': # sing +
+    #     pass
 
     J__remain = '0'
-    K__executor = '0'
+    K__executor = creator_name
     L__status = 'В обработке'
     M__fact_RUB = '0'
     N__fact_USD = '0'

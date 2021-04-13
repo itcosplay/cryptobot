@@ -36,14 +36,6 @@ async def set_operation_type (
 
         await Request.temp_sum_state.set()
         # to temp_sum_message_handler.py
-
-
-        ### for logs ### delete later
-        request_data = await state.get_data()
-        print('=== state: ===')
-        print(request_data)
-        print('==============')
-        ### for logs ### delete later
     
     elif call.data == 'cashin':
         await state.update_data(operation_type=call.data)
@@ -53,13 +45,6 @@ async def set_operation_type (
         await state.update_data (
             currencies__how_much = currencies__how_much
         )
-
-        ### for logs ### delete later
-        request_data = await state.get_data()
-        print('=== state: ===')
-        print(request_data)
-        print('==============')
-        ### for logs ### delete later
 
         await call.message.answer (
             f'Выберете карточку:',
@@ -80,12 +65,26 @@ async def set_operation_type (
 
     elif call.data == 'cash_atm':
         await state.update_data(operation_type='cash_atm')
-        request_data = await state.get_data()
+        # request_data = await state.get_data()
 
-        text, keyboard = get_data_to_show(request_data)
+        # text, keyboard = get_data_to_show(request_data)
 
-        await call.message.answer(text, reply_markup=keyboard)
-        await Request.type_end.set()
+        # await call.message.answer(text, reply_markup=keyboard)
+        currencies__how_much = []
+        await state.update_data (
+            currencies__how_much = currencies__how_much
+        )
+
+        result = await bot.send_message (
+            chat_id = call.message.chat.id,
+            text='введите сумму:'
+        )
+        await state.update_data(_del_message = result.message_id)
+
+        await Request.temp_sum_state.set()
+        # to temp_sum_message_handler.py
+
+        # await Request.type_end.set()
         # to final_step_ordering.py
 
     else:

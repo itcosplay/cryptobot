@@ -38,6 +38,7 @@ async def set_how_much(message:types.Message, state:FSMContext):
         operation_type == 'recive' or \
         operation_type == 'takeout' or \
         operation_type == 'delivery' or \
+        operation_type == 'cash_atm' or \
         operation_type == 'cashin':
             await Request.currencies__how_much.set()
             # to currency__how_much.py

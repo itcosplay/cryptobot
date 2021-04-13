@@ -7,6 +7,7 @@ from aiogram.dispatcher import FSMContext
 from loader import dp, bot
 from states import Request
 from utils import get_data_to_show
+from keyboards import create_kb_coustom_main_menu
 
 
 # from final_step_ordering.py
@@ -29,6 +30,15 @@ async def set_date_from_buttons (
     elif call.data == 'set_after_tomorrow_date':
         after_tomorrow_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m")
         await state.update_data(data_request=after_tomorrow_date)
+
+    elif call.data == 'exit':
+        await call.message.answer (
+            f'Создание заявки отменено\n========================',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+        await state.finish()
+
+        return
 
     else: # call.data == 'enter_coustom_date'
         result = await call.message.answer('Введите дату в формате ЧЧ.ММ')
