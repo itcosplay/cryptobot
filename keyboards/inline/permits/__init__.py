@@ -3,3 +3,5 @@ from .keyboard_all_permits import cb_all_permits
 
 from .keyboard_set_status_permit import create_kb_set_status_permit
 from .keyboard_set_status_permit import cb_set_status_prmt
+
+from .keyboard_confirm_single_permit import create_kb_confirm_single_permit

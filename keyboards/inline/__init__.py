@@ -49,6 +49,7 @@ from .in_processing import cb_anoter_currency_add
 
 from .permits import create_kb_all_permits
 from .permits import create_kb_set_status_permit
+from .permits import create_kb_confirm_single_permit
 
 from .permits import cb_all_permits
 from .permits import cb_set_status_prmt

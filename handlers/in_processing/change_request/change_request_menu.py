@@ -153,7 +153,7 @@ async def add_another_comment(message:Message, state:FSMContext):
     persone = all_emoji['персона']
     username = message.chat.username
 
-    text = f'{request_type_emoji} #N{request_id}\nдобавлен коментарий\n-----\n{message.text}\n{persone} {username}'
+    text = f'{request_type_emoji} #N{request_id}\nдобавлен коментарий\n-----\n{message.text}\n{persone} @{username}'
 
     await message.answer (
         text='Коментарий добавлен',

@@ -7,7 +7,6 @@ from loader import dp, bot, sheet
 from states import Processing
 from keyboards import cb_which_sum_close
 from keyboards import create_kb_coustom_main_menu
-from keyboards import create_kb_confirm_close_request
 from utils import get_single_value
 from utils import get_values_FGH
 from utils import notify_in_group_chat
@@ -148,7 +147,7 @@ async def close__sum_set(message:Message, state:FSMContext):
 
     await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
 
-    text = f'{request_type_emoji} #N{request_id}\nизменена сумма заявки\n{old_sum} 👉 {new_sum}\n{persone} {username}'
+    text = f'{request_type_emoji} #N{request_id}\nизменена сумма заявки\n{old_sum} 👉 {new_sum}\n{persone} @{username}'
 
     await message.answer (
         text='Сумма заявки изменена',

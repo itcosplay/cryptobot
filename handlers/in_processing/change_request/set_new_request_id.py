@@ -36,7 +36,7 @@ async def set_date_from_text(message:Message, state:FSMContext):
         username = message.chat.username
         new_request_id = message.text
         chosen_request[2] = new_request_id
-        text = f'{request_type_emoji} #N{old_request_id}\nизменен номер заявки\n{old_request_id} 👉 {new_request_id}\n{persone} {username}'
+        text = f'{request_type_emoji} #N{old_request_id}\nизменен номер заявки\n{old_request_id} 👉 {new_request_id}\n{persone} @{username}'
         print(chosen_request)
         try:
             result = await message.answer_sticker (

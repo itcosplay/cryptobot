@@ -191,7 +191,7 @@ async def set_sum_to_add(message:Message, state:FSMContext):
 
     await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
 
-    text = f'{request_type_emoji} #N{request_id}\nдобавлена новая сумма\n{new_sum}\n{persone} {username}'
+    text = f'{request_type_emoji} #N{request_id}\nдобавлена новая сумма\n{new_sum}\n{persone} @{username}'
 
     await message.answer (
         text='Сумма заявки изменена',

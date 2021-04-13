@@ -107,7 +107,7 @@ def get_data_chosen_request(request):
 
     if request[10] != '0':
         persone = all_emoji['персона']
-        text = text + f'{persone} {request[10]}'
+        text = text + f'{persone} @{request[10]}'
 
     if request[8] != '0':
         comment = all_emoji['коментарий']
@@ -185,7 +185,7 @@ def get_text_after_close_request(request, initial_rub, initial_usd, initial_eur)
             initial_eur = get_single_value(initial_eur, 'eur')
             text = text + f'{initial_eur}\n'
 
-        text = text + f'{persone}{request[10]}'
+        text = text + f'{persone} @{request[10]}'
 
         return text
 
@@ -216,7 +216,7 @@ def get_text_after_close_request(request, initial_rub, initial_usd, initial_eur)
         initial_eur = get_single_value(initial_eur, 'eur')
         text = text + f'{initial_eur}\n'
 
-    text = text + f'{persone}{request[10]}\n'
+    text = text + f'{persone} @{request[10]}\n'
 
     return text
 

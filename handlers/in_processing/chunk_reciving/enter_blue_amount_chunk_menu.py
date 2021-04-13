@@ -1,6 +1,5 @@
 from utils.notify_chat import notify_in_group_chat
 from utils.notify_universal import notify_someone
-from emoji import emojize
 
 from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext

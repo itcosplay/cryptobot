@@ -36,7 +36,7 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'permit_ordered':
         permit.update_permit_data(chosen_permit[0], 'заказан')
         permit_warning = 'пропуск заказан'
-        permit_notify = f'#{permit_id} пропуск заказан'
+        permit_notify = f'#N{permit_id} пропуск заказан'
 
         await notify_someone(permit_notify, 'admin', 'changer', 'executor')
 

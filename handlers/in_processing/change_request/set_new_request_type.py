@@ -93,7 +93,7 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
     persone = all_emoji['персона']
     username = call.message.chat.username
 
-    text = f'{request_type_emoji} #N{request_id}\nизменен тип заявки\n{chosen_request[3]} 👉 {new_request_type}\n{persone} {username}'
+    text = f'{request_type_emoji} #N{request_id}\nизменен тип заявки\n{chosen_request[3]} 👉 {new_request_type}\n{persone} @{username}'
     chosen_request[3] = new_request_type
     chosen_request[5] = '0'
     chosen_request[6] = '0'
