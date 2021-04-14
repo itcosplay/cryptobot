@@ -10,7 +10,7 @@ from data import all_emoji
 from data import sticker
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_coustom_main_menu
-from loader import bot, dp, sheet
+from loader import bot, dp, sheet, permit
 from states import Processing
 from utils import get_data_chosen_request
 from utils import notify_in_group_chat
@@ -41,6 +41,7 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
             result = await call.message.answer_sticker (
                 sticker['go_to_table']
             )
+            permit.change_permit_date(request_id, old_date, tomorrow_date)
             sheet.replace_row(chosen_request)
 
         except Exception as e:
@@ -78,6 +79,7 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
             result = await call.message.answer_sticker (
                 sticker['go_to_table']
             )
+            permit.change_permit_date(request_id, old_date, after_tomorrow_date)
             sheet.replace_row(chosen_request)
 
         except Exception as e:
@@ -184,6 +186,7 @@ async def set_date_from_text(message:Message, state:FSMContext):
             result = await message.answer_sticker (
                 sticker['go_to_table']
             )
+            permit.change_permit_date(request_id, old_date, new_date)
             sheet.replace_row(chosen_request)
 
         except Exception as e:

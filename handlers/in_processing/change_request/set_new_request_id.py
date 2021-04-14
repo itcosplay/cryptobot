@@ -6,7 +6,7 @@ from aiogram.types import Message
 from data import all_emoji
 from data import sticker
 from keyboards import create_kb_coustom_main_menu
-from loader import bot, dp, sheet
+from loader import bot, dp, sheet, permit
 from states import Processing
 from utils import notify_in_group_chat
 from utils import notify_someone
@@ -36,13 +36,15 @@ async def set_date_from_text(message:Message, state:FSMContext):
         username = message.chat.username
         new_request_id = message.text
         chosen_request[2] = new_request_id
-        text = f'{request_type_emoji} #N{old_request_id}\nизменен номер заявки\n{old_request_id} 👉 {new_request_id}\n{persone} @{username}'
+        request_date = chosen_request[0]
+        text = f'{request_type_emoji} #N{old_request_id}\nизменен номер заявки\nN#{old_request_id} 👉 N#{new_request_id}\n{persone} @{username}'
         print(chosen_request)
         try:
             result = await message.answer_sticker (
                 sticker['go_to_table']
             )
             sheet.update_id_row(old_request_id, new_request_id)
+            permit.change_permit_id(old_request_id, request_date, new_request_id)
 
         except Exception as e:
             print(e)

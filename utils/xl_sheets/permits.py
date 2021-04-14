@@ -186,3 +186,34 @@ class DataPermits:
                 all_permit_id_list.append(permit_id)
 
         return all_permit_id_list
+
+
+    def change_permit_id(self, old_request_id, request_date, new_request_id):
+        wb = load_workbook('permits.xlsx')
+        sheet = wb['Лист1']
+        last_row = 50 # max row in permit table
+
+        for i in range(1, last_row):
+            old_permit_id = sheet.cell(row=i, column=1).value
+            old_permit_date = sheet.cell(row=i, column=3).value
+
+            if old_permit_id == old_request_id and old_permit_date == request_date:
+                sheet.cell(row=i, column=1).value = new_request_id
+                wb.save('permits.xlsx')
+
+        return
+
+    def change_permit_date(self, request_id, old_request_date, new_request_date):
+        wb = load_workbook('permits.xlsx')
+        sheet = wb['Лист1']
+        last_row = 50 # max row in permit table
+
+        for i in range(1, last_row):
+            permit_id = sheet.cell(row=i, column=1).value
+            old_permit_date = sheet.cell(row=i, column=3).value
+
+            if permit_id == request_id and old_permit_date == old_request_date:
+                sheet.cell(row=i, column=3).value = new_request_date
+                wb.save('permits.xlsx')
+
+        return
