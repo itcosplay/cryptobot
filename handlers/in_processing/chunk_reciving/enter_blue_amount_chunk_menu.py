@@ -36,6 +36,7 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         chosen_request = data_state['chosen_request']
         # chosen_request[12] = chosen_request[5]
         chosen_request[10] = '0'
+        chosen_request[16] = '0'
         await state.update_data(chosen_request=chosen_request)
 
         text = get_data_chosen_request(chosen_request)
