@@ -36,7 +36,7 @@ async def message_processing(call:CallbackQuery, state:FSMContext):
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
     text = get_data_request_short(chosen_request)
-    user = call.message.chat.username
+    user = '@' + call.message.chat.username
     persone = all_emoji['персона']
     envelop = all_emoji['конверт']
 
@@ -163,7 +163,7 @@ async def set_other_message(message:Message, state:FSMContext):
     )
 
     persone = all_emoji['персона']
-    user = message.chat.username
+    user = '@' + message.chat.username
     
     text = data_state['other_message'] + message.text + '\n'
     text = text + persone + user

@@ -43,8 +43,8 @@ async def show_current_requests(message:Message, state:FSMContext):
 
         return
 
-    await state.update_data(current_requests=current_requests)
     await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+    await state.update_data(current_requests=current_requests)
 
     if len(in_processing_requests) == 0 and len(ready_to_give_requests) == 0:
         await message.answer (
