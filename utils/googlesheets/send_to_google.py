@@ -1,32 +1,12 @@
-from os import stat
-from aiohttp.client import request
-import gspread
 import datetime
+import gspread
+
 
 
 from oauth2client.service_account import ServiceAccountCredentials
 
 
 class DataFromSheet:
-    def get_google_sheet(self):
-        CREDENTIALS_FILE = 'creds.json'
-        scope = [
-            "https://spreadsheets.google.com/feeds",
-            'https://www.googleapis.com/auth/spreadsheets',
-            "https://www.googleapis.com/auth/drive.file",
-            "https://www.googleapis.com/auth/drive"
-        ]
-        creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'creds.json',
-            scope
-        )
-        client = gspread.authorize(creds)
-        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-
-        return sheet
-        
-
     # def get_google_sheet(self):
     #     CREDENTIALS_FILE = 'creds.json'
     #     scope = [
@@ -36,15 +16,34 @@ class DataFromSheet:
     #         "https://www.googleapis.com/auth/drive"
     #     ]
     #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         'sms.json',
+    #         'creds.json',
     #         scope
     #     )
     #     client = gspread.authorize(creds)
-    #     # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
     #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-    #     sheet = client.open("VTL учёт").sheet1
 
     #     return sheet
+        
+
+    def get_google_sheet(self):
+        CREDENTIALS_FILE = 'creds.json'
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            'https://www.googleapis.com/auth/spreadsheets',
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+        ]
+        creds = ServiceAccountCredentials.from_json_keyfile_name (
+            'sms.json',
+            scope
+        )
+        client = gspread.authorize(creds)
+        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+        sheet = client.open("VTL учёт").sheet1
+
+        return sheet
 
     def get_google_sheet_card_balance(self):
         CREDENTIALS_FILE = 'creds.json'
@@ -72,6 +71,15 @@ class DataFromSheet:
         G3 = sheet.acell('G3').value
         return A3, E3, G3
 
+    def get_balance_DFI3Q4(self):
+        sheet = self.get_google_sheet()
+        D3 = sheet.acell('D3').value
+        F3 = sheet.acell('F3').value
+        I3 = sheet.acell('I3').value
+        Q4 = sheet.acell('Q4').value
+
+        return D3, F3, I3, Q4
+
     def get_last_row(self):
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
@@ -84,7 +92,7 @@ class DataFromSheet:
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
-            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
+            data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
         except Exception as e:
             print(e)
@@ -138,7 +146,7 @@ class DataFromSheet:
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
-            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
+            data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
         except Exception as e:
             print(e)
@@ -164,7 +172,7 @@ class DataFromSheet:
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
-            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
+            data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
         except Exception as e:
             print(e)
@@ -205,8 +213,10 @@ class DataFromSheet:
     def get_balances_with_request(self):
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
-        data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0]
+        data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0]
         A3, E3, G3 = self.get_balance_AEG3()
+        D3, F3, I3, Q4 = self.get_balance_DFI3Q4()
+
         A3 = int(A3)
         E3 = int(E3)
         G3 = int(G3)
@@ -228,30 +238,35 @@ class DataFromSheet:
             delta_days = (request_date - current_date).days
             
             if delta_days >= 1 or delta_days == -364:
-                future_request += 1
+                future_requests += 1
                 A3 = A3 - int(row[5])
                 E3 = E3 - int(row[6])
                 G3 = G3 - int(row[7])
 
-        return A3, E3, G3, future_requests
+        return A3, E3, G3, future_requests, D3, F3, I3, Q4
     
     def get_card_balances(self):
         sheet = self.get_google_sheet_card_balance()
-        C1A = sheet.acell('B5').value
+        data = sheet.batch_get(['B5:B8'])[0]
+
+        C1A = data[0][0]
         C1A = C1A.replace(',', '.')
 
-        C1T = sheet.acell('B6').value
+        C1T = data[1][0]
         C1T = C1T.replace(',', '.')
 
-        C1D = sheet.acell('B7').value
+        C1D = data[2][0]
         C1D = C1D.replace(',', '.')
 
-        S1V = sheet.acell('B8').value
+        S1V = data[3][0]
         S1V = S1V.replace(',', '.')
 
         total = float(C1A) + float(C1T) + float(C1D) + float(S1V)
 
         return C1A, C1T, C1D, S1V, total
+
+
+
 
 def send_to_google(state, creator_name):
     sheet = get_google_sheet() 
@@ -408,27 +423,8 @@ def send_to_google(state, creator_name):
 
     return C__id_of_request, permit_text, inserRow
 
-
-def get_google_sheet():
-    CREDENTIALS_FILE = 'creds.json'
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        'https://www.googleapis.com/auth/spreadsheets',
-        "https://www.googleapis.com/auth/drive.file",
-        "https://www.googleapis.com/auth/drive"
-    ]
-    creds = ServiceAccountCredentials.from_json_keyfile_name (
-        'creds.json',
-        scope
-    )
-    client = gspread.authorize(creds)
-    sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
-
-    return sheet
-
-
 # def get_google_sheet():
-#     CREDENTIALS_FILE = 'sms.json'
+#     CREDENTIALS_FILE = 'creds.json'
 #     scope = [
 #         "https://spreadsheets.google.com/feeds",
 #         'https://www.googleapis.com/auth/spreadsheets',
@@ -436,21 +432,36 @@ def get_google_sheet():
 #         "https://www.googleapis.com/auth/drive"
 #     ]
 #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-#         'sms.json',
+#         'creds.json',
 #         scope
 #     )
 #     client = gspread.authorize(creds)
-#     sheet = client.open("VTL учёт").sheet1  # Open the spreadhseet
+#     sheet = client.open("test_bot_sheet").sheet1  # Open the spreadhseet
 
 #     return sheet
 
 
+def get_google_sheet():
+    CREDENTIALS_FILE = 'sms.json'
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        'https://www.googleapis.com/auth/spreadsheets',
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive"
+    ]
+    creds = ServiceAccountCredentials.from_json_keyfile_name (
+        'sms.json',
+        scope
+    )
+    client = gspread.authorize(creds)
+    sheet = client.open("VTL учёт").sheet1  # Open the spreadhseet
+
+    return sheet
+
+
+
 # test = DataFromSheet()
 
-# # A3, E3, G3 = test.get_balances_with_request()
-# # print(A3)
-# # print(E3)
-# # print(G3)
-
-# one, two, three, four, total = test.get_card_balances()
+# C1A, C1T, C1D, S1V, total = test.get_card_balances()
 # print(total)
+# print(type(total))

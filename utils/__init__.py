@@ -17,6 +17,9 @@ from .get_minuses_sum_FGH import get_minus_FGH
 from .get_values_FGH_MNO import get_plus_FGH
 from .get_values_FGH_MNO import get_values_FGH
 from .get_values_FGH_MNO import get_single_value
+from .get_values_FGH_MNO import get_single_value_float
+from .get_values_FGH_MNO import get_single_value_int
+from .get_values_FGH_MNO import get_single_value_without_cur
 from .notify_chat import notify_in_group_chat
 
 

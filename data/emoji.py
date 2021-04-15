@@ -31,6 +31,10 @@ replenishment = '📈'
 other = 'ℹ️'
 cashoutatm = '💵'
 comment = '📝'
+balance_finish = '🏁'
+money_bag = '💰'
+future_money = '🔮'
+red_circle = '🔴'
 
 all_emoji = {
     'выдача в офисе': issuing_office,
@@ -61,5 +65,9 @@ all_emoji = {
     'синих': blue,
 
     'конверт': envelope,
+    'balance_finish': balance_finish,
+    'money_bag': money_bag,
+    'future_money': future_money,
+    'red_circle': red_circle,
     'коментарий': comment
 }

@@ -135,3 +135,33 @@ def get_single_value(value:str, currency:str):
     if currency == 'eur': value = value + '€'
 
     return value
+
+
+def get_single_value_float(value:float, currency:str):
+    value = f'{value:,}'
+    value = value.replace('.', '-')
+    value = value.replace(',', '.')
+    value = value.replace('-', ',')
+
+    if currency == 'rub': value = value + ' ₽'
+    if currency == 'usd': value = value + ' $'
+    if currency == 'eur': value = value + ' €'
+
+    return value
+
+
+def get_single_value_int(value:int, currency:str):
+    value = f'{value:,}'
+    value = value.replace(',', '.')
+
+    if currency == 'rub': value = value + ' ₽'
+    if currency == 'usd': value = value + ' $'
+    if currency == 'eur': value = value + ' €'
+
+    return value
+
+def get_single_value_without_cur(value:int):
+    value = f'{value:,}'
+    value = value.replace(',', '.')
+
+    return value
