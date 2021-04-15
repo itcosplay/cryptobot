@@ -23,13 +23,19 @@ def create_kb_coustom_main_menu(user_id):
         keyboard.add(KeyboardButton(text='пропуска'))
         keyboard.insert(KeyboardButton(text='создать пропуск'))
 
+        keyboard.add(KeyboardButton(text='балансы'))
+        keyboard.insert(KeyboardButton(text='отчетность'))
+
     elif user_status == 'changer':
         keyboard.add(KeyboardButton(text='создать заявку'))
         keyboard.add(KeyboardButton(text='в работе'))
         keyboard.add(KeyboardButton(text='создать пропуск'))
+        keyboard.add(KeyboardButton(text='балансы'))
 
     elif user_status == 'executor':
         keyboard.add(KeyboardButton(text='в работе'))
+        keyboard.add(KeyboardButton(text='балансы'))
+        keyboard.add(KeyboardButton(text='отчетность'))
 
     elif user_status == 'secretary':
         keyboard.add(KeyboardButton(text='информация о смс'))

@@ -36,6 +36,7 @@ from .inline import create_kb_another_currecy_add
 from .inline import create_kb_choose_give_recive_change
 from .inline import create_kb_confirm_cancel_request
 from .inline import create_kb_confirm_single_permit
+from .inline import create_kb_what_balance_to_show
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests

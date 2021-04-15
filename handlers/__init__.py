@@ -10,6 +10,8 @@ from .permits import dp
 
 from .smsinfo import dp
 
+from .balances import dp
+
 from .echo import dp
 
 

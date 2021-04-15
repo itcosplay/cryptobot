@@ -61,3 +61,5 @@ from .smsinfo import create_kb_for_what_waste
 from .smsinfo import cb_who_waste
 from .smsinfo import cb_yes_no_note
 from .smsinfo import cb_for_what_waste
+
+from .balance_keyboards import create_kb_what_balance_to_show
