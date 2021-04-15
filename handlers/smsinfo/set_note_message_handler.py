@@ -55,7 +55,8 @@ async def set_note_waste(message:Message, state:FSMContext):
             text='Не удалось соединиться с гугл таблицей',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
-
+        await state.finish()
+        
         return
 
     await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)

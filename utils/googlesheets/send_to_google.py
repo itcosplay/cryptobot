@@ -80,6 +80,20 @@ class DataFromSheet:
 
         return D3, F3, I3, Q4
 
+    def get_large_data(self):
+        sheet = self.get_google_sheet()
+        numb_of_last_row = len(sheet.col_values(1))
+        data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}', 'A3', 'E3', 'G3', 'D3', 'F3', 'I3', 'Q4']) # 20 needs change to 30 or other
+        A3 = data[1][0][0]
+        E3 = data[2][0][0]
+        G3 = data[3][0][0]
+        D3 = data[4][0][0]
+        F3 = data[5][0][0]
+        I3 = data[6][0][0]
+        Q4 = data[7][0][0]
+        data = data[0]
+        return data, A3, E3, G3, D3, F3, I3, Q4
+
     def get_last_row(self):
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
@@ -211,11 +225,12 @@ class DataFromSheet:
                 return row
 
     def get_balances_with_request(self):
-        sheet = self.get_google_sheet()
-        numb_of_last_row = len(sheet.col_values(1))
-        data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0]
-        A3, E3, G3 = self.get_balance_AEG3()
-        D3, F3, I3, Q4 = self.get_balance_DFI3Q4()
+        # sheet = self.get_google_sheet()
+        # numb_of_last_row = len(sheet.col_values(1))
+        # data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0]
+        # A3, E3, G3 = self.get_balance_AEG3()
+        # D3, F3, I3, Q4 = self.get_balance_DFI3Q4()
+        data, A3, E3, G3, D3, F3, I3, Q4 = self.get_large_data()
 
         A3 = int(A3)
         E3 = int(E3)
@@ -242,6 +257,8 @@ class DataFromSheet:
                 A3 = A3 - int(row[5])
                 E3 = E3 - int(row[6])
                 G3 = G3 - int(row[7])
+        
+        print('we_are_here')
 
         return A3, E3, G3, future_requests, D3, F3, I3, Q4
     
@@ -461,6 +478,17 @@ def get_google_sheet():
 
 
 # test = DataFromSheet()
+
+# data, A3, E3, G3, D3, F3, I3, Q4 = test.get_large_data()
+
+# print(data)
+# print(A3)
+# print(E3)
+# print(G3)
+# print(D3)
+# print(F3)
+# print(I3)
+# print(Q4)
 
 # C1A, C1T, C1D, S1V, total = test.get_card_balances()
 # print(total)

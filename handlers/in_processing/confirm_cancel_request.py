@@ -51,7 +51,8 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
                 text='Не удалось соединиться с гугл таблицей...',
                 reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
-
+            await state.finish()
+            
             return
         
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
