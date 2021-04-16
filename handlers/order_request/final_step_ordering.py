@@ -4,9 +4,9 @@ from aiogram.dispatcher import FSMContext
 from aiohttp.client import request
 
 from data import all_emoji
-from loader import dp, bot, permit
+from loader import dp, bot, permit, sheet
 from states import Request
-from utils import send_to_google
+# from utils import send_to_google
 from utils import notify_about_balance
 from utils import notify_about_permit_to_order
 from utils import notify_someone
@@ -56,7 +56,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         )
 
         try:
-            request_id, permit_text, created_request = send_to_google(request_data, creator_name)
+            request_id, permit_text, created_request = sheet.send_to_google(request_data, creator_name)
             if not permit_text == '':
                 permit.write_new_permit(request_id, request_date, permit_text)
                 await notify_about_permit_to_order()
