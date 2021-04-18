@@ -20,6 +20,7 @@ from .get_values_FGH_MNO import get_single_value
 from .get_values_FGH_MNO import get_single_value_float
 from .get_values_FGH_MNO import get_single_value_int
 from .get_values_FGH_MNO import get_single_value_without_cur
+from .get_values_FGH_MNO import get_minus_MNO
 from .notify_chat import notify_in_group_chat
 
 

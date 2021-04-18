@@ -62,7 +62,7 @@ async def set_date_from_text(message:Message, state:FSMContext):
         await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
 
         await message.answer (
-            text='Дата заявки изменена',
+            text='Номер заявки изменен',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
         

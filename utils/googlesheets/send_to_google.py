@@ -315,7 +315,6 @@ class DataFromSheet:
 
         return
 
-
     def send_to_google(self, state, creator_name):
         sheet = self.get_google_sheet() 
         numb_of_last_row = len(sheet.col_values(1))
@@ -473,6 +472,42 @@ class DataFromSheet:
 
         return C__id_of_request, permit_text, inserRow
 
+    def get_last_30_id(self):
+        '''
+        Returns last 30 id like a list of string numbers
+        '''
+        sheet = self.get_google_sheet()
+        numb_of_last_row = len(sheet.col_values(1))
+
+        if numb_of_last_row - 30 <= 6:
+            low_value_row = 6
+
+        else:
+            low_value_row = numb_of_last_row - 40
+
+        last_30_id = sheet.get(f'C{low_value_row}:C{numb_of_last_row}')
+        last_30_id = sum(last_30_id, [])
+
+        return last_30_id
+    
+    def get_ready_to_give_requests(self):
+        sheet = self.get_google_sheet()
+        numb_of_last_row = len(sheet.col_values(1))
+        data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
+
+        ready_to_give_request = []
+
+        for row in data:
+            if row[11] == 'Готово к выдаче':
+                ready_to_give_request.append(row)
+
+        if len(ready_to_give_request) != 0:
+
+            return ready_to_give_request
+        
+        else:
+
+            return False
 
 # def get_google_sheet():
 #     CREDENTIALS_FILE = 'creds.json'
@@ -511,6 +546,4 @@ class DataFromSheet:
 
 
 
-test_sheet = DataFromSheet()
-
-test_sheet.sort_table_data()
+# test_sheet = DataFromSheet()

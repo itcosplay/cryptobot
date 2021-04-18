@@ -20,7 +20,7 @@ async def set_operation_type (
     await call.message.delete()
 
     if call.data == 'recive' or call.data == 'takeout' \
-    or call.data == 'delivery':
+    or call.data == 'delivery' or call.data == 'cashin':
         await state.update_data(operation_type=call.data)
 
         currencies__how_much = []
@@ -37,20 +37,20 @@ async def set_operation_type (
         await Request.temp_sum_state.set()
         # to temp_sum_message_handler.py
     
-    elif call.data == 'cashin':
-        await state.update_data(operation_type=call.data)
+    # elif call.data == 'cashin':
+    #     await state.update_data(operation_type=call.data)
 
-        currencies__how_much = []
+    #     currencies__how_much = []
 
-        await state.update_data (
-            currencies__how_much = currencies__how_much
-        )
+    #     await state.update_data (
+    #         currencies__how_much = currencies__how_much
+    #     )
 
-        await call.message.answer (
-            f'Выберете карточку:',
-            reply_markup=create_kb_choose_card()
-        )
-        await Request.type_of_card.set()
+    #     await call.message.answer (
+    #         f'Выберете карточку:',
+    #         reply_markup=create_kb_choose_card()
+    #     )
+    #     await Request.type_of_card.set()
         # to type_of_card_if_cash_in.py
 
     elif call.data == 'change':

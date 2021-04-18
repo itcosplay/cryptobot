@@ -15,6 +15,7 @@ from states import Balancestate
 from utils import get_single_value_float
 from utils import get_single_value_int
 from utils import get_single_value_without_cur
+from utils import get_minus_MNO
 
 
 # from 'балансы' main_menu
@@ -59,6 +60,7 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
         try:
             A3, E3, G3, future_requests, D3, F3, I3, Q4 = sheet.get_balances_with_request()
             FA3, FE3, FG3 = sheet.get_balance_AEG3()
+            ready_to_give_requests = sheet.get_ready_to_give_requests()
 
         except Exception as e:
             print(e)
@@ -128,6 +130,27 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
             text_2 = f'{monbag} Баланс фактический в сейфе:\n{D3}{red_circle}{red_bal}{Q4}\n{F3}\n{I3}\n\n'
 
             text = text_1 + text_2
+        
+        if ready_to_give_requests != False:
+            ready_to_give = all_emoji['Готово к выдаче']
+            text_ready_to_give = f'\n\n{ready_to_give} Отложено к выдаче:\n'
+
+            for request in ready_to_give_requests:
+                rub, usd, eur = get_minus_MNO(request)
+                if usd != '' or eur != '': rub = rub + ', '
+                if eur != '': usd = usd + ', '
+                if rub == ', ': rub = ''
+                if usd == ', ': usd = ''
+        
+                request_date = request[0]
+                request_numb = request[2]
+                request_type = all_emoji[request[3]]
+                text_ready_to_give = text_ready_to_give + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
+        
+        else:
+            text_ready_to_give = '\n\nОтложенных к выдаче заявок нет'
+            
+        text = text + text_ready_to_give
 
         await call.message.answer (
             text=text,
