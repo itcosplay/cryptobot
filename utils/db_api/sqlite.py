@@ -149,9 +149,13 @@ def logger(statement):
 
 
 
-def test():
+# def test():
     
-    db = Database()
+#     db = Database()
+#     users = db.select_all_users()
+#     print(users)
+
+
     # db.delete_user(439453169)
     # db.delete_all_users()
     
@@ -172,7 +176,7 @@ def test():
     # print(db.get_user_status(id=1637852195))
 
 
-    # users = db.select_all_users()
+    
     # print(f"Получил всех пользователей: {users}")
 
     # bloked_users = db.select_id_users(status='block')
@@ -183,7 +187,5 @@ def test():
     # print(f"Получил всех пользователей: {users}")
 
     # print(db.get_all_statuses())
-
-
 
 # test()
