@@ -1,32 +1,14 @@
 import datetime
 import gspread
-from operator import itemgetter
+from operator import itemgetter, ne
 
 
 
 from oauth2client.service_account import ServiceAccountCredentials
+from six import text_type
 
 
 class DataFromSheet:
-    def get_google_sheet(self):
-        CREDENTIALS_FILE = 'creds.json'
-        scope = [
-            "https://spreadsheets.google.com/feeds",
-            'https://www.googleapis.com/auth/spreadsheets',
-            "https://www.googleapis.com/auth/drive.file",
-            "https://www.googleapis.com/auth/drive"
-        ]
-        creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'creds.json',
-            scope
-        )
-        client = gspread.authorize(creds)
-        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-
-        return sheet
-        
-
     # def get_google_sheet(self):
     #     CREDENTIALS_FILE = 'creds.json'
     #     scope = [
@@ -36,15 +18,34 @@ class DataFromSheet:
     #         "https://www.googleapis.com/auth/drive"
     #     ]
     #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         'sms.json',
+    #         'creds.json',
     #         scope
     #     )
     #     client = gspread.authorize(creds)
-    #     # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
     #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-    #     sheet = client.open("VTL учёт").sheet1
 
     #     return sheet
+        
+
+    def get_google_sheet(self):
+        CREDENTIALS_FILE = 'creds.json'
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            'https://www.googleapis.com/auth/spreadsheets',
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+        ]
+        creds = ServiceAccountCredentials.from_json_keyfile_name (
+            'sms.json',
+            scope
+        )
+        client = gspread.authorize(creds)
+        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+        sheet = client.open("VTL учёт").sheet1
+
+        return sheet
 
     def get_google_sheet_card_balance(self):
         CREDENTIALS_FILE = 'creds.json'
@@ -311,6 +312,15 @@ class DataFromSheet:
 
         new_data = new_data + data_sord_date
 
+        for row in new_data:
+            row[5] = int(row[5])
+            row[6] = int(row[6])
+            row[7] = int(row[7])
+            row[12] = int(row[12])
+            row[13] = int(row[13])
+            row[14] = int(row[14])
+            row[16] = int(row[16])
+
         sheet.update(f'A{numb_of_last_row - 30}:Q{numb_of_last_row}', new_data) # 20 needs change to 30 or other
 
         return
@@ -547,3 +557,4 @@ class DataFromSheet:
 
 
 # test_sheet = DataFromSheet()
+# test_sheet.sort_table_data()
