@@ -1,4 +1,5 @@
 import time
+import traceback
 
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
@@ -32,6 +33,7 @@ async def show_current_requests(message:Message, state:FSMContext):
 
     except Exception as e:
         print(e)
+        traceback.print_exception()
         await message.answer_sticker (
             'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
         )
@@ -51,6 +53,8 @@ async def show_current_requests(message:Message, state:FSMContext):
             reply_markup=create_kb_coustom_main_menu(message.from_user.id)
         )
         await state.finish()
+
+        return
 
     else:
         await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)

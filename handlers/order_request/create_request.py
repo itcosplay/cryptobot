@@ -38,12 +38,12 @@ async def create_request(message:types.Message, state:FSMContext):
     await state.update_data(data_request=datetime.datetime.today().strftime('%d.%m'))
 
     result = await message.answer('Введите номер заявки в формате XXXX')
-    await Request.request_id.set()
+    await Request.request_numb.set()
     await state.update_data(_del_message=result.message_id)
 
     return
 
-@dp.message_handler(state=Request.request_id)
+@dp.message_handler(state=Request.request_numb)
 async def set_request_id(message:types.Message, state:FSMContext):
     data_state = await state.get_data()
 
@@ -59,7 +59,7 @@ async def set_request_id(message:types.Message, state:FSMContext):
     match = re.fullmatch(r'\d\d\d\d', message.text)
 
     if match:
-        await state.update_data(request_id=message.text)
+        await state.update_data(request_numb=message.text)
 
         await message.answer (
             text='Выберите тип операции',
@@ -74,7 +74,7 @@ async def set_request_id(message:types.Message, state:FSMContext):
     else:
         result = await message.answer('Неправильный формат номера заявки. Попробуйте еще раз ввести в формате XXXX.\n(Например: 1546)')
         await state.update_data(_del_message=result.message_id)
-        await Request.request_id.set()
+        await Request.request_numb.set()
 
         return
 

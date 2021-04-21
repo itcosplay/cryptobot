@@ -15,25 +15,25 @@ def create_kb_all_permits(permits):
 
     for permit in permits:
 
-        if not current_date == permit[2]:
-            permit_date = permit[2]
+        if current_date != permit[3]:
+            permit_date = permit[3]
         else:
             permit_date = ''
         
-        if permit[3] == 'нужно заказать':
+        if permit[4] == 'нужно заказать':
             permit_status = all_emoji['квз']
 
-        elif permit[3] == 'заказан':
+        elif permit[4] == 'заказан':
             permit_status = all_emoji['заказан']
 
-        elif permit[3] == 'отработан':
+        elif permit[4] == 'отработан':
             permit_status = all_emoji['отработан']
 
         else:
             permit_status = 'БЛЯ'
 
-        permit_id = permit[0]
-        permit_text = permit[1]
+        permit_id = permit[1]
+        permit_text = permit[2]
        
         keyboard.add (
             InlineKeyboardButton (

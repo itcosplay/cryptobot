@@ -1,6 +1,6 @@
 import datetime
 import gspread
-from operator import itemgetter, ne
+from operator import itemgetter
 
 
 
@@ -328,44 +328,38 @@ class DataFromSheet:
     def send_to_google(self, state, creator_name):
         sheet = self.get_google_sheet() 
         numb_of_last_row = len(sheet.col_values(1))
-        # print(numb_of_last_row)
-        last_row = sheet.get(f'A{numb_of_last_row}:Q{numb_of_last_row}')[0]
 
         A__current_date = state['data_request']
 
-        if last_row[0] == A__current_date:
-            B__numb_of_request_for_today = int(last_row[1]) + 1
-        else:
-            B__numb_of_request_for_today = 1
+        B__request_id = datetime.datetime.today().strftime('%d%H%M%S')
+        C__request_numb = state['request_numb']
 
-        C__id_of_request = int(datetime.datetime.today().strftime('%H%M'))
+        # if numb_of_last_row - 40 <= 6:
+        #     low_value_row = 6
 
-        if numb_of_last_row - 40 <= 6:
-            low_value_row = 6
-
-        else:
-            low_value_row = numb_of_last_row - 40
+        # else:
+        #     low_value_row = numb_of_last_row - 40
         
-        last_20_ids = sheet.get(f'C{low_value_row}:C{numb_of_last_row}')
-        last_20_ids = sum(last_20_ids, [])
-        limit_while = 1
+        # last_20_ids = sheet.get(f'C{low_value_row}:C{numb_of_last_row}')
+        # last_20_ids = sum(last_20_ids, [])
+        # limit_while = 1
 
-        while True:
-            if str(C__id_of_request) in last_20_ids:
-                C__id_of_request -= 1
-                limit_while += 1
+        # while True:
+        #     if str(C__id_of_request) in last_20_ids:
+        #         C__id_of_request -= 1
+        #         limit_while += 1
             
-            else:
+        #     else:
 
-                break
+        #         break
 
-            if limit_while == 50:
+        #     if limit_while == 50:
 
-                return False
+        #         return False
 
-        C__id_of_request = str(C__id_of_request)
-        C__id_of_request = C__id_of_request.zfill(4)
-
+        # C__request_numb = str(C__id_of_request)
+        # C__id_of_request = C__id_of_request.zfill(4)
+        # print('ZZZZZZZZZZZZZ')
         translate_values_request = {
             'changer': 'change',
             'operator': 'оператор',
@@ -384,7 +378,7 @@ class DataFromSheet:
             'sum_minus': '',
             'ok': ''
         }
-
+        # print('WWWWWWWWWWWWWW')
         D__type_of_operation = translate_values_request[state['operation_type']]
         E__applicant = translate_values_request[state['applicant']]
 
@@ -453,8 +447,8 @@ class DataFromSheet:
         
         inserRow = []
         inserRow.append(A__current_date)
-        inserRow.append(B__numb_of_request_for_today)
-        inserRow.append(C__id_of_request)
+        inserRow.append(B__request_id)
+        inserRow.append(C__request_numb)
         inserRow.append(D__type_of_operation)
         inserRow.append(E__applicant)
         inserRow.append(F__sum)
@@ -479,8 +473,8 @@ class DataFromSheet:
         self.sort_table_data()
 
         permit_text = state['permit']
-
-        return C__id_of_request, permit_text, inserRow
+        print('BEFORE RETURN')
+        return B__request_id, C__request_numb, permit_text, inserRow
 
     def get_last_30_id(self):
         '''

@@ -1,4 +1,5 @@
 import data
+import traceback
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiohttp.client import request
@@ -47,6 +48,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
     elif call.data == 'send_btn':
         await state.update_data(type_end=call.data)
+        
         data_state = await state.get_data()
         request_date = data_state['data_request']
         creator_name = call.message.chat.username
@@ -56,21 +58,26 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         )
 
         try:
-            request_id, permit_text, created_request = sheet.send_to_google(request_data, creator_name)
-            if not permit_text == '':
-                permit.write_new_permit(request_id, request_date, permit_text)
+            request_id, request_numb, permit_text, created_request = sheet.send_to_google(request_data, creator_name)
+
+            if permit_text != '':
+                permit.write_new_permit(request_id, request_numb, request_date, permit_text)
+
                 await notify_about_permit_to_order()
 
             permit.clear_table() # Очищаем таблицу от старых пропусков
 
         except Exception as e:
             print(e)
+            traceback.print_exception() 
             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
             await call.message.answer (
                 f'Ошибка! Проблемы с таблицами...\n==============================',
                 reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
             )
             await state.finish()
+
+            return
 
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
         await call.message.answer (

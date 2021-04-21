@@ -1,3 +1,4 @@
+import collections
 from datetime import datetime
 
 from openpyxl import load_workbook
@@ -13,49 +14,53 @@ class DataPermits:
         permits_list = []
 
         for i in range(1, last_row):
-            cell_obj = sheet.cell(row=i, column=4)
+            cell_obj = sheet.cell(row=i, column=5)
             if cell_obj.value == 'отработан':
                 permit = []
                 permit_id = sheet.cell(row=i, column=1).value
-                permit_text = sheet.cell(row=i, column=2).value
-                permit_date = sheet.cell(row=i, column=3).value
-                permit_status = sheet.cell(row=i, column=4).value
+                request_numb = sheet.cell(row=i, column=2).value
+                permit_text = sheet.cell(row=i, column=3).value
+                permit_date = sheet.cell(row=i, column=4).value
+                permit_status = sheet.cell(row=i, column=5).value
                 permit.append(permit_id)
+                permit.append(request_numb)
                 permit.append(permit_text)
                 permit.append(permit_date)
                 permit.append(permit_status)
                 permits_list.append(permit)
 
         for i in range(1, last_row):
-            cell_obj = sheet.cell(row=i, column=4)
+            cell_obj = sheet.cell(row=i, column=5)
             if cell_obj.value == 'заказан':
                 permit = []
                 permit_id = sheet.cell(row=i, column=1).value
-                permit_text = sheet.cell(row=i, column=2).value
-                permit_date = sheet.cell(row=i, column=3).value
-                permit_status = sheet.cell(row=i, column=4).value
+                request_numb = sheet.cell(row=i, column=2).value
+                permit_text = sheet.cell(row=i, column=3).value
+                permit_date = sheet.cell(row=i, column=4).value
+                permit_status = sheet.cell(row=i, column=5).value
                 permit.append(permit_id)
+                permit.append(request_numb)
                 permit.append(permit_text)
                 permit.append(permit_date)
                 permit.append(permit_status)
                 permits_list.append(permit)
 
         for i in range(1, last_row):
-            cell_obj = sheet.cell(row=i, column=4)
+            cell_obj = sheet.cell(row=i, column=5)
             if cell_obj.value == 'нужно заказать':
                 permit = []
                 permit_id = sheet.cell(row=i, column=1).value
-                permit_text = sheet.cell(row=i, column=2).value
-                permit_date = sheet.cell(row=i, column=3).value
-                permit_status = sheet.cell(row=i, column=4).value
+                request_numb = sheet.cell(row=i, column=2).value
+                permit_text = sheet.cell(row=i, column=3).value
+                permit_date = sheet.cell(row=i, column=4).value
+                permit_status = sheet.cell(row=i, column=5).value
                 permit.append(permit_id)
+                permit.append(request_numb)
                 permit.append(permit_text)
                 permit.append(permit_date)
                 permit.append(permit_status)
                 permits_list.append(permit)
                 
-        
-
         return permits_list
 
 
@@ -91,9 +96,10 @@ class DataPermits:
         return ''
 
 
-    def write_new_permit(self, permit_id, permit_date, permit_text=''):
+    def write_new_permit(self, permit_id, request_numb, permit_date, permit_text=''):
         permit_id = str(permit_id)
         permit_status = 'нужно заказать'
+
 
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
@@ -104,9 +110,10 @@ class DataPermits:
             cell_obj = sheet.cell(row=i, column=1)
             if cell_obj.value == permit_id:
                 sheet.cell(row=i, column=1).value = permit_id
-                sheet.cell(row=i, column=2).value = permit_text
-                sheet.cell(row=i, column=3).value = permit_date
-                sheet.cell(row=i, column=4).value = permit_status
+                sheet.cell(row=i, column=2).value = request_numb
+                sheet.cell(row=i, column=3).value = permit_text
+                sheet.cell(row=i, column=4).value = permit_date
+                sheet.cell(row=i, column=5).value = permit_status
                 wb.save('permits.xlsx')
 
                 return True
@@ -115,9 +122,10 @@ class DataPermits:
             cell_obj = sheet.cell(row=i, column=1)
             if cell_obj.value == None:
                 sheet.cell(row=i, column=1).value = permit_id
-                sheet.cell(row=i, column=2).value = permit_text
-                sheet.cell(row=i, column=3).value = permit_date
-                sheet.cell(row=i, column=4).value = permit_status
+                sheet.cell(row=i, column=2).value = request_numb
+                sheet.cell(row=i, column=3).value = permit_text
+                sheet.cell(row=i, column=4).value = permit_date
+                sheet.cell(row=i, column=5).value = permit_status
                 wb.save('permits.xlsx')
 
                 return True
@@ -125,7 +133,7 @@ class DataPermits:
         return False
 
 
-    def delete_permit(self, request_numb):
+    def delete_permit(self, request_id):
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
         last_row = 50 # max row in permit table
@@ -133,9 +141,12 @@ class DataPermits:
         for i in range(1, last_row):
             cell_obj = sheet.cell(row=i, column=1)
             
-            if cell_obj.value == request_numb:
+            if cell_obj.value == request_id:
                 sheet.cell(row=i, column=1).value = ''
                 sheet.cell(row=i, column=2).value = ''
+                sheet.cell(row=i, column=3).value = ''
+                sheet.cell(row=i, column=4).value = ''
+                sheet.cell(row=i, column=5).value = ''
                 wb.save('permits.xlsx')
 
                 return True
@@ -154,7 +165,7 @@ class DataPermits:
 
 
         for i in range(1, last_row):
-            some_date = sheet.cell(row=i, column=3).value
+            some_date = sheet.cell(row=i, column=4).value
             
             if some_date != None:
                 some_date = datetime.strptime(some_date, '%d.%m').date()
@@ -166,6 +177,7 @@ class DataPermits:
                     sheet.cell(row=i, column=2).value = ''
                     sheet.cell(row=i, column=3).value = ''
                     sheet.cell(row=i, column=4).value = ''
+                    sheet.cell(row=i, column=5).value = ''
 
         wb.save('permits.xlsx')
         
@@ -202,6 +214,7 @@ class DataPermits:
                 wb.save('permits.xlsx')
 
         return
+
 
     def change_permit_date(self, request_id, old_request_date, new_request_date):
         wb = load_workbook('permits.xlsx')

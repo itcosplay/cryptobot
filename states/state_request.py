@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 class Request(StatesGroup):
     # if 'создать заявку' нажал админ ('admin') заявителем будет чейндж
     # if 'создать заявку' нажал чейндж ('changer') заявителем будет чейндж
-    request_id = State()
+    request_numb = State()
     applicant = State()
     operation_type = State()
     type_of_card = State() # альфа или сбер
