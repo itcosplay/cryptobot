@@ -75,3 +75,5 @@ async def set_date_from_text(message:Message, state:FSMContext):
         await state.update_data(message_to_delete=result.message_id)
         await Processing.new_request_id.set()
         # to THIS HANDLER
+
+        return
