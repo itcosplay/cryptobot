@@ -73,7 +73,7 @@ class DataPermits:
         for i in range(1, last_row):
             cell_obj = sheet.cell(row=i, column=1)
             if cell_obj.value == permit_id:
-                sheet.cell(row=i, column=4).value = permit_status
+                sheet.cell(row=i, column=5).value = permit_status
                 wb.save('permits.xlsx')
 
                 return True
@@ -192,7 +192,7 @@ class DataPermits:
         all_permit_id_list = []
 
         for i in range(1, last_row):
-            permit_id = sheet.cell(row=i, column=1).value
+            permit_id = sheet.cell(row=i, column=2).value
 
             if permit_id != None:
                 all_permit_id_list.append(permit_id)

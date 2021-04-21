@@ -32,12 +32,13 @@ def create_kb_all_permits(permits):
         else:
             permit_status = 'БЛЯ'
 
-        permit_id = permit[1]
+        permit_id = permit[0]
+        request_numb = permit[1]
         permit_text = permit[2]
        
         keyboard.add (
             InlineKeyboardButton (
-                text=f'{permit_date}{permit_status} #N{permit_id} {permit_text}',
+                text=f'{permit_date}{permit_status} #N{request_numb} {permit_text}',
                 callback_data = cb_all_permits.new (
                     id=permit_id,
                     type_btn='get_permit'

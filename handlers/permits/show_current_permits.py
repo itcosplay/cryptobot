@@ -3,6 +3,7 @@ import traceback
 
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
+from aiohttp.client import request
 
 from loader import dp, bot, permit
 from states import Permitstate
@@ -98,11 +99,11 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     data_state = await state.get_data()
     chosen_permit = data_state['chosen_permit']
 
-    permit_id = chosen_permit[0]
-    permit_status = all_emoji[chosen_permit[3]]
-    permit_date = chosen_permit[2]
-    permit_text = chosen_permit[1]
-    text = f'Пропуск\n#N{permit_id} {permit_status} {permit_date}\n{permit_text}'
+    request_numb = chosen_permit[1]
+    permit_status = all_emoji[chosen_permit[4]]
+    permit_date = chosen_permit[3]
+    permit_text = chosen_permit[2]
+    text = f'Пропуск\n#N{request_numb} {permit_status} {permit_date}\n{permit_text}'
     
     await call.message.answer (
         text=text,

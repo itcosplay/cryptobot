@@ -1,3 +1,4 @@
+import data
 from datetime import datetime
 from keyboards.inline.in_processing.blue_keyboard import create_kb_confirm_blue
 from os import stat
@@ -8,7 +9,6 @@ from aiogram.dispatcher import FSMContext
 from utils import notify_about_permit_to_order
 from loader import dp, bot, permit
 from states import Permitstate
-from data import all_emoji
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_confirm_single_permit
 
@@ -43,31 +43,14 @@ async def set_single_permit(message:Message, state:FSMContext):
 
     await state.update_data(single_permit_data='+')
 
-    all_permit_id_list = permit.get_all_permit_id()
-
-    permit_id = 9999
-    limit_while = 1
-
-    while True:
-        if str(permit_id) in all_permit_id_list:
-            permit_id -= 1
-            limit_while += 1
-
-        else:
-
-            break
-
-        if limit_while == 50:
-
-            return False
-
-    permit_id = str(permit_id)
-    permit_id = permit_id.zfill(4)
+    permit_id = datetime.today().strftime('%d%H%M%S')
 
     permit_text = message.text
     permit_date = datetime.today().strftime('%d.%m')
+    permit_numb = permit_id
 
     await state.update_data(single_permit_id=permit_id)
+    await state.update_data(single_permit_numb=permit_numb)
     await state.update_data(single_permit_text=permit_text)
     await state.update_data(single_permit_date=permit_date)
 
@@ -90,14 +73,15 @@ async def confirm_single_permit(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
 
         permit_id = data_state['single_permit_id']
+        permit_numb = data_state['single_permit_numb']
         permit_text = data_state['single_permit_text']
         permit_date = data_state['single_permit_date']
 
-        permit.write_new_permit(permit_id, permit_date, permit_text=permit_text)
+        permit.write_new_permit(permit_id, permit_numb, permit_date, permit_text=permit_text)
         await notify_about_permit_to_order()
 
         await call.message.answer (
-            text=f'Новый пропуск #N{permit_id} добавлен, секретарь оповещен!',
+            text=f'Новый пропуск #N{permit_numb} добавлен, секретарь оповещен!',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
