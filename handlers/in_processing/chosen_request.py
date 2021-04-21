@@ -36,7 +36,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
 
     for request in current_requests:
 
-        if data_btn['id'] == request[2]:
+        if data_btn['id'] == request[1]:
             await state.update_data(chosen_request=request)
 
             break

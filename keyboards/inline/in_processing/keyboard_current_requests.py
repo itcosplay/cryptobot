@@ -25,6 +25,7 @@ def create_kb_current_requests(processing_req, ready_req):
 
             type_operation = all_emoji[request[3]]
             number_request = request[2]
+            request_id = request[1]
             status_operation = all_emoji[request[11]]
 
             # добавляем плюсы только для отображения
@@ -39,7 +40,7 @@ def create_kb_current_requests(processing_req, ready_req):
                 InlineKeyboardButton (
                     text = '{}{} N{} {} {}{}{}'.format(date_request, type_operation, number_request, status_operation, rub, usd, eur),
                     callback_data = cb_current_requests.new (
-                        id=number_request,
+                        id=request_id,
                         type_btn='get_request'
                     )
                 )
@@ -55,6 +56,7 @@ def create_kb_current_requests(processing_req, ready_req):
 
             type_operation = all_emoji[request[3]]
             number_request = request[2]
+            request_id = request[1]
             status_operation = all_emoji[request[11]]
 
             # добавляем плюсы только для отображения
@@ -69,7 +71,7 @@ def create_kb_current_requests(processing_req, ready_req):
                 InlineKeyboardButton (
                     text = '{}{} N{} {} {}{}{}'.format(date_request, type_operation, number_request, status_operation, rub, usd, eur),
                     callback_data = cb_current_requests.new (
-                        id=number_request,
+                        id=request_id,
                         type_btn='get_request'
                     )
                 )

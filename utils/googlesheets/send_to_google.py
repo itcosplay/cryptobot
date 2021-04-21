@@ -177,7 +177,7 @@ class DataFromSheet:
         for row in data:
             index += 1
             
-            if row[2] == request[2]:
+            if row[1] == request[1]:
                 # ['14.04', '20', '1300', 'прием кэша', 'change', '0', 5000, 7000, '0', '0', 'itcosplay', 'В обработке', '0', '0', '0', '0', '0']
                 # print(request)
                 # print(index)

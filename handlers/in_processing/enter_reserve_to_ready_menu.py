@@ -1,6 +1,3 @@
-from keyboards.inline.in_processing.keyboards_sum_ready import create_kb_choose_currency_processing
-import data
-from keyboards.inline import request_kb
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 

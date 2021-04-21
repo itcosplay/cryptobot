@@ -40,7 +40,7 @@ async def show_current_requests(message:Message, state:FSMContext):
             text='Не удалось получить данные с гугл таблицы',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
-        await state.finish()#??
+        await state.finish()
 
         return
 
