@@ -12,6 +12,8 @@ from .smsinfo import dp
 
 from .balances import dp
 
+from .reports import dp
+
 from .echo import dp
 
 

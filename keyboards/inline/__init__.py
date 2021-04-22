@@ -63,3 +63,7 @@ from .smsinfo import cb_yes_no_note
 from .smsinfo import cb_for_what_waste
 
 from .balance_keyboards import create_kb_what_balance_to_show
+
+from .report_keyboards import create_kb_reports_menu
+from .report_keyboards import create_kb_box_office
+from .report_keyboards import create_kb_confirm_box_office

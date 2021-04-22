@@ -16,6 +16,7 @@ super_admins = [
 ]
 
 group_chat = '-1001185491120'
+# group_chat = '-404213737'
 
 
 
