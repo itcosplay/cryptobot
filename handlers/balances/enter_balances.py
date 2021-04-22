@@ -85,22 +85,38 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
         future_money = all_emoji['future_money']
         A3 = int(A3)
         A3 = get_single_value_int(A3, 'rub')
+
+        if A3[0] == '-': A3 = all_emoji['квз'] + A3
+
         E3 = int(E3)
         E3 = get_single_value_int(E3, 'usd')
+
+        if E3[0] == '-': E3 = all_emoji['квз'] + E3
+
         G3 = int(G3)
         G3 = get_single_value_int(G3, 'eur')
+
+        if G3[0] == '-': G3 = all_emoji['квз'] + G3
+
         D3 = int(D3)
         Q4 = int(Q4)
         red_bal = D3-Q4
 
         D3 = get_single_value_int(D3, 'rub')
+
+        if D3[0] == '-': D3 = all_emoji['квз'] + D3
+
         red_bal = get_single_value_without_cur(red_bal)
 
         F3 = int(F3)
         F3 = get_single_value_int(F3, 'usd')
 
+        if F3[0] == '-': F3 = all_emoji['квз'] + F3
+
         I3 = int(I3)
         I3 = get_single_value_int(I3, 'eur')
+
+        if I3[0] == '-': I3 = all_emoji['квз'] + I3
 
         if Q4 != 0:
             Q4 = get_single_value_without_cur(Q4)
@@ -113,11 +129,17 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
             FA3 = int(FA3)
             FA3 = get_single_value_int(FA3, 'rub')
 
+            if FA3[0] == '-': FA3 = all_emoji['квз'] + FA3
+
             FE3 = int(FE3)
             FE3 = get_single_value_int(FE3, 'usd')
 
+            if FE3[0] == '-': FE3 = all_emoji['квз'] + FE3
+
             FG3 = int(FG3)
             FG3 = get_single_value_int(FG3, 'eur')
+
+            if FG3[0] == '-': FG3 = all_emoji['квз'] + FG3
 
             text_1 = f'{fns} Баланс по исполнении всех текущих заявок на сегодня:\n{A3}\n{E3}\n{G3}\n\n'
             text_2 = f'{monbag} Баланс фактический в сейфе:\n{D3}{red_circle}{red_bal}{Q4}\n{F3}\n{I3}\n\n'

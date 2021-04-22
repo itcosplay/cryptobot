@@ -284,6 +284,7 @@ class DataFromSheet:
         S1V = S1V.replace(',', '.')
 
         total = float(C1A) + float(C1T) + float(C1D) + float(S1V)
+        total = f"{total:.{2}f}"
 
         return C1A, C1T, C1D, S1V, total
 

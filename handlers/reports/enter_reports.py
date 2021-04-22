@@ -10,6 +10,7 @@ from data import all_emoji
 from filters import isExecutor_and_higher
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_reports_menu
+from keyboards import create_kb_box_office
 from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import get_single_value_float
@@ -51,21 +52,28 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
     await state.update_data(enter_the_reports='+')
 
     if call.data == 'box_office':
+        await call.message.answer (
+            text='Принять или сдать кассу?',
+            reply_markup=create_kb_box_office()
+        )
+
+        await Reportsstate.recive_give_box_office.set()
+
+        return
+
+    elif call.data == 'daily_report':
         pass
 
-    if call.data == 'daily_report':
+    elif call.data == 'weekly_report':
         pass
 
-    if call.data == 'weekly_report':
+    elif call.data == 'monthly_report':
         pass
 
-    if call.data == 'monthly_report':
+    elif call.data == 'finished_requests':
         pass
 
-    if call.data == 'finished_requests':
-        pass
-
-    if call.data == 'back__main_menu':
+    elif call.data == 'back__main_menu':
         await call.message.answer (
             text='Выход из меню "ОТЧЕТНОСТЬ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)

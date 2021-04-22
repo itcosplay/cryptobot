@@ -22,18 +22,6 @@ def create_kb_reports_menu():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text='недельный отчет',
-            callback_data='weekly_report'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text='месячный отчет',
-            callback_data='monthly_report'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
             text='исполненые сделки',
             callback_data='finished_requests'
         )
