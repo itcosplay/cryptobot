@@ -10,7 +10,7 @@ from utils import notify_about_permit_to_order
 
 
 @dp.message_handler(state=Processing.add_permit)
-async def set_sum_to_correct(message:Message, state:FSMContext):
+async def add_permit_data(message:Message, state:FSMContext):
     data_state = await state.get_data()
 
     await bot.delete_message (
@@ -23,12 +23,14 @@ async def set_sum_to_correct(message:Message, state:FSMContext):
     )
 
     request = data_state['chosen_request']
-    permit_id = request[2]
+    permit_id = request[1]
+    request_numb = request[2]
     permit_date = request[0]
     old_permit_text = permit.get_old_permit_text_or_empty(permit_id)
     new_permit_text = old_permit_text + ' || ' + message.text
 
-    permit.write_new_permit(permit_id, permit_date, permit_text=new_permit_text)
+    permit.write_new_permit(permit_id, request_numb, permit_date, permit_text=new_permit_text)
+
     await notify_about_permit_to_order()
 
     await message.answer (

@@ -33,9 +33,10 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
     chosen_permit = data_state['chosen_permit']
     permit_id = chosen_permit[0]
     request_numb = chosen_permit[1]
+    print('request_Numb^ ', request_numb)
 
     if data_btn['type_btn'] == 'permit_ordered':
-        permit.update_permit_data(chosen_permit[0], 'заказан')
+        permit.update_permit_data(permit_id, 'заказан')
         permit_warning = 'пропуск заказан'
         permit_notify = f'#N{request_numb} пропуск заказан'
 
@@ -43,14 +44,14 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
 
 
     if data_btn['type_btn'] == 'in_office':
-        permit.update_permit_data(chosen_permit[0], 'отработан')
+        permit.update_permit_data(permit_id, 'отработан')
         permit_warning = 'гость прибыл в офис'
         permit_notify = f'#N{request_numb} в офисе'
 
         await notify_someone(permit_notify, 'admin', 'changer', 'executor')
     
     
-    text = f'Все оповещены о том, что по заявке #N{permit_id} {permit_warning}'
+    text = f'Все оповещены о том, что по заявке #N{request_numb} {permit_warning}'
     
     await call.message.answer (
         text=text,

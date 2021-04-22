@@ -26,7 +26,8 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
 
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
-    request_id = chosen_request[2]
+    request_id = chosen_request[1]
+    request_numb = chosen_request[2]
     request_type_emoji = all_emoji[chosen_request[3]]
     persone = all_emoji['персона']
     old_date = chosen_request[0]
@@ -35,7 +36,7 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
         chosen_request[10] = call.message.chat.username
         tomorrow_date =  (datetime.now() + timedelta(days=1)).strftime("%d.%m")
         chosen_request[0] = tomorrow_date
-        text = f'{request_type_emoji} #N{request_id}\nизменена дата\n{old_date} 👉 {tomorrow_date}\n{persone} @{chosen_request[10]}'
+        text = f'{request_type_emoji} #N{request_numb}\nизменена дата\n{old_date} 👉 {tomorrow_date}\n{persone} @{chosen_request[10]}'
         
         try:
             result = await call.message.answer_sticker (

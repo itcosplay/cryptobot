@@ -31,11 +31,11 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
         current_requests = data_state['current_requests']
         chosen_request = data_state['chosen_request']
-        request_id = chosen_request[2]
+        request_id = chosen_request[1]
 
         for request in current_requests:
 
-            if request_id == request[2]:
+            if request_id == request[1]:
                 await state.update_data(chosen_request=request)
 
                 break
@@ -88,12 +88,12 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
     
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
-    request_id = chosen_request[2]
+    request_numb = chosen_request[2]
     request_type_emoji = all_emoji[chosen_request[3]]
     persone = all_emoji['персона']
     username = call.message.chat.username
 
-    text = f'{request_type_emoji} #N{request_id}\nизменен тип заявки\n{chosen_request[3]} 👉 {new_request_type}\n{persone} @{username}'
+    text = f'{request_type_emoji} #N{request_numb}\nизменен тип заявки\n{chosen_request[3]} 👉 {new_request_type}\n{persone} @{username}'
     chosen_request[3] = new_request_type
     chosen_request[5] = '0'
     chosen_request[6] = '0'

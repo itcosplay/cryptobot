@@ -37,12 +37,12 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
         current_requests = data_state['current_requests']
         chosen_request = data_state['chosen_request']
-        request_id = chosen_request[2]
+        request_id = chosen_request[1]
         initial_com = chosen_request[8]
 
         for request in current_requests:
 
-            if request_id == request[2]:
+            if request_id == request[1]:
                 initial_rub = request[5]
                 initial_usd = request[6]
                 initial_eur = request[7]
@@ -138,7 +138,7 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
 
         for request in current_requests:
 
-            if request_id == request[2]:
+            if request_id == request[1]:
                 await state.update_data(chosen_request=request)
 
                 break

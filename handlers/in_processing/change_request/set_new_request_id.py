@@ -26,7 +26,8 @@ async def set_date_from_text(message:Message, state:FSMContext):
     )
 
     chosen_request = data_state['chosen_request']
-    old_request_id = chosen_request[2]
+    request_id = chosen_request[1]
+    old_request_numb = chosen_request[2]
     request_type_emoji = all_emoji[chosen_request[3]]
     persone = all_emoji['персона']
     
@@ -34,17 +35,17 @@ async def set_date_from_text(message:Message, state:FSMContext):
     
     if match:
         username = message.chat.username
-        new_request_id = message.text
-        chosen_request[2] = new_request_id
+        new_request_numb = message.text
+        chosen_request[2] = new_request_numb
         request_date = chosen_request[0]
-        text = f'{request_type_emoji} #N{old_request_id}\nизменен номер заявки\nN#{old_request_id} 👉 N#{new_request_id}\n{persone} @{username}'
+        text = f'{request_type_emoji} #N{old_request_numb}\nизменен номер заявки\nN#{old_request_numb} 👉 N#{new_request_numb}\n{persone} @{username}'
         print(chosen_request)
         try:
             result = await message.answer_sticker (
                 sticker['go_to_table']
             )
-            sheet.update_id_row(old_request_id, new_request_id)
-            permit.change_permit_id(old_request_id, request_date, new_request_id)
+            sheet.update_id_row(request_id, old_request_numb, new_request_numb)
+            permit.change_permit_numb(request_id, new_request_numb)
 
         except Exception as e:
             print(e)

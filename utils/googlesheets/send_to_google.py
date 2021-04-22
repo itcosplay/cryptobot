@@ -9,25 +9,6 @@ from six import text_type
 
 
 class DataFromSheet:
-    def get_google_sheet(self):
-        CREDENTIALS_FILE = 'creds.json'
-        scope = [
-            "https://spreadsheets.google.com/feeds",
-            'https://www.googleapis.com/auth/spreadsheets',
-            "https://www.googleapis.com/auth/drive.file",
-            "https://www.googleapis.com/auth/drive"
-        ]
-        creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'creds.json',
-            scope
-        )
-        client = gspread.authorize(creds)
-        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-
-        return sheet
-
-
     # def get_google_sheet(self):
     #     CREDENTIALS_FILE = 'creds.json'
     #     scope = [
@@ -37,15 +18,34 @@ class DataFromSheet:
     #         "https://www.googleapis.com/auth/drive"
     #     ]
     #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         'sms.json',
+    #         'creds.json',
     #         scope
     #     )
     #     client = gspread.authorize(creds)
-    #     # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
     #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-    #     sheet = client.open("VTL учёт").sheet1
 
     #     return sheet
+
+
+    def get_google_sheet(self):
+        CREDENTIALS_FILE = 'creds.json'
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            'https://www.googleapis.com/auth/spreadsheets',
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+        ]
+        creds = ServiceAccountCredentials.from_json_keyfile_name (
+            'sms.json',
+            scope
+        )
+        client = gspread.authorize(creds)
+        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+        sheet = client.open("VTL учёт").sheet1
+
+        return sheet
 
     def get_google_sheet_card_balance(self):
         CREDENTIALS_FILE = 'creds.json'
@@ -187,7 +187,7 @@ class DataFromSheet:
 
                 return
             
-    def update_id_row(self, old_id, new_id):
+    def update_id_row(self, request_id, old_id, new_id):
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
@@ -203,7 +203,7 @@ class DataFromSheet:
         for row in data:
             index += 1
             
-            if row[2] == old_id:
+            if row[1] == request_id:
                 new_id = int(new_id)
                 sheet.update_cell(index, 3, new_id)
 
