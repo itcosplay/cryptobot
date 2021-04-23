@@ -7,6 +7,7 @@ from .notify_about_cancel_request import notify_about_cancel_request
 from .set_minus_and_plus_currences import set_minus_and_plus
 from .set_minus_and_plus_currences import get_blue
 from .request_data_functions import get_data_chosen_request
+from .request_data_functions import get_data_finished_request
 from .request_data_functions import get_data_request_short
 from .request_data_functions import get_text_before_close_request
 from .request_data_functions import get_text_message_to

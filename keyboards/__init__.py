@@ -42,6 +42,9 @@ from .inline import create_kb_box_office
 from .inline import create_kb_confirm_box_office
 from .inline import create_kb_what_date_report
 from .inline import create_kb_daily_report
+from .inline import create_kb_finished_requests
+from .inline import create_kb_change_fin_request
+from .inline import create_kb_another_currecy_add_fin
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -64,3 +67,5 @@ from .inline import cb_confirm_close_request
 from .inline import cb_which_sum_close
 from .inline import cb_change_request
 from .inline import cb_anoter_currency_add
+from .inline import cb_finished_requests
+from .inline import cb_anoter_currency_add_fin

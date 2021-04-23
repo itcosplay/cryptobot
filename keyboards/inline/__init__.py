@@ -69,3 +69,8 @@ from .report_keyboards import create_kb_box_office
 from .report_keyboards import create_kb_confirm_box_office
 from .report_keyboards import create_kb_what_date_report
 from .report_keyboards import create_kb_daily_report
+from .report_keyboards import create_kb_finished_requests
+from .report_keyboards import cb_finished_requests
+from .report_keyboards import create_kb_change_fin_request
+from .report_keyboards import create_kb_another_currecy_add_fin
+from .report_keyboards import cb_anoter_currency_add_fin

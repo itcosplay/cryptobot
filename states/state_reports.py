@@ -11,5 +11,13 @@ class Reportsstate(StatesGroup):
     message_to_delete = State()
     date_daily_report = State()
     finish_report = State()
+    return_request_menu = State()
+    finished_requests = State()
+    chosen_request = State()
+    change_fin_request = State()
+    set_new_curr = State()
+    new_curr = State()
+    new_curr_sign = State()
+    add_curr_amount = State()
 
     

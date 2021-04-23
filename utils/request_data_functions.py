@@ -107,6 +107,36 @@ def get_data_chosen_request(request):
     return text
 
 
+def get_data_finished_request(request):
+    print('get_data_finished_request')
+    id_request = request[2]
+    date_request = request[0]
+    operation_type_request = request[3]
+    operation_type_emoji = all_emoji[operation_type_request]
+    request_status = all_emoji[request[11]]
+
+    # красивые суммы из полей FGH
+    rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
+    
+    if rub != '': rub = rub + '\n'
+    if usd != '': usd = usd + '\n'
+    if eur != '': eur = eur + '\n'
+
+    text = f'{operation_type_emoji} #N{id_request} от {date_request} {request_status},\n{operation_type_request}, суммы:\n{rub}{usd}{eur}'
+
+    if request[10] != '0':
+        persone = all_emoji['персона']
+        text = text + f'{persone} @{request[10]}'
+
+    if request[8] != '0':
+        comment = all_emoji['коментарий']
+        comment_text = request[8]
+
+        text = text + '\n' + f'{comment}{comment_text}'
+
+    return text
+
+
 def get_data_request_short(request):
     id_request = request[2]
     date_request = request[0]

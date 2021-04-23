@@ -38,6 +38,8 @@ balance_finish = '🏁'
 money_bag = '💰'
 future_money = '🔮'
 red_circle = '🔴'
+black_ready = '✔️'
+
 
 all_emoji = {
     'выдача в офисе': issuing_office,
@@ -49,6 +51,7 @@ all_emoji = {
 
     'В обработке': in_process,
     'Готово к выдаче': ready_to_give,
+    'Исполнено': black_ready,
 
     'back__main_menu': emo_snail,
 

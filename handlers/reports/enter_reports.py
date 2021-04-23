@@ -1,4 +1,6 @@
+from keyboards.inline import permits, report_keyboards
 import time
+import traceback
 
 from aiogram.types import Message
 from aiogram.types import CallbackQuery
@@ -12,6 +14,7 @@ from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_reports_menu
 from keyboards import create_kb_box_office
 from keyboards import create_kb_what_date_report
+from keyboards import create_kb_finished_requests
 from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import get_single_value_float
@@ -75,7 +78,46 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
 
 
     elif call.data == 'finished_requests':
-        pass
+        result = await call.message.answer_sticker (
+            sticker['go_to_table']
+        )
+
+        try:
+            data = sheet.get_last_30_request()
+            finished_requests = []
+            for row in data:
+                
+                if row[11] == 'Исполнено':
+                    finished_requests.append(row)
+
+            await state.update_data(finished_requests=finished_requests)
+
+        except Exception as e:
+            print(e)
+            traceback.print_exception()
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось получить данные с гугл таблицы',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            await state.finish()
+
+            return
+
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+
+        await call.message.answer (
+            text='Завершенные заявки:',
+            reply_markup=create_kb_finished_requests(finished_requests)
+        )
+
+        await Reportsstate.return_request_menu.set()
+
+        return
+
 
     elif call.data == 'back__main_menu':
         await call.message.answer (
