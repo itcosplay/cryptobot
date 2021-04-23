@@ -43,7 +43,7 @@ class DataFromSheet:
         # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
         # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
         sheet = client.open("VTL учёт").sheet1
-
+        
         return sheet
 
 
@@ -63,6 +63,27 @@ class DataFromSheet:
         # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
         # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
         sheet = client.open("Учёт Оператора").sheet1
+        # sheet = client.open_by_url()
+        return sheet
+
+
+    def get_google_sheet_replenishment(self):
+        CREDENTIALS_FILE = 'creds.json'
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            'https://www.googleapis.com/auth/spreadsheets',
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+        ]
+        creds = ServiceAccountCredentials.from_json_keyfile_name (
+            'sms.json',
+            scope
+        )
+        client = gspread.authorize(creds)
+        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+        # sheet = client.open("Учёт Оператора").sheet1
+        sheet = client.open_by_url('https://docs.google.com/spreadsheets/d/1HJunr_sZhzqKSRQGUKN8fmrE-C-IpE_6iPN8dWl-ZDI/edit#gid=22421902')
 
         return sheet
 
@@ -529,37 +550,105 @@ class DataFromSheet:
             return False
 
 
+    def get_replenishment_for_date(self):
+        sheet = self.get_google_sheet_replenishment()
+        sheet = sheet.get_worksheet(1)
+
+        replenishment = sheet.batch_get([f'B143'])[0]
+
+        
+
+        return replenishment
+
+
     def get_daily_report(self, date:str):
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
         last_50_row = sheet.batch_get([f'A{numb_of_last_row - 50}:Q{numb_of_last_row}'])[0]
 
         data = []
+        index = numb_of_last_row - 50
 
         for row in last_50_row:
-            
+            index += 1
+
             if row[0] == date:
+                index -= 1
                 data.append(row)
 
-        for row in data:
-            print(row[0])
+            if row[0] > date:
+                index -= 1
 
-        # data = {
-        #     'date': date,
-        #     'deal_amount': deal_amount,
-        #     'up_amount': up_amount,
-        #     'up_rub': up_rub,
-        #     'up_usd': up_usd,
-        #     'up_eur': up_eur,
-        #     'down_rub': down_rub,
-        #     'down_usd': down_usd,
-        #     'down_eur': down_eur,
-        #     'requests_processing': requests_processing,
-        #     'requests_ready_to_give': requests_ready_to_give
-        # }
+        # data - список заявок за выбранную date
+        up_rub = 0
+        up_usd = 0 
+        up_eur = 0
+        down_rub = 0
+        down_usd = 0 
+        down_eur = 0
+        deal_amount = 0
+        requests_processing = []
+        requests_ready_to_give = []
+
+        for row in data:
+            print(row)
+            
+            if row[11] == 'Исполнено':
+                index += 1
+                deal_amount += 1
+
+                if str(row[5])[0] == '-':
+                    down_rub = down_rub + int(row[5])
+
+                else:
+                    up_rub = up_rub + int(row[5])
+
+                if str(row[6])[0] == '-':
+                    down_usd = down_usd + int(row[6])
+
+                else:
+                    up_usd = up_usd + int(row[6])
+
+                if str(row[7])[0] == '-':
+                    down_eur = down_eur + int(row[7])
+
+                else:
+                    up_eur = up_eur + int(row[7])
+
+            elif row[11] == 'В обработке':
+                requests_processing.append(row)
+
+            elif row[11] == 'Готово к выдаче':
+                requests_ready_to_give.append(row)
+            
+        print('LAST ROW IN CURRENT DATE: ', index - 1)
+        index_for_balance = index - 1
+        last_balances = sheet.batch_get([f'AB{index_for_balance}:AD{index_for_balance}'])[0]
+        last_balances = last_balances[0]
+        last_rub = last_balances[0]
+        last_usd = last_balances[1]
+        last_eur = last_balances[2]
+
+        data = {
+            'date': date,
+            'deal_amount': deal_amount,
+            'up_rub': up_rub,
+            'up_usd': up_usd,
+            'up_eur': up_eur,
+            'down_rub': down_rub,
+            'down_usd': down_usd,
+            'down_eur': down_eur,
+            'requests_processing': requests_processing,
+            'requests_ready_to_give': requests_ready_to_give,
+            'last_rub': last_rub,
+            'last_usd': last_usd,
+            'last_eur': last_eur
+        }
 
         return data
 
 
-# test_sheet = DataFromSheet()
-# test_sheet.get_daily_report('22.04')
+test_sheet = DataFromSheet()
+
+data = test_sheet.get_replenishment_for_date()
+print(data)
