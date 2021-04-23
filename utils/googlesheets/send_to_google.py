@@ -2,10 +2,8 @@ import datetime
 import gspread
 from operator import itemgetter
 
-
-
 from oauth2client.service_account import ServiceAccountCredentials
-from six import text_type
+# from six import text_type
 
 
 class DataFromSheet:
@@ -27,6 +25,7 @@ class DataFromSheet:
 
     #     return sheet
 
+
     def get_google_sheet(self):
         CREDENTIALS_FILE = 'creds.json'
         scope = [
@@ -40,8 +39,7 @@ class DataFromSheet:
             scope
         )
         client = gspread.authorize(creds)
-        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+
         sheet = client.open("VTL учёт").sheet1
         
         return sheet
@@ -80,9 +78,6 @@ class DataFromSheet:
             scope
         )
         client = gspread.authorize(creds)
-        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-        # sheet = client.open("Учёт Оператора").sheet1
         sheet = client.open_by_url('https://docs.google.com/spreadsheets/d/1HJunr_sZhzqKSRQGUKN8fmrE-C-IpE_6iPN8dWl-ZDI/edit#gid=22421902')
 
         return sheet
@@ -550,13 +545,13 @@ class DataFromSheet:
             return False
 
 
-    def get_replenishment_for_date(self):
+    def get_replenishment_for_date(self, date:str):
         sheet = self.get_google_sheet_replenishment()
         sheet = sheet.get_worksheet(1)
 
-        replenishment = sheet.batch_get([f'B143'])[0]
-
-        
+        replenishment = sheet.find(date, in_column=1)
+        replenishment = replenishment.row
+        replenishment = sheet.acell(f'B{replenishment}').value
 
         return replenishment
 
@@ -591,7 +586,6 @@ class DataFromSheet:
         requests_ready_to_give = []
 
         for row in data:
-            print(row)
             
             if row[11] == 'Исполнено':
                 index += 1
@@ -629,6 +623,8 @@ class DataFromSheet:
         last_usd = last_balances[1]
         last_eur = last_balances[2]
 
+        replenishment = self.get_replenishment_for_date(date)
+
         data = {
             'date': date,
             'deal_amount': deal_amount,
@@ -642,13 +638,14 @@ class DataFromSheet:
             'requests_ready_to_give': requests_ready_to_give,
             'last_rub': last_rub,
             'last_usd': last_usd,
-            'last_eur': last_eur
+            'last_eur': last_eur,
+            'replenishment': replenishment
         }
 
         return data
 
 
-test_sheet = DataFromSheet()
+# test_sheet = DataFromSheet()
 
-data = test_sheet.get_replenishment_for_date()
-print(data)
+# data = test_sheet.get_daily_report('23.04')
+# print(data)

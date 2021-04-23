@@ -68,3 +68,4 @@ from .report_keyboards import create_kb_reports_menu
 from .report_keyboards import create_kb_box_office
 from .report_keyboards import create_kb_confirm_box_office
 from .report_keyboards import create_kb_what_date_report
+from .report_keyboards import create_kb_daily_report

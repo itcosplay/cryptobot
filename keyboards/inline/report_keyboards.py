@@ -117,3 +117,23 @@ def create_kb_what_date_report():
     )
 
     return keyboard
+
+
+def create_kb_daily_report():
+    back__main_menu = all_emoji['back__main_menu']
+    keyboard = InlineKeyboardMarkup()
+    
+    keyboard.add (
+        InlineKeyboardButton (
+            text='сообщить о проблеме',
+            callback_data='raise_problem'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {back__main_menu} главное меню',
+            callback_data='back__main_menu'
+        )
+    )
+
+    return keyboard

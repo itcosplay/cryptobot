@@ -62,11 +62,17 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
 
         return
 
+
     elif call.data == 'daily_report':
         await call.message.answer (
             text='За какую дату смотрим отчет?',
             reply_markup=create_kb_what_date_report()
         )
+
+        await Reportsstate.date_daily_report.set()
+
+        return
+
 
     elif call.data == 'finished_requests':
         pass
