@@ -25,6 +25,9 @@ blue = emojize(':large_blue_circle:', use_aliases=True)
 
 envelope = emojize(':envelope:', use_aliases=True)
 
+recive_cash_box = '👐'
+give_cash_box = '👋'
+
 buy = '🛍'
 transfer = '🤽🏼‍♂️'
 replenishment = '📈'
@@ -69,5 +72,7 @@ all_emoji = {
     'money_bag': money_bag,
     'future_money': future_money,
     'red_circle': red_circle,
-    'коментарий': comment
+    'коментарий': comment,
+    'recive_cash_box': recive_cash_box,
+    'give_cash_box': give_cash_box
 }

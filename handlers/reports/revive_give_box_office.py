@@ -61,6 +61,8 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
             text = 'Сверьте данные для ПРИНЯТИЯ кассы с фактическим наличием:\n'
             text_balance = f'{D3}{red_circle}{red_bal}{Q4}\n{F3}\n{I3}'
 
+            await state.update_data(cash_box_text=text_balance)
+
         except Exception as e:
             print(e)
             traceback.print_exception()
@@ -87,8 +89,6 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
         )
 
         await Reportsstate.confirm_recive_box_office.set()
-
-        await state.finish()
 
         return
 
@@ -130,6 +130,8 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
             text = 'Сверьте данные для СДАЧИ кассы с фактическим наличием:\n'
             text_balance = f'{D3}{red_circle}{red_bal}{Q4}\n{F3}\n{I3}'
 
+            await state.update_data(cash_box_text=text_balance)
+
         except Exception as e:
             print(e)
             traceback.print_exception()
@@ -156,8 +158,6 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
         )
 
         await Reportsstate.confirm_give_box_office.set()
-
-        await state.finish()
 
         return
 

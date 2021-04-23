@@ -63,7 +63,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         request_id = request[2]
         persone = all_emoji['персона']
 
-        text = f'{request_type_emoji} #N{request_id}\nОТМЕНЕНА\n{persone} {username}'
+        text = f'{request_type_emoji} #N{request_id}\nОТМЕНЕНА\n{persone} @{username}'
 
         await call.message.answer (
             f'Заявка отменена',
