@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timedelta
+
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.types import InlineKeyboardButton
 
@@ -76,6 +79,34 @@ def create_kb_confirm_box_office():
         InlineKeyboardButton (
             text='сообщить о проблеме',
             callback_data='raise_problem'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {back__main_menu} главное меню',
+            callback_data='back__main_menu'
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_what_date_report():
+    today = datetime.today().strftime('%d.%m')
+    yesterday = (datetime.now() - timedelta(days=1)).strftime("%d.%m")
+    back__main_menu = all_emoji['back__main_menu']
+    keyboard = InlineKeyboardMarkup()
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'сегодня ({today})',
+            callback_data=today
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'вчера ({yesterday})',
+            callback_data=yesterday
         )
     )
     keyboard.add (

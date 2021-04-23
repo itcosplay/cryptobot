@@ -89,7 +89,7 @@ async def reserve_to_ready__sum_set(message:Message, state:FSMContext):
     data_state = await state.get_data()
     reserve_to_ready__currency = data_state['reserve_to_ready__currency']
     # rub usd eur
-
+    print('RESERVE TO READY: ', reserve_to_ready__sum)
     if reserve_to_ready__currency == 'rub':
         chosen_request = data_state['chosen_request']
         chosen_request[12] = 0 - reserve_to_ready__sum

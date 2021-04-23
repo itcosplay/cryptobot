@@ -40,6 +40,7 @@ from .inline import create_kb_what_balance_to_show
 from .inline import create_kb_reports_menu
 from .inline import create_kb_box_office
 from .inline import create_kb_confirm_box_office
+from .inline import create_kb_what_date_report
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests

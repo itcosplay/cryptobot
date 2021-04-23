@@ -9,3 +9,5 @@ class Reportsstate(StatesGroup):
     cash_box_text = State()
     text_problem = State()
     message_to_delete = State()
+
+    

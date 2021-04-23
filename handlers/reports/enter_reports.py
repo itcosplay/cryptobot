@@ -11,6 +11,7 @@ from filters import isExecutor_and_higher
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_reports_menu
 from keyboards import create_kb_box_office
+from keyboards import create_kb_what_date_report
 from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import get_single_value_float
@@ -62,13 +63,10 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
         return
 
     elif call.data == 'daily_report':
-        pass
-
-    elif call.data == 'weekly_report':
-        pass
-
-    elif call.data == 'monthly_report':
-        pass
+        await call.message.answer (
+            text='За какую дату смотрим отчет?',
+            reply_markup=create_kb_what_date_report()
+        )
 
     elif call.data == 'finished_requests':
         pass
