@@ -21,5 +21,6 @@ class Reportsstate(StatesGroup):
     new_curr = State()
     new_curr_sign = State()
     add_curr_amount = State()
+    daily_report_text = State()
 
     

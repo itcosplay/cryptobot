@@ -238,7 +238,7 @@ class DataFromSheet:
         try:
             sheet = self.get_google_sheet()
             numb_of_last_row = len(sheet.col_values(1))
-            data = sheet.batch_get([f'A{numb_of_last_row - 20}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
+            data = sheet.batch_get([f'A{numb_of_last_row - 30}:Q{numb_of_last_row}'])[0] # 20 needs change to 30 or other
 
         except Exception as e:
             print(e)
@@ -250,7 +250,7 @@ class DataFromSheet:
         for row in data:
             index += 1
             
-            if row[2] == request_id:
+            if row[1] == request_id:
 
                 return row
 
@@ -525,6 +525,7 @@ class DataFromSheet:
 
         return last_30_id
 
+
     def get_last_30_request(self):
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
@@ -572,8 +573,17 @@ class DataFromSheet:
         data = []
         index = numb_of_last_row - 50
 
+        requests_processing = []
+        requests_ready_to_give = []
+
         for row in last_50_row:
             index += 1
+
+            if row[11] == 'В обработке':
+                requests_processing.append(row)
+
+            if row[11] == 'Готово к выдаче':
+                requests_ready_to_give.append(row)
 
             if row[0] == date:
                 index -= 1
@@ -590,8 +600,7 @@ class DataFromSheet:
         down_usd = 0 
         down_eur = 0
         deal_amount = 0
-        requests_processing = []
-        requests_ready_to_give = []
+        
 
         for row in data:
             
@@ -616,12 +625,6 @@ class DataFromSheet:
 
                 else:
                     up_eur = up_eur + int(row[7])
-
-            elif row[11] == 'В обработке':
-                requests_processing.append(row)
-
-            elif row[11] == 'Готово к выдаче':
-                requests_ready_to_give.append(row)
             
         print('LAST ROW IN CURRENT DATE: ', index - 1)
         index_for_balance = index - 1

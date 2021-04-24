@@ -53,6 +53,12 @@ def create_kb_chosen_request(request):
     )
     keyboard.add (
         InlineKeyboardButton (
+            text = 'распаковать',
+            callback_data=cb_chosen_requests.new(type_btn='unpack')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text = 'отменить заявку',
             callback_data=cb_chosen_requests.new(type_btn='cancel_request')
         )

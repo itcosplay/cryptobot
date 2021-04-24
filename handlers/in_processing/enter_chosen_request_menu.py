@@ -1,11 +1,12 @@
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp
+from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
 from utils import get_text_before_close_request
 from utils import get_text_message_to
+from utils import get_data_chosen_request
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
@@ -14,6 +15,7 @@ from keyboards import create_kb_sum_correct_chunk
 from keyboards import create_kb_message_keyboard
 from keyboards import create_kb_change_request
 from keyboards import create_kb_confirm_cancel_request
+from keyboards import create_kb_chosen_request
 
 
 # <--- show_chosen_request.py --->
@@ -142,6 +144,73 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await state.update_data(message_to_delete=result.message_id)
         await Processing.add_permit.set()
         # ---> add_permit_message_handler <---
+
+    elif data_btn['type_btn'] == 'unpack':
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+        username = call.message.chat.username
+        chosen_request[10] = username
+        chosen_request[11] = 'В обработке'
+        chosen_request[12] = '0'
+        chosen_request[13] = '0'
+        chosen_request[14] = '0'
+        chosen_request[16] = '0'
+        req_id = chosen_request[1]
+
+
+        result = await call.message.answer_sticker (
+            'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
+        )
+
+        try:
+            sheet.replace_row(chosen_request)
+            current_requests,\
+            in_processing_requests,\
+            ready_to_give_requests =\
+            sheet.get_numbs_processing_and_ready_requests()
+
+        except Exception as e:
+            print(e)
+            await call.message.answer_sticker (
+                'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей...',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+            await state.finish()
+            
+            return
+        
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+        await state.update_data(current_requests=current_requests)
+
+        for request in current_requests:
+
+            if req_id == request[1]:
+                await state.update_data(chosen_request=request)
+
+                break
+
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+        text = get_data_chosen_request(chosen_request)
+
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_chosen_request(request)
+            # > принято частично (для приема кэша, снятия с карт, обмена)
+            # > отложить на выдачу (для доставки, кэшина, обмена)
+            # > закрыть заявку
+            # > сообщение
+            # > изменить заявку
+            # > отменить заявку
+            # > назад главное меню
+        )   
+        await Processing.enter_chosen_request_menu.set()
+
+        return
+        
 
     elif data_btn['type_btn'] == 'cancel_request':
         await call.message.answer (

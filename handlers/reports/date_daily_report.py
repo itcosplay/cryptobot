@@ -1,7 +1,6 @@
 import traceback
 
 from aiogram.dispatcher import FSMContext
-from aiogram.types import Message
 from aiogram.types import CallbackQuery
 
 from data import sticker
@@ -12,8 +11,6 @@ from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import get_value_for_reports
 from utils import get_values_FGH
-from utils import notify_in_group_chat
-from utils import notify_someone
 
 
 @dp.callback_query_handler(state=Reportsstate.date_daily_report)
@@ -83,26 +80,26 @@ async def show_daily_report(call:CallbackQuery, state:FSMContext):
     requests_processing = data['requests_processing']
     requests_ready_to_give = data['requests_ready_to_give']
 
-    if len(requests_processing) == 0 and len(requests_ready_to_give) == 0:
-        requests = 'Все заявки исполненны\n'
+    if len(requests_processing) != 0:
+        current_req = 'Текущие заявки:\n'
 
+        for request in requests_processing:
+            rub, usd, eur = get_values_FGH(request)
+            if usd != '' or eur != '': rub = rub + ', '
+            if eur != '': usd = usd + ', '
+            if rub == ', ': rub = ''
+            if usd == ', ': usd = ''
+    
+            request_date = request[0]
+            request_numb = request[2]
+            request_type = all_emoji[request[3]]
+            current_req = current_req + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
     else:
-        requests = 'Текущие заявки:\n'
+        current_req = ''
 
-        if len(requests_processing) != 0:
-            for request in requests_processing:
-                rub, usd, eur = get_values_FGH(request)
-                if usd != '' or eur != '': rub = rub + ', '
-                if eur != '': usd = usd + ', '
-                if rub == ', ': rub = ''
-                if usd == ', ': usd = ''
-        
-                request_date = request[0]
-                request_numb = request[2]
-                request_type = all_emoji[request[3]]
-                requests = requests + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
-        
-        if len(requests_ready_to_give) != 0:
+    if len(requests_ready_to_give) != 0:
+            ready_req = 'Отложены к выдаче:\n'
+
             for request in requests_ready_to_give:
                 rub, usd, eur = get_values_FGH(request)
                 if usd != '' or eur != '': rub = rub + ', '
@@ -113,14 +110,24 @@ async def show_daily_report(call:CallbackQuery, state:FSMContext):
                 request_date = request[0]
                 request_numb = request[2]
                 request_type = all_emoji[request[3]]
-                requests = requests + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
+                ready_req = ready_req + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
+    
+    else:
+        ready_req = ''
+
+    if len(requests_processing) == 0 and len(requests_ready_to_give) == 0:
+        requests = 'Все заявки исполненны\n'
+    else:
+        requests = '\n'
 
     replenishment = data['replenishment']
     replenishment = get_value_for_reports(replenishment, 'rub')
 
-    repl_text = f'Пополнений на карты за {date}: {replenishment}'
+    repl_text = f'Пополнений на карты за {date}: {replenishment}\n\n'
 
-    text = deal_amount_text + up_text + down_text + remain + requests + repl_text
+    text = deal_amount_text + up_text + down_text + remain + repl_text  + current_req + requests + ready_req
+
+    await state.update_data(daily_report_text=text)
 
     await call.message.answer (
         text = text,
@@ -138,6 +145,20 @@ async def finish_report(call:CallbackQuery, state:FSMContext):
     await call.message.delete()
     await state.update_data(finish_report='+')
 
+    if call.data == 'confirm':
+        data_state = await state.get_data()
+        text = data_state['daily_report_text']
+
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+
+        await state.finish()
+
+        return
+
+
     if call.data == 'raise_problem':
         result = await call.message.answer('Подробно изложите выявленные расхождения')
         await state.update_data(message_to_delete=result.message_id)
@@ -145,6 +166,7 @@ async def finish_report(call:CallbackQuery, state:FSMContext):
         await Reportsstate.text_problem.set()
 
         return
+
 
     if call.data == 'back__main_menu':
         await call.message.answer (
