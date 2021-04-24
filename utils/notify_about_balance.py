@@ -7,7 +7,7 @@ async def notify_about_balance():
 
     balance_rub, balance_usd, balance_eur = sheet.get_balance_AEG3()
 
-    warning = '❗️😱❗️😱❗️😱❗️😱❗️😱❗️😱\nДЛЯ ИСПОЛНЕНИЯ ВСЕХ ЗАЯВОК НЕ ХВАТАЕТ:\n'
+    warning = '❗️❗️❗️❗️❗️❗️\nДЛЯ ИСПОЛНЕНИЯ ВСЕХ ЗАЯВОК НЕ ХВАТАЕТ:\n'
 
     if int(balance_rub) < 0:
         balance_rub = abs(int(balance_rub))
@@ -30,12 +30,12 @@ async def notify_about_balance():
         balance_eur = balance_eur + '€'
         warning = warning + balance_eur
 
-    if warning == '❗️😱❗️😱❗️😱❗️😱❗️😱❗️😱\nДЛЯ ИСПОЛНЕНИЯ ВСЕХ ЗАЯВОК НЕ ХВАТАЕТ:\n':
+    if warning == '❗️❗️❗️❗️❗️❗️\nДЛЯ ИСПОЛНЕНИЯ ВСЕХ ЗАЯВОК НЕ ХВАТАЕТ:\n':
 
         return
 
     else:
-        warning = warning + '\n❗️😱❗️😱❗️😱❗️😱❗️😱❗️😱'
+        warning = warning + '\n❗️❗️❗️❗️❗️❗️'
         await dp.bot.send_message(group_chat, warning)
 
         admins = db.select_id_users(status='admin')

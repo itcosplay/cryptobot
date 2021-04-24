@@ -1,4 +1,3 @@
-import re
 import datetime
 
 from aiogram import types 
@@ -37,7 +36,7 @@ async def create_request(message:types.Message, state:FSMContext):
     await state.update_data(permit='')
     await state.update_data(data_request=datetime.datetime.today().strftime('%d.%m'))
 
-    result = await message.answer('Введите номер заявки в формате XXXX')
+    result = await message.answer('Введите номер заявки')
     await Request.request_numb.set()
     await state.update_data(_del_message=result.message_id)
 
@@ -56,26 +55,16 @@ async def set_request_id(message:types.Message, state:FSMContext):
         message_id=message.message_id
     )
 
-    match = re.fullmatch(r'\d\d\d\d', message.text)
+    await state.update_data(request_numb=message.text)
 
-    if match:
-        await state.update_data(request_numb=message.text)
+    await message.answer (
+        text='Выберите тип операции',
+        reply_markup=create_kp_operation_type()
+    )
 
-        await message.answer (
-            text='Выберите тип операции',
-            reply_markup=create_kp_operation_type()
-        )
+    await Request.operation_type.set()
+    # to operation_type.py
 
-        await Request.operation_type.set()
-        # to operation_type.py
-
-        return
-
-    else:
-        result = await message.answer('Неправильный формат номера заявки. Попробуйте еще раз ввести в формате XXXX.\n(Например: 1546)')
-        await state.update_data(_del_message=result.message_id)
-        await Request.request_numb.set()
-
-        return
+    return
 
 

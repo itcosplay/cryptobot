@@ -11,6 +11,7 @@ from utils import get_single_value
 from utils import get_values_FGH
 from utils import notify_in_group_chat
 from utils import notify_someone
+from utils import notify_about_balance
 
 
 # from: close_request_menu.pu
@@ -158,6 +159,7 @@ async def close__sum_set(message:Message, state:FSMContext):
 
     await notify_someone(text, 'admin', 'changer', 'executor')
     await notify_in_group_chat(text)
+    await notify_about_balance()
 
     await state.finish()
 
