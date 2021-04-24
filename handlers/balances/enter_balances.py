@@ -170,7 +170,7 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
                 text_ready_to_give = text_ready_to_give + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
         
         else:
-            text_ready_to_give = '\n\nОтложенных к выдаче заявок нет'
+            text_ready_to_give = 'Отложенных к выдаче заявок нет'
             
         text = text + text_ready_to_give
 

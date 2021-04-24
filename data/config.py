@@ -12,7 +12,7 @@ BOT_TOKEN = BOT_TOKEN
 
 super_admins = [
     59677456,
-    684931753
+    # 684931753
 ]
 
 # group_chat = '-1001185491120'
