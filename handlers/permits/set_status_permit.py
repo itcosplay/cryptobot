@@ -5,6 +5,7 @@ from loader import dp, bot, permit
 from states import Permitstate
 from data import all_emoji
 from utils import notify_someone
+from utils import notify_in_group_chat
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_set_status_prmt
 
@@ -38,18 +39,20 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'permit_ordered':
         permit.update_permit_data(permit_id, 'заказан')
         permit_warning = 'пропуск заказан'
-        permit_notify = f'#N{request_numb} пропуск заказан'
+        permit_ready = all_emoji['заказан']
+        permit_notify = f'{permit_ready} #N{request_numb} пропуск заказан {permit_ready}'
 
         await notify_someone(permit_notify, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(permit_notify)
 
 
     if data_btn['type_btn'] == 'in_office':
         permit.update_permit_data(permit_id, 'отработан')
         permit_warning = 'гость прибыл в офис'
-        permit_notify = f'#N{request_numb} в офисе'
+        permit_notify = f'⚠️ #N{request_numb} В ОФИСЕ ⚠️'
 
         await notify_someone(permit_notify, 'admin', 'changer', 'executor')
-    
+        await notify_in_group_chat(permit_notify)
     
     text = f'Все оповещены о том, что по заявке #N{request_numb} {permit_warning}'
     
