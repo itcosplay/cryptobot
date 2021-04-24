@@ -45,6 +45,7 @@ from .inline import create_kb_daily_report
 from .inline import create_kb_finished_requests
 from .inline import create_kb_change_fin_request
 from .inline import create_kb_another_currecy_add_fin
+from .inline import create_kb_change_sum_finished_req
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
@@ -69,3 +70,4 @@ from .inline import cb_change_request
 from .inline import cb_anoter_currency_add
 from .inline import cb_finished_requests
 from .inline import cb_anoter_currency_add_fin
+from .inline import cb_change_finished_req

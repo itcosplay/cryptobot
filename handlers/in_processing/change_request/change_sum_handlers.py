@@ -63,7 +63,7 @@ async def close__sum_set(message:Message, state:FSMContext):
     try:
         which_sum_change__amount = int(message.text)
         
-        if which_sum_change__amount <= 0:
+        if which_sum_change__amount < 0:
             raise ValueError('fuck off')
         which_sum_change__amount = str(which_sum_change__amount)
         
@@ -142,6 +142,8 @@ async def close__sum_set(message:Message, state:FSMContext):
             text='Не удалось соединиться с гугл таблицей',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
+
+        await state.finish()
 
         return
 

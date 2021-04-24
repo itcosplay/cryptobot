@@ -206,7 +206,8 @@ class DataFromSheet:
                 sheet.update(f'A{index}:Q{index}', [request])
                 # sheet.delete_rows(index)
                 # sheet.insert_row(request, index)
-
+                self.sort_table_data()
+                
                 return
 
 

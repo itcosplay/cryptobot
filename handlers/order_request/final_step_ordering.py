@@ -95,6 +95,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
         await notify_in_group_chat(text)
         
         await state.finish()
+        
         await notify_about_balance()
 
     elif call.data == 'comment':

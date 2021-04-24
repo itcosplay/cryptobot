@@ -270,3 +270,56 @@ def create_kb_another_currecy_add_fin(request):
 
     return keyboard
 
+
+cb_change_finished_req = CallbackData('cbacn', 'curr', 'type_btn')
+def create_kb_change_sum_finished_req(request):
+    from utils import get_values_FGH
+    
+    keyboard = InlineKeyboardMarkup()
+    rub, usd, eur = get_values_FGH(request)
+
+    if rub != '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text=rub,
+                callback_data = cb_change_finished_req.new (
+                    curr='rub',
+                    type_btn='change_sum'
+                )
+            )
+        )
+
+    if usd != '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text=usd,
+                callback_data = cb_change_finished_req.new (
+                    curr='usd',
+                    type_btn='change_sum'
+                )
+            )
+        )
+
+    if eur != '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text=eur,
+                callback_data = cb_change_finished_req.new (
+                    curr='eur',
+                    type_btn='change_sum'
+                )
+            )
+        )
+
+    emo_snail = all_emoji['back__main_menu']
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {emo_snail} главное меню',
+            callback_data=cb_change_finished_req.new (
+                curr='-',
+                type_btn='back__main_menu'
+            )
+        )
+    )
+
+    return keyboard

@@ -16,6 +16,8 @@ class Reportsstate(StatesGroup):
     chosen_request = State()
     change_fin_request = State()
     set_new_curr = State()
+    set_change_curr = State()
+    change_curr_amount = State()
     new_curr = State()
     new_curr_sign = State()
     add_curr_amount = State()

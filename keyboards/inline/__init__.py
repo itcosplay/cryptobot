@@ -74,3 +74,5 @@ from .report_keyboards import cb_finished_requests
 from .report_keyboards import create_kb_change_fin_request
 from .report_keyboards import create_kb_another_currecy_add_fin
 from .report_keyboards import cb_anoter_currency_add_fin
+from .report_keyboards import create_kb_change_sum_finished_req
+from .report_keyboards import cb_change_finished_req
