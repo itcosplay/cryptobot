@@ -28,9 +28,11 @@ def create_kb_coustom_main_menu(user_id):
 
     elif user_status == 'changer':
         keyboard.add(KeyboardButton(text='создать заявку'))
-        keyboard.add(KeyboardButton(text='в работе'))
-        keyboard.add(KeyboardButton(text='создать пропуск'))
+        keyboard.insert(KeyboardButton(text='в работе'))
+        keyboard.add(KeyboardButton(text='пропуска'))
+        keyboard.insert(KeyboardButton(text='создать пропуск'))
         keyboard.add(KeyboardButton(text='балансы'))
+        keyboard.insert(KeyboardButton(text='отчетность'))
 
     elif user_status == 'executor':
         keyboard.add(KeyboardButton(text='в работе'))

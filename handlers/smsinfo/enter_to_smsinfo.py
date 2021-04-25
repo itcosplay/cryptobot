@@ -3,6 +3,7 @@ import time
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 
+from filters import isAdmin_or_isSecretary
 from loader import dp, bot, smsinfo, db
 from states import SMSstate
 from data import all_emoji
@@ -18,7 +19,7 @@ from keyboards import create_kb_for_what_waste
 
 
 # from 'информация о смс' main_menu
-@dp.message_handler(text='информация о смс')
+@dp.message_handler(isAdmin_or_isSecretary(),text='информация о смс')
 async def enter_the_smsinfo(message:Message, state:FSMContext):
     '''
     В ответ запрашивает номер смс
