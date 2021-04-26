@@ -603,13 +603,12 @@ class DataFromSheet:
         
 
         for row in data:
-            
+            if row[11] == 'Отменена':
+                index += 1
+
             if row[11] == 'Исполнено':
                 index += 1
                 deal_amount += 1
-
-                if row[11] == 'Отменена':
-                    index += 1
 
                 if str(row[5])[0] == '-':
                     down_rub = down_rub + int(row[5])
