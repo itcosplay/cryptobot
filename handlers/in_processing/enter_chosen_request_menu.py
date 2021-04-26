@@ -1,12 +1,16 @@
 from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
+from data import all_emoji
 from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
 from utils import get_text_before_close_request
 from utils import get_text_message_to
 from utils import get_data_chosen_request
+from utils import notify_someone
+from utils import notify_in_group_chat
+from utils import get_data_request_unpack
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
@@ -156,6 +160,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         chosen_request[14] = '0'
         chosen_request[16] = '0'
         req_id = chosen_request[1]
+        request_numb = chosen_request[2]
 
 
         result = await call.message.answer_sticker (
@@ -184,6 +189,13 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
         await state.update_data(current_requests=current_requests)
+
+        persone = all_emoji['персона']
+        text_notify_unpack = get_data_request_unpack(chosen_request)
+        text_notify_unpack = text_notify_unpack + f'⚙️ Распаковано в обработку\n{persone}@{username}'
+
+        await notify_someone(text_notify_unpack, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(text_notify_unpack)
 
         for request in current_requests:
 

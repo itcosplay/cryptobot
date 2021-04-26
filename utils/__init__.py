@@ -12,6 +12,7 @@ from .request_data_functions import get_data_request_short
 from .request_data_functions import get_text_before_close_request
 from .request_data_functions import get_text_message_to
 from .request_data_functions import get_text_after_close_request
+from .request_data_functions import get_data_request_unpack
 from .notify_about_new_permit import notify_about_permit_to_order
 from .notify_universal import notify_someone
 from .get_minuses_sum_FGH import get_minus_FGH
