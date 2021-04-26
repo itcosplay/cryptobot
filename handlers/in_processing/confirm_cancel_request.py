@@ -5,7 +5,7 @@ from aiogram.dispatcher import FSMContext
 
 from data import all_emoji
 
-from loader import bot, dp, sheet
+from loader import bot, dp, sheet, permit
 from states import Processing
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
@@ -34,6 +34,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         request[12] = '0'
         request[13] = '0'
         request[14] = '0'
+        request_id = request[1]
 
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
@@ -41,6 +42,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
 
         try:
             sheet.replace_row(request)
+            permit.delete_permit(request_id)
 
         except Exception as e:
             print(e)
