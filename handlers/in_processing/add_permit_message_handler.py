@@ -28,10 +28,11 @@ async def add_permit_data(message:Message, state:FSMContext):
     permit_date = request[0]
     old_permit_text = permit.get_old_permit_text_or_empty(permit_id)
     new_permit_text = old_permit_text + ' || ' + message.text
+    username = message.chat.username
 
     permit.write_new_permit(permit_id, request_numb, permit_date, permit_text=new_permit_text)
 
-    await notify_about_permit_to_order()
+    await notify_about_permit_to_order(request_numb, username)
 
     await message.answer (
         text='Новый пропуск добавлен, секретарь оповещен!',

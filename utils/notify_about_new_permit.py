@@ -1,11 +1,11 @@
-async def notify_about_permit_to_order():
+async def notify_about_permit_to_order(permit_numb, username):
     from loader import dp, db
     from data import emoji
     from utils import notify_someone
 
     kvz = emoji.all_emoji['квз']
 
-    warning = f'УВЕДОМЛЕНИЕ\n{kvz}Новая заявка на пропуск{kvz}'
+    warning = f'УВЕДОМЛЕНИЕ\n{kvz}Новая заявка на пропуск{kvz}\nпропуск #N{permit_numb} заказал @{username}'
 
     await notify_someone(warning, 'admin')
 

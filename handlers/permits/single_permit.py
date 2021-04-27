@@ -76,9 +76,10 @@ async def confirm_single_permit(call:CallbackQuery, state:FSMContext):
         permit_numb = data_state['single_permit_numb']
         permit_text = data_state['single_permit_text']
         permit_date = data_state['single_permit_date']
+        username = call.message.chat.username
 
         permit.write_new_permit(permit_id, permit_numb, permit_date, permit_text=permit_text)
-        await notify_about_permit_to_order()
+        await notify_about_permit_to_order(permit_numb, username)
 
         await call.message.answer (
             text=f'Новый пропуск #N{permit_numb} добавлен, секретарь оповещен!',

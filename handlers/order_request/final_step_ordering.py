@@ -63,7 +63,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
             if permit_text != '':
                 permit.write_new_permit(request_id, request_numb, request_date, permit_text)
 
-                await notify_about_permit_to_order()
+                await notify_about_permit_to_order(request_numb, creator_name)
 
             permit.clear_table() # Очищаем таблицу от старых пропусков
 

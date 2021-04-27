@@ -11,12 +11,12 @@ from bt import BOT_TOKEN
 BOT_TOKEN = BOT_TOKEN
 
 super_admins = [
-    59677456,
-    684931753
+    59677456, # itcosplay
+    684931753 # marcofive
 ]
 
-# group_chat = '-1001185491120'
-group_chat = '-404213737'
+# group_chat = '-1001185491120' # test chat
+group_chat = '-404213737' # real chat
 
 
 
