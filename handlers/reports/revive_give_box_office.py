@@ -11,7 +11,7 @@ from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_confirm_box_office
 from loader import dp, sheet, bot
 from states import Reportsstate
-from utils import get_single_value_float
+from utils import get_values_FGH
 from utils import get_single_value_int
 from utils import get_single_value_without_cur
 from utils import get_minus_MNO
@@ -60,6 +60,32 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
             
             text = 'Сверьте данные для ПРИНЯТИЯ кассы с фактическим наличием:\n'
             text_balance = f'{D3}{red_circle}{red_bal}{Q4}\n{F3}\n{I3}'
+
+            requests_ready_to_give = []
+
+            for row in data:
+                if row[11] == 'Готово к выдаче':
+                    requests_ready_to_give.append(row)
+
+            if len(requests_ready_to_give) != 0:
+                ready_req = '\nОтложены к выдаче:\n'
+
+                for request in requests_ready_to_give:
+                    rub, usd, eur = get_values_FGH(request)
+                    if usd != '' or eur != '': rub = rub + ', '
+                    if eur != '': usd = usd + ', '
+                    if rub == ', ': rub = ''
+                    if usd == ', ': usd = ''
+            
+                    request_date = request[0]
+                    request_numb = request[2]
+                    request_type = all_emoji[request[3]]
+                    ready_req = ready_req + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
+    
+            else:
+                ready_req = ''
+
+            text_balance = text_balance + ready_req
 
             await state.update_data(cash_box_text=text_balance)
 
@@ -129,6 +155,32 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
             
             text = 'Сверьте данные для СДАЧИ кассы с фактическим наличием:\n'
             text_balance = f'{D3}{red_circle}{red_bal}{Q4}\n{F3}\n{I3}'
+
+            requests_ready_to_give = []
+
+            for row in data:
+                if row[11] == 'Готово к выдаче':
+                    requests_ready_to_give.append(row)
+
+            if len(requests_ready_to_give) != 0:
+                ready_req = '\nОтложены к выдаче:\n'
+
+                for request in requests_ready_to_give:
+                    rub, usd, eur = get_values_FGH(request)
+                    if usd != '' or eur != '': rub = rub + ', '
+                    if eur != '': usd = usd + ', '
+                    if rub == ', ': rub = ''
+                    if usd == ', ': usd = ''
+            
+                    request_date = request[0]
+                    request_numb = request[2]
+                    request_type = all_emoji[request[3]]
+                    ready_req = ready_req + f'{request_date} {request_type} {request_numb}\n     {rub}{usd}{eur}\n'
+    
+            else:
+                ready_req = ''
+
+            text_balance = text_balance + ready_req
 
             await state.update_data(cash_box_text=text_balance)
 
