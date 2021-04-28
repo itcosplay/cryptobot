@@ -34,7 +34,7 @@ async def show_current_requests(message:Message, state:FSMContext):
 
     except Exception as e:
         print(e)
-        traceback.print_exception()
+        # traceback.print_exception()
         await message.answer_sticker (
             'CAACAgIAAxkBAAL9rGBTCImgCvHJBZ-doEYr2jkvs6UEAAIaAAPANk8TgtuwtTwGQVceBA'
         )

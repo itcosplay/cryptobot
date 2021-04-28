@@ -28,7 +28,7 @@ async def show_daily_report(call:CallbackQuery, state:FSMContext):
 
     except Exception as e:
         print(e)
-        traceback.print_exception()
+        # traceback.print_exception()
 
         await call.message.answer_sticker (
             sticker['not_connection']
