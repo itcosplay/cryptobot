@@ -566,6 +566,7 @@ class DataFromSheet:
 
 
     def get_daily_report(self, date:str):
+        print('date: ', date)
         sheet = self.get_google_sheet()
         numb_of_last_row = len(sheet.col_values(1))
         last_50_row = sheet.batch_get([f'A{numb_of_last_row - 50}:Q{numb_of_last_row}'])[0]
@@ -575,6 +576,8 @@ class DataFromSheet:
 
         requests_processing = []
         requests_ready_to_give = []
+
+        date_obj = datetime.datetime.strptime(date, '%d.%m').date()
 
         for row in last_50_row:
             index += 1
@@ -586,10 +589,16 @@ class DataFromSheet:
                 requests_ready_to_give.append(row)
 
             if row[0] == date:
+                print('ВЫБРАННАЯ ДАТА')
                 index -= 1
                 data.append(row)
 
-            if row[0] > date:
+            
+            row_date = row[0]
+            row_date = datetime.datetime.strptime(row_date, '%d.%m').date()
+
+            if row_date > date_obj:
+                print('ДАТА БОЛЬШЕ')
                 index -= 1
 
         # data - список заявок за выбранную date
