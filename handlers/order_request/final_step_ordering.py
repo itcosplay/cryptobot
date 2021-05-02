@@ -69,7 +69,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
         except Exception as e:
             print(e)
-            traceback.print_exception() 
+            # traceback.print_exception() 
             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
             await call.message.answer (
                 f'Ошибка! Проблемы с таблицами...\n==============================',

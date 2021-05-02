@@ -170,7 +170,7 @@ async def set_sum_return(message:Message, state:FSMContext):
         
     except Exception as e:
         print(e)
-        traceback.print_exception()
+        # traceback.print_exception()
 
         await message.answer (
             text='Изменение заявки отменено. Формат суммы не правильный.',
@@ -315,7 +315,7 @@ async def set_change_sum_return(message:Message, state:FSMContext):
         
     except Exception as e:
         print(e)
-        traceback.print_exception()
+        # traceback.print_exception()
 
         await message.answer (
             text='Изменение заявки отменено. Формат суммы не правильный.',

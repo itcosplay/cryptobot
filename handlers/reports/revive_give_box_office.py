@@ -91,7 +91,7 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
 
         except Exception as e:
             print(e)
-            traceback.print_exception()
+            # traceback.print_exception()
 
             await call.message.answer_sticker (
                 sticker['not_connection']
@@ -186,7 +186,7 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
 
         except Exception as e:
             print(e)
-            traceback.print_exception()
+            # traceback.print_exception()
 
             await call.message.answer_sticker (
                 sticker['not_connection']
