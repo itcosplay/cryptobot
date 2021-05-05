@@ -121,8 +121,27 @@ async def show_daily_report(call:CallbackQuery, state:FSMContext):
     else:
         requests = '\n'
 
-    replenishment = data['replenishment']
-    replenishment = get_value_for_reports(replenishment, 'rub')
+
+
+    try:
+        replenishment = data['replenishment']
+        replenishment = get_value_for_reports(replenishment, 'rub')
+
+    except Exception as e:
+        print(e)
+        traceback.print_exc()
+
+        await call.message.answer_sticker (
+            sticker['not_connection']
+        )
+        await call.message.answer (
+            text='Проверь таблицу пополнения!!!',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+
+        await state.finish()
+
+        return
 
     repl_text = f'Пополнений на карты за {date}: {replenishment}\n\n'
 

@@ -1,3 +1,4 @@
+from traceback import print_tb
 from data import all_emoji
 
 def get_plus_FGH(request):
@@ -234,3 +235,8 @@ def get_single_value_without_cur(value:int):
     value = value.replace(',', '.')
 
     return value
+
+
+values = '12214214,00'
+cur = 'rub'
+get_value_for_reports(values, cur)
