@@ -237,6 +237,6 @@ def get_single_value_without_cur(value:int):
     return value
 
 
-values = '12214214,00'
-cur = 'rub'
-get_value_for_reports(values, cur)
+# values = '12214214,00'
+# cur = 'rub'
+# get_value_for_reports(values, cur)
