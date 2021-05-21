@@ -155,8 +155,8 @@ async def set_sum_to_add(message:Message, state:FSMContext):
         new_sum = get_single_value(chosen_request[6], 'usd')
 
     if currency == 'eur':
-        chosen_request[6] = sign + sum
-        new_sum = get_single_value(chosen_request[6], 'eur')
+        chosen_request[7] = sign + sum
+        new_sum = get_single_value(chosen_request[7], 'eur')
 
     username = message.chat.username
     chosen_request[10] = username
