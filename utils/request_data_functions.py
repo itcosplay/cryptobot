@@ -61,7 +61,7 @@ def get_data_chosen_request(request):
 
 
         if ready_to_give_rub != '' or ready_to_give_usd != '' or ready_to_give_eur != '':
-            reserve_to_ready = f'Отложенно к выдаче:\n'
+            reserve_to_ready = f'Отложено к выдаче:\n'
 
             if ready_to_give_rub != '':
                 ready_to_give_rub = get_single_value(ready_to_give_rub, 'rub')

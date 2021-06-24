@@ -87,7 +87,7 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
             finished_requests = []
             for row in data:
                 
-                if row[11] == 'Исполнено':
+                if row[11] == 'Исполнено' or row[11] == 'Отменена':
                     finished_requests.append(row)
 
             await state.update_data(finished_requests=finished_requests)

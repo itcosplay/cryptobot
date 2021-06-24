@@ -8,6 +8,7 @@ from loader import dp, bot, smsinfo, db
 from states import SMSstate
 from data import all_emoji
 from data import sticker
+from data import sms_chat
 from utils import notify_someone
 
 from keyboards import create_kb_coustom_main_menu
@@ -252,6 +253,7 @@ async def set_yes_no_note(call:CallbackQuery, state:FSMContext):
         notification_list = ['admin', 'changer', 'secretary']
 
         await notify_someone(text, *notification_list)
+        await bot.send_message(sms_chat, text)
         ######
         ######
         ######

@@ -12,12 +12,14 @@ BOT_TOKEN = BOT_TOKEN
 
 super_admins = [
     59677456, # itcosplay
-    684931753 # marcofive
+    # 684931753 # marcofive
 ]
 
 
 # group_chat = '-1001185491120' # test chat
 group_chat = '-404213737' # real chat
+
+sms_chat = '-580332170'
 
 
 
