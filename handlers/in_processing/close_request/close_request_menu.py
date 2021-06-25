@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import final
 
 from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext
@@ -212,13 +213,20 @@ async def set_blue_amount(message:Message, state:FSMContext):
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
 
-    if blue_amount_close == '0':
-        pass
+    if chosen_request[5][0] == '-':
+        symbol_blue = -1
+    else:
+        symbol_blue = 1
 
-    elif chosen_request[5][0] == '-':
-        blue_amount_close = '-' + blue_amount_close
-
-    
+    if blue_amount_close[0] == '-':
+        blue_amount_close = blue_amount_close[1:]
+        blue_amount_close = int(blue_amount_close)
+        blue_amount_close = blue_amount_close * symbol_blue * -1
+        blue_amount_close = str(blue_amount_close)
+    else:
+        blue_amount_close = int(blue_amount_close)
+        blue_amount_close = blue_amount_close * symbol_blue
+        blue_amount_close = str(blue_amount_close)
 
     chosen_request[16] = blue_amount_close
     await state.update_data(chosen_request=chosen_request)
