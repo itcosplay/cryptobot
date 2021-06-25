@@ -61,9 +61,19 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         chosen_request[8] = initial_com
         chosen_request[10] = call.message.chat.username
         chosen_request[11] = 'Исполнено'
-        chosen_request[12] = chosen_request[5]
-        chosen_request[13] = chosen_request[6]
-        chosen_request[14] = chosen_request[7]
+
+        if chosen_request[12] != 0: chosen_request[5] = chosen_request[12]
+        else: chosen_request[12] = chosen_request[5]
+
+        if chosen_request[13] != 0: chosen_request[6] = chosen_request[13]
+        else: chosen_request[13] = chosen_request[5]
+
+        if chosen_request[14] != 0: chosen_request[7] =chosen_request[14]
+        else: chosen_request[14] = chosen_request[7]
+
+        # chosen_request[12] = chosen_request[5]
+        # chosen_request[13] = chosen_request[6]
+        # chosen_request[14] = chosen_request[7]
 
         time_close=datetime.today().strftime('%H:%M (%d.%m)')
         chosen_request[15] = time_close

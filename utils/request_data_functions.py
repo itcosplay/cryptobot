@@ -178,13 +178,15 @@ def get_text_before_close_request(request):
     Возвращает текст сообщения перед
     закрытием заявки
     '''
-    from utils import get_values_FGH
+    # from utils import get_values_FGH
+    from utils import get_values_MNO_or_FGH_ifMNO_is_empty
 
     request_id = request[2]
     request_date = request[0] 
     request_type_emoji = all_emoji[request[3]]
 
-    rub, usd, eur = get_values_FGH(request)
+    # rub, usd, eur = get_values_FGH(request)
+    rub, usd, eur = get_values_MNO_or_FGH_ifMNO_is_empty(request)
     blue = set_minus_and_plus_currences.get_blue(request)
 
     if rub != '': rub = rub + blue + '\n'

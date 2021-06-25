@@ -12,7 +12,7 @@ BOT_TOKEN = BOT_TOKEN
 
 super_admins = [
     59677456, # itcosplay
-    # 684931753 # marcofive
+    684931753 # marcofive
 ]
 
 

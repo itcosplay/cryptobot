@@ -237,6 +237,123 @@ def get_single_value_without_cur(value:int):
     return value
 
 
+def get_values_MNO_or_FGH_ifMNO_is_empty(request):
+    '''
+    Возвращает из полей 12, 13, 14 (MNO) заявки
+    значения сумм в "красивом" виде. Если MNO пустые,
+    то возвращаются значения из 5, 6, 7 (FGH), если поля
+    FGH сами не являются пустыми.
+    '''
+    if request[12] != '0':
+        rub = request[12]
+        rub = str(rub)
+       
+        if rub[0] == '-':
+            rub = rub[1:]
+            rub = int(rub)
+            rub = f'{rub:,}'
+            rub = rub.replace(',', '.')
+            rub = all_emoji['минус'] + rub + '₽'
+        else:
+            rub = int(rub)
+            rub = f'{rub:,}'
+            rub = rub.replace(',', '.')
+            rub = all_emoji['плюс'] + rub + '₽'
+    else:      
+        if request[5] != '0':
+            rub = request[5]
+            rub = str(rub)
+
+            if rub[0] == '-':
+                rub = rub[1:]
+                rub = int(rub)
+                rub = f'{rub:,}'
+                rub = rub.replace(',', '.')
+                rub = all_emoji['минус'] + rub + '₽'
+            else:
+                rub = int(rub)
+                rub = f'{rub:,}'
+                rub = rub.replace(',', '.')
+                rub = all_emoji['плюс'] + rub + '₽'
+
+        else:
+            rub = ''
+
+
+    if request[13] != '0':
+        usd = request[13]
+        usd = str(usd)
+       
+        if usd[0] == '-':
+            usd = usd[1:]
+            usd = int(usd)
+            usd = f'{usd:,}'
+            usd = usd.replace(',', '.')
+            usd = all_emoji['минус'] + usd + '₽'
+        else:
+            usd = int(usd)
+            usd = f'{usd:,}'
+            usd = usd.replace(',', '.')
+            usd = all_emoji['плюс'] + usd + '₽'
+    else:      
+        if request[6] != '0':
+            usd = request[6]
+            usd = str(usd)
+
+            if usd[0] == '-':
+                usd = usd[1:]
+                usd = int(usd)
+                usd = f'{usd:,}'
+                usd = usd.replace(',', '.')
+                usd = all_emoji['минус'] + usd + '₽'
+            else:
+                usd = int(usd)
+                usd = f'{usd:,}'
+                usd = usd.replace(',', '.')
+                usd = all_emoji['плюс'] + usd + '₽'
+
+        else:
+            usd = ''
+
+    
+    if request[14] != '0':
+        eur = request[14]
+        eur = str(eur)
+       
+        if eur[0] == '-':
+            eur = eur[1:]
+            eur = int(eur)
+            eur = f'{eur:,}'
+            eur = eur.replace(',', '.')
+            eur = all_emoji['минус'] + eur + '₽'
+        else:
+            eur = int(eur)
+            eur = f'{eur:,}'
+            eur = eur.replace(',', '.')
+            eur = all_emoji['плюс'] + eur + '₽'
+    else:      
+        if request[7] != '0':
+            eur = request[7]
+            eur = str(eur)
+
+            if eur[0] == '-':
+                eur = eur[1:]
+                eur = int(eur)
+                eur = f'{eur:,}'
+                eur = eur.replace(',', '.')
+                eur = all_emoji['минус'] + eur + '₽'
+            else:
+                eur = int(eur)
+                eur = f'{eur:,}'
+                eur = eur.replace(',', '.')
+                eur = all_emoji['плюс'] + eur + '₽'
+
+        else:
+            eur = ''
+
+
+    return rub, usd, eur
+
 # values = '12214214,00'
 # cur = 'rub'
 # get_value_for_reports(values, cur)

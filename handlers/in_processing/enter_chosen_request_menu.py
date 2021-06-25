@@ -6,6 +6,7 @@ from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
 from utils import get_text_before_close_request
+# from utils import get_values_MNO_or_FGH_ifMNO_is_empty
 from utils import get_text_message_to
 from utils import get_data_chosen_request
 from utils import notify_someone
@@ -101,6 +102,9 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         chosen_request = data_state['chosen_request']
 
         text = get_text_before_close_request(chosen_request)
+        # text = get_values_MNO_or_FGH_ifMNO_is_empty(chosen_request)
+        print
+
 
         await call.message.answer (
             text=text,
@@ -223,7 +227,6 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         return
         
-
     elif data_btn['type_btn'] == 'cancel_request':
         await call.message.answer (
             text='Отменить заявку?',

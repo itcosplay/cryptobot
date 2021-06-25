@@ -24,6 +24,7 @@ from .get_values_FGH_MNO import get_single_value_int
 from .get_values_FGH_MNO import get_single_value_without_cur
 from .get_values_FGH_MNO import get_minus_MNO
 from .get_values_FGH_MNO import get_value_for_reports
+from .get_values_FGH_MNO import get_values_MNO_or_FGH_ifMNO_is_empty
 from .notify_chat import notify_in_group_chat
 
 
