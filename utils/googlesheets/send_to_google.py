@@ -26,26 +26,7 @@ class DataFromSheet:
         return sheet
 
 
-    # def get_google_sheet(self):
-    #     CREDENTIALS_FILE = 'creds.json'
-    #     scope = [
-    #         "https://spreadsheets.google.com/feeds",
-    #         'https://www.googleapis.com/auth/spreadsheets',
-    #         "https://www.googleapis.com/auth/drive.file",
-    #         "https://www.googleapis.com/auth/drive"
-    #     ]
-    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         'sms.json',
-    #         scope
-    #     )
-    #     client = gspread.authorize(creds)
-
-    #     sheet = client.open("VTL учёт").sheet1
-        
-    #     return sheet
-
-
-    def get_google_sheet_card_balance(self):
+    def get_google_sheet(self):
         CREDENTIALS_FILE = 'creds.json'
         scope = [
             "https://spreadsheets.google.com/feeds",
@@ -58,11 +39,30 @@ class DataFromSheet:
             scope
         )
         client = gspread.authorize(creds)
-        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-        sheet = client.open("Учёт Оператора").sheet1
-        # sheet = client.open_by_url()
+
+        sheet = client.open("VTL учёт").sheet1
+        
         return sheet
+
+
+    # def get_google_sheet_card_balance(self):
+    #     CREDENTIALS_FILE = 'creds.json'
+    #     scope = [
+    #         "https://spreadsheets.google.com/feeds",
+    #         'https://www.googleapis.com/auth/spreadsheets',
+    #         "https://www.googleapis.com/auth/drive.file",
+    #         "https://www.googleapis.com/auth/drive"
+    #     ]
+    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
+    #         'sms.json',
+    #         scope
+    #     )
+    #     client = gspread.authorize(creds)
+    #     # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+    #     sheet = client.open("Учёт Оператора").sheet1
+    #     # sheet = client.open_by_url()
+    #     return sheet
 
 
     def get_google_sheet_replenishment(self):
