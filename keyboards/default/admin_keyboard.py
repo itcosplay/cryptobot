@@ -42,6 +42,7 @@ def create_kb_coustom_main_menu(user_id):
     elif user_status == 'secretary':
         keyboard.add(KeyboardButton(text='информация о смс'))
         keyboard.add(KeyboardButton(text='пропуска'))
+        keyboard.add(KeyboardButton(text='создать пропуск'))
     
     elif user_status == 'permit':
         keyboard.add(KeyboardButton(text='создать пропуск'))

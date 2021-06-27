@@ -7,7 +7,7 @@ class Permitstate(StatesGroup):
     status_permit = State()
     message_to_delete = State()
 
-    single_permit_data = State()
+    single_permit_full_name = State()
     single_permit_id = State()
     single_permit_numb = State()
     single_permit_text = State()
@@ -16,4 +16,6 @@ class Permitstate(StatesGroup):
 
     confirm_delete_permit = State()
     permit_numb = State()
+
+    permit_is_exist = State()
     

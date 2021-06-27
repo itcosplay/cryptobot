@@ -14,6 +14,18 @@ def create_kb_confirm_single_permit():
             callback_data='confirm'
         )
     )
+    keyboard.add (
+        InlineKeyboardButton (
+            text='редактировать номер',
+            callback_data='edit_numb'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text='редактировать ФИО',
+            callback_data='edit_full_name'
+        )
+    )
 
     back__main_menu = all_emoji['back__main_menu']
     keyboard.add (
