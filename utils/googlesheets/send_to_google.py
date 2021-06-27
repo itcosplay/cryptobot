@@ -7,23 +7,23 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 
 class DataFromSheet:
-    def get_google_sheet(self):
-        CREDENTIALS_FILE = 'creds.json'
-        scope = [
-            "https://spreadsheets.google.com/feeds",
-            'https://www.googleapis.com/auth/spreadsheets',
-            "https://www.googleapis.com/auth/drive.file",
-            "https://www.googleapis.com/auth/drive"
-        ]
-        creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'creds.json',
-            scope
-        )
-        client = gspread.authorize(creds)
-        sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
+    # def get_google_sheet(self):
+    #     CREDENTIALS_FILE = 'creds.json'
+    #     scope = [
+    #         "https://spreadsheets.google.com/feeds",
+    #         'https://www.googleapis.com/auth/spreadsheets',
+    #         "https://www.googleapis.com/auth/drive.file",
+    #         "https://www.googleapis.com/auth/drive"
+    #     ]
+    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
+    #         'creds.json',
+    #         scope
+    #     )
+    #     client = gspread.authorize(creds)
+    #     sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
+    #     # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
 
-        return sheet
+    #     return sheet
 
 
     def get_google_sheet(self):

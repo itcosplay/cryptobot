@@ -11,7 +11,10 @@ from keyboards.inline.callback_data import group_users_data
 
 @dp.message_handler(IsAdmin(), text='права пользователей')
 async def rights_users(message:Message):
+
     from keyboards.inline.group_users_buttons import create_kb_groups_users
+
+    await message.delete()
 
     kb_groups_users = create_kb_groups_users()
 
@@ -22,6 +25,9 @@ async def rights_users(message:Message):
 async def get_groups(call:CallbackQuery):
     from keyboards.inline.group_users_buttons import create_kb_particular_group
     await call.answer()
+    await call.message.delete()
+
+    print(call.data)
 
     user_data = group_users_data.parse(call.data)
     # Example of result group_users_data.parse(call.data):
@@ -50,6 +56,7 @@ async def get_groups(call:CallbackQuery):
 @dp.callback_query_handler(IsAdmin(), change_button_data.filter(type_button='change_button'))
 async def change_status(call:CallbackQuery):
     await call.answer()
+    await call.message.delete()
 
     user_data = change_button_data.parse(call.data)
     # Example of result change_button_data.parse(call.data):
@@ -72,7 +79,11 @@ async def change_status(call:CallbackQuery):
 @dp.callback_query_handler(IsAdmin(), set_status_data.filter(type_btn='set_st_btn'))
 async def set_status(call:CallbackQuery):
     from keyboards.default.admin_keyboard import create_kb_coustom_main_menu
+
     await call.answer()
+    await call.message.delete()
+    
+
     user_id = call.message.from_user.id
 
     user_data = set_status_data.parse(call.data)
@@ -105,7 +116,7 @@ async def set_status(call:CallbackQuery):
             'delete': 'удалить'
         }
         # await call.answer(f'статус установлен', show_alert=True)
-        await call.message.reply(f'пользователь {user_name} теперь -  {list_rights[user_data["new_st"]].upper()}', reply_markup=create_kb_coustom_main_menu(user_id))
+        await call.message.answer(f'пользователь {user_name} теперь -  {list_rights[user_data["new_st"]].upper()}', reply_markup=create_kb_coustom_main_menu(user_id))
         await bot.send_message (
             chat_id = user_data['id'],
             text=f'Ваши права - {list_rights[user_data["new_st"]].upper()}. Используйте меню.',
