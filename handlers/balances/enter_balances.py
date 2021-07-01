@@ -1,4 +1,5 @@
 import time
+import traceback
 
 from aiogram.types import Message
 from aiogram.types import CallbackQuery
@@ -194,6 +195,7 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
 
         except Exception as e:
             print(e)
+            traceback.print_exc()
             await call.message.answer_sticker (
                 sticker['not_connection']
             )

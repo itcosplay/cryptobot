@@ -85,19 +85,19 @@ async def close__sum_set(message:Message, state:FSMContext):
     correct_sum = data_state['close__sum']
 
     if correct_currency == 'rub':
-        if chosen_request[5][0] == '-':
-            chosen_request[5] = str(0 - int(correct_sum))
-        else: chosen_request[5] = correct_sum
+        if chosen_request[12][0] == '-':
+            chosen_request[12] = str(0 - int(correct_sum))
+        else: chosen_request[12] = correct_sum
 
     if correct_currency == 'usd':
-        if chosen_request[6][0] == '-':
-            chosen_request[6] = str(0 - int(correct_sum))
-        else: chosen_request[6] = correct_sum
+        if chosen_request[13][0] == '-':
+            chosen_request[13] = str(0 - int(correct_sum))
+        else: chosen_request[13] = correct_sum
 
     if correct_currency == 'eur':
-        if chosen_request[7][0] == '-':
-            chosen_request[7] = str(0 - int(correct_sum))
-        else: chosen_request[7] = correct_sum
+        if chosen_request[14][0] == '-':
+            chosen_request[14] = str(0 - int(correct_sum))
+        else: chosen_request[14] = correct_sum
 
     await state.update_data(chosen_request=chosen_request)
 
