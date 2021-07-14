@@ -1,20 +1,17 @@
-import data
 import traceback
+
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-from aiohttp.client import request
 
 from data import all_emoji
 from loader import dp, bot, permit, sheet
 from states import Request
-# from utils import send_to_google
 from utils import notify_about_balance
 from utils import notify_about_permit_to_order
 from utils import notify_someone
 from utils import notify_in_group_chat
 from utils import get_data_chosen_request
 from keyboards import create_kb_plus_minus
-# from keyboards.default.admin_keyboard import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_choose_date
 
@@ -69,7 +66,7 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
         except Exception as e:
             print(e)
-            # traceback.print_exception() 
+            traceback.print_exc()
             await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
             await call.message.answer (
                 f'Ошибка! Проблемы с таблицами...\n==============================',

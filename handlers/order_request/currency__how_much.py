@@ -1,11 +1,8 @@
-from os import stat
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from loader import dp
 from states import Request
-from keyboards import create_kb_send_request
-# from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from utils import get_data_to_show
 

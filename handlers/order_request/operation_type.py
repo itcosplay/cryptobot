@@ -1,14 +1,12 @@
+from traceback import print_exc
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
 from loader import dp, bot
 from states import Request
-from keyboards import create_kb_choose_card
-# from keyboards import create_kb_send_request_atm
-# from keyboards.default.admin_keyboard import main_menu
 from keyboards import create_kb_coustom_main_menu
-from handlers.order_request import permit
 from utils import get_data_to_show
+
 
 # from create_request.py
 @dp.callback_query_handler(state=Request.operation_type)
@@ -19,8 +17,9 @@ async def set_operation_type (
     await call.answer()
     await call.message.delete()
 
-    if call.data == 'recive' or call.data == 'takeout' \
-    or call.data == 'delivery' or call.data == 'cashin':
+    if call.data == 'get_in'  \
+    or call.data == 'get_out' \
+    or call.data == 'cash_in_ATM':
         await state.update_data(operation_type=call.data)
 
         currencies__how_much = []
@@ -35,23 +34,7 @@ async def set_operation_type (
         await state.update_data(_del_message = result.message_id)
 
         await Request.temp_sum_state.set()
-        # to temp_sum_message_handler.py
-    
-    # elif call.data == 'cashin':
-    #     await state.update_data(operation_type=call.data)
-
-    #     currencies__how_much = []
-
-    #     await state.update_data (
-    #         currencies__how_much = currencies__how_much
-    #     )
-
-    #     await call.message.answer (
-    #         f'Выберете карточку:',
-    #         reply_markup=create_kb_choose_card()
-    #     )
-    #     await Request.type_of_card.set()
-        # to type_of_card_if_cash_in.py
+        # to temp_sum_message_handler.py  
 
     elif call.data == 'change':
         await state.update_data(operation_type=call.data)
@@ -63,7 +46,7 @@ async def set_operation_type (
         await Request.how_much_recive.set()
         # to how_much_recive.py
 
-    elif call.data == 'cash_atm':
+    elif call.data == 'cash_out_ATM':
         await state.update_data(operation_type='cash_atm')
         # request_data = await state.get_data()
 
@@ -86,6 +69,18 @@ async def set_operation_type (
 
         # await Request.type_end.set()
         # to final_step_ordering.py
+
+    elif call.data == 'documents':
+        await state.update_data(operation_type=call.data)
+
+        request_data = await state.get_data()
+        result_data_to_show, keyboard = get_data_to_show(request_data)
+
+        await call.message.answer(text=result_data_to_show, reply_markup=keyboard)
+
+        await Request.type_end.set()
+
+        return
 
     else:
         await call.answer()

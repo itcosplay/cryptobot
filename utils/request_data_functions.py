@@ -4,13 +4,18 @@ from data import all_emoji
 
 
 def get_data_chosen_request(request):
-    print('get_data_chosen_request')
+    print(request)
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]
     operation_type_emoji = all_emoji[operation_type_request]
     request_status = all_emoji[request[11]]
 
+    if operation_type_request == 'документы':
+        text = f'{operation_type_emoji} #N{id_request} от {date_request} {request_status},\n{operation_type_request}'
+
+        return text
+        
     # красивые суммы из полей FGH
     rub, usd, eur = set_minus_and_plus_currences.set_minus_and_plus(request)
     

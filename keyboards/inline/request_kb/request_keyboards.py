@@ -7,31 +7,21 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 def create_kp_operation_type():
+    # emoji for exit button
+    emo_exit = all_emoji['back__main_menu']
+
     keyboard = InlineKeyboardMarkup()
-    emo_snail = emojize(':snail:', use_aliases=True)
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'прием кэша',
-            callback_data = 'recive'
+            text = 'прием',
+            callback_data = 'get_in'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'выдача в офисе',
-            callback_data = 'takeout'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'доставка',
-            callback_data = 'delivery'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'кэшин',
-            callback_data = 'cashin'
+            text = 'выдача',
+            callback_data = 'get_out'
         )
     )
     keyboard.add (
@@ -42,13 +32,25 @@ def create_kp_operation_type():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'снятие с карт',
-            callback_data = 'cash_atm'
+            text = 'кэшин',
+            callback_data = 'cash_in_ATM'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = f'отменить {emo_snail} главное меню',
+            text = 'снятие с карт',
+            callback_data = 'cash_out_ATM'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = 'документы',
+            callback_data = 'documents'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'отменить {emo_exit} главное меню',
             callback_data = 'exit'
         )
     )

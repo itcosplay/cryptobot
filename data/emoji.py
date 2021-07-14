@@ -7,6 +7,7 @@ delivery = emojize(':steam_locomotive:', use_aliases=True)
 exchange = emojize(':recycle:', use_aliases=True)
 cash_in = emojize(':atm:', use_aliases=True)
 cash_out = emojize(':credit_card:', use_aliases=True)
+documents = '📦'
 
 in_process = emojize(':hourglass_flowing_sand:', use_aliases=True)
 ready_to_give = emojize(':money_with_wings:', use_aliases=True)
@@ -43,12 +44,12 @@ black_ready = '✔️'
 
 
 all_emoji = {
-    'выдача в офисе': issuing_office,
-    'прием кэша': cash_recive,
-    'доставка': delivery,
+    'прием': issuing_office,
+    'выдача': cash_recive,
     'обмен': exchange,
     'кэшин': cash_in,
     'снятие с карт': cash_out,
+    'документы': documents,
 
     'В обработке': in_process,
     'Готово к выдаче': ready_to_give,

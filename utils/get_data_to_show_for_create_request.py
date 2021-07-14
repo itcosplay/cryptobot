@@ -4,17 +4,23 @@ from keyboards import create_kb_send_request_atm
 
 def get_data_to_show(request_data):
 
-    if request_data['operation_type'] == 'recive' \
-    or request_data['operation_type'] == 'takeout' \
-    or request_data['operation_type'] == 'delivery' \
-    or request_data['operation_type'] == 'cashin':
+    if request_data['operation_type'] == 'get_in'  \
+    or request_data['operation_type'] == 'get_out' \
+    or request_data['operation_type'] == 'cash_in_ATM':
         keyboard = create_kb_send_request(request_data['currencies__how_much'])
 
-    if request_data['operation_type'] == 'change':
+    elif request_data['operation_type'] == 'change':
         keyboard = create_kb_send_request_for_change(request_data['currencies__recive'], request_data['currencies__give'])
 
-    if request_data['operation_type'] == 'cash_atm':
+    elif request_data['operation_type'] == 'cash_out_ATM':
         keyboard = create_kb_send_request_atm()
+
+    elif request_data['operation_type'] == 'documents':
+        keyboard = create_kb_send_request_atm()
+
+        result_data_to_show = 'Будет создана заявка "Документы"'
+        
+        return result_data_to_show, keyboard
 
     translate_keys_request = {
         'applicant': 'заявитель: ',
@@ -36,12 +42,14 @@ def get_data_to_show(request_data):
     translate_values_request = {
         'changer': 'change',
         'operator': 'оператор',
-        'recive': 'прием кэша',
-        'takeout': 'выдача в офисе',
-        'delivery': 'доставка',
-        'cashin': 'кэшин',
+
+        'get_in': 'прием',
+        'get_out': 'выдача',
         'change': 'обмен',
-        'cash_atm': 'снятие с карт',
+        'cash_in_ATM': 'кэшин', 
+        'cash_out_ATM': 'снятие с карт',
+        'documents': 'документы',
+
         'alfa': 'альфа-банк',
         'sber': 'сбер',
         'rub': 'рубли',
