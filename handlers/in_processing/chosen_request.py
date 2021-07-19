@@ -10,7 +10,7 @@ from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
 from utils import get_data_chosen_request
 
-# <--- show_current_requests.py --->
+# <--- current_requests.py --->
 # @dp.callback_query_handler(cb_current_requests.filter(type_btn='get_request'))
 @dp.callback_query_handler(state=Processing.chosen_request)
 async def show_chosen_request(call:CallbackQuery, state:FSMContext):

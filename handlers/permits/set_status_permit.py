@@ -107,6 +107,17 @@ async def delete_permit(call:CallbackQuery, state:FSMContext):
         return
 
 
+    # elif call.data == 'edit_numb':
+    #     data_state = await state.get_data()
+    #     permit_numb = data_state['permit_numb']
+    #     result = await call.message.answer(text=f'Старый номер {permit_numb}\nВведите новый номер пропуска')
+
+    #     await state.update_data(message_to_delete=result.message_id)
+    #     await Permitstate.single_permit_numb.set()
+
+    # elif call.data == 'edit_full_name':
+    #     pass
+
     elif call.data == 'back__main_menu':
         await call.message.answer (
             f'Выход из меню "ПРОПУСКА". Используйте главное меню.',
