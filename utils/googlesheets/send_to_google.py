@@ -1,4 +1,5 @@
 import datetime
+# from os import stat
 import gspread
 from operator import itemgetter
 
@@ -362,6 +363,12 @@ class DataFromSheet:
 
 
     def send_to_google(self, state, creator_name):
+
+        print('#######')
+        print('')
+        print(state)
+        print('')
+        print('#######')
         sheet = self.get_google_sheet() 
         numb_of_last_row = len(sheet.col_values(1))
 
@@ -403,7 +410,7 @@ class DataFromSheet:
         else:
             I__comment = '0'
         
-        if state['operation_type'] == 'recive' or state['operation_type'] == 'cash_atm': # sign +
+        if state['operation_type'] == 'get_in' or state['operation_type'] == 'cash_atm': # sign +
             if state['sum_RUB__how_much'] != '':
                 F__sum = int(state['sum_RUB__how_much'])
             if state['sum_USD__how_much'] != '':
@@ -411,7 +418,7 @@ class DataFromSheet:
             if state['sum_EUR__how_much'] != '':
                 H__sum = int(state['sum_EUR__how_much'])
 
-        elif state['operation_type'] == 'takeout' or state['operation_type'] == 'delivery': # sing -
+        elif state['operation_type'] == 'get_out' or state['operation_type'] == 'delivery': # sing -
             if state['sum_RUB__how_much'] != '':
                 F__sum = 0 - int(state['sum_RUB__how_much'])
             if state['sum_USD__how_much'] != '':

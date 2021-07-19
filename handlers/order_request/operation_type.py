@@ -17,6 +17,8 @@ async def set_operation_type (
     await call.answer()
     await call.message.delete()
 
+    print(call.data)
+
     if call.data == 'get_in'  \
     or call.data == 'get_out' \
     or call.data == 'cash_in_ATM':
