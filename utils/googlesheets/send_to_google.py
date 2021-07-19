@@ -410,7 +410,7 @@ class DataFromSheet:
         else:
             I__comment = '0'
         
-        if state['operation_type'] == 'get_in' or state['operation_type'] == 'cash_atm': # sign +
+        if state['operation_type'] == 'get_in' or state['operation_type'] == 'cash_in_ATM': # sign +
             if state['sum_RUB__how_much'] != '':
                 F__sum = int(state['sum_RUB__how_much'])
             if state['sum_USD__how_much'] != '':
@@ -418,7 +418,7 @@ class DataFromSheet:
             if state['sum_EUR__how_much'] != '':
                 H__sum = int(state['sum_EUR__how_much'])
 
-        elif state['operation_type'] == 'get_out' or state['operation_type'] == 'delivery': # sing -
+        elif state['operation_type'] == 'get_out' or state['operation_type'] == 'cash_out_ATM': # sing -
             if state['sum_RUB__how_much'] != '':
                 F__sum = 0 - int(state['sum_RUB__how_much'])
             if state['sum_USD__how_much'] != '':

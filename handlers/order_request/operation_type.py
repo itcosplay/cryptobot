@@ -49,7 +49,7 @@ async def set_operation_type (
         # to how_much_recive.py
 
     elif call.data == 'cash_out_ATM':
-        await state.update_data(operation_type='cash_atm')
+        await state.update_data(operation_type='cash_out_ATM')
         # request_data = await state.get_data()
 
         # text, keyboard = get_data_to_show(request_data)

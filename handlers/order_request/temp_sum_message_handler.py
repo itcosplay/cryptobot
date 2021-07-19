@@ -33,12 +33,13 @@ async def set_how_much(message:types.Message, state:FSMContext):
     
     
         operation_type = request_data['operation_type']
-    
+        print('WE ARE HERE 0000000')
+
         if \
         operation_type == 'get_in' or \
         operation_type == 'get_out' or \
-        operation_type == 'cash_in_ATM' or \
-        operation_type == 'cash_out_ATM':
+        operation_type == 'cash_in_ATM' or operation_type == 'cash_out_ATM':
+            print('WE ARE HERE')
             await Request.currencies__how_much.set()
             # to currency__how_much.py
 
