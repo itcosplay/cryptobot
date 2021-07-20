@@ -11,7 +11,7 @@ def create_kb_chosen_request(request):
     emo_snail = all_emoji['back__main_menu']
     keyboard = InlineKeyboardMarkup()
 
-    if request[3] == 'выдача в офисе' or request[3] == 'доставка' or request[3] == 'кэшин' or request[3] == 'обмен':
+    if request[3] == 'выдача' or request[3] == 'кэшин' or request[3] == 'обмен':
         keyboard.add (
             InlineKeyboardButton (
                 text = 'отложить на выдачу',
@@ -19,7 +19,7 @@ def create_kb_chosen_request(request):
             )
         )
     
-    if request[3] == 'обмен' or request[3] == 'прием кэша' or request[3] == 'снятие с карт':
+    if request[3] == 'обмен' or request[3] == 'прием' or request[3] == 'снятие с карт':
         keyboard.add (
             InlineKeyboardButton (
                 text = 'принято частично',
