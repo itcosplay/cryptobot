@@ -3,7 +3,9 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 class Permitstate(StatesGroup):
     all_permits = State()
+    all_requests = State()
     chosen_permit = State()
+    chosen_request = State()
     status_permit = State()
     message_to_delete = State()
 

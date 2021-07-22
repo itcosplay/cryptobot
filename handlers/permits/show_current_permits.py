@@ -1,11 +1,10 @@
 import time
-import traceback
 
 from aiogram.types import Message, ReplyKeyboardRemove, CallbackQuery
 from aiogram.dispatcher import FSMContext
 from aiohttp.client import request
 
-from loader import dp, bot, permit
+from loader import dp, bot, permit, sheet
 from states import Permitstate
 from data import all_emoji
 from keyboards import create_kb_coustom_main_menu
@@ -30,7 +29,11 @@ async def show_current_requests(message:Message, state:FSMContext):
         )
 
         permits = permit.get_all_permits()
-        time.sleep(1)
+        current_requests,\
+        in_processing_requests,\
+        ready_to_give_requests =\
+        sheet.get_numbs_processing_and_ready_requests()
+        # time.sleep(1)
 
     except Exception as e:
         print(e)
@@ -46,6 +49,7 @@ async def show_current_requests(message:Message, state:FSMContext):
         return
 
     await state.update_data(all_permits=permits)
+    await state.update_data(all_requests=current_requests)
 
     if len(permits) == 0:
         await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
@@ -94,6 +98,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     for permit in all_permits:
         if data_btn['id'] == permit[0]:
             await state.update_data(chosen_permit=permit)
+
             break
 
     data_state = await state.get_data()
@@ -112,5 +117,6 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
         # > в офисе
         # > назад главное меню
     )
+
     await Permitstate.status_permit.set()
     
