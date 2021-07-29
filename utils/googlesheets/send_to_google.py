@@ -364,11 +364,11 @@ class DataFromSheet:
 
     def send_to_google(self, state, creator_name):
 
-        print('#######')
-        print('')
-        print(state)
-        print('')
-        print('#######')
+        # print('#######')
+        # print('')
+        # print(state)
+        # print('')
+        # print('#######')
         sheet = self.get_google_sheet() 
         numb_of_last_row = len(sheet.col_values(1))
 
