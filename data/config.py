@@ -10,9 +10,11 @@ from bt import BOT_TOKEN
 from bt import SUPER_ADMINS
 from bt import GROUP_CHAT
 from bt import SHEET_NAME
+from bt import GOOGLE_CREDENTIALS_FILE
 
 BOT_TOKEN = BOT_TOKEN
 SHEET_NAME = SHEET_NAME
+GOOGLE_CREDENTIALS_FILE = GOOGLE_CREDENTIALS_FILE
 
 # super_admins = [
 #     59677456, # itcosplay

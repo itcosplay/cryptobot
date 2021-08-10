@@ -1,4 +1,6 @@
 import datetime
+from os import name
+from traceback import print_exception
 
 import gspread
 from operator import itemgetter
@@ -8,41 +10,47 @@ from data import config
 
 
 class DataFromSheet:
+
     def get_google_sheet(self):
-        CREDENTIALS_FILE = 'creds.json'
+        CREDENTIALS_FILE = config.GOOGLE_CREDENTIALS_FILE
+
         scope = [
             "https://spreadsheets.google.com/feeds",
             'https://www.googleapis.com/auth/spreadsheets',
             "https://www.googleapis.com/auth/drive.file",
             "https://www.googleapis.com/auth/drive"
         ]
+
         creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'creds.json',
+            CREDENTIALS_FILE,
             scope
         )
+        
         client = gspread.authorize(creds)
-        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        sheet = client.open(config.SHEET_NAME).sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
-
+        sheet = client.open(config.SHEET_NAME).sheet1
+        
         return sheet
 
 
     # def get_google_sheet(self):
-    #     CREDENTIALS_FILE = 'creds.json'
+    #     CREDENTIALS_FILE = 'sms.json'
+
     #     scope = [
     #         "https://spreadsheets.google.com/feeds",
     #         'https://www.googleapis.com/auth/spreadsheets',
     #         "https://www.googleapis.com/auth/drive.file",
     #         "https://www.googleapis.com/auth/drive"
     #     ]
+
     #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         'sms.json',
+    #         CREDENTIALS_FILE,
     #         scope
     #     )
     #     client = gspread.authorize(creds)
 
-    #     sheet = client.open("VTL учёт").sheet1
+    #     sheet_name = 'VTL учёт'
+    #     # sheet_name = 'test_bot_sheet'
+    #     sheet = client.open(sheet_name).sheet1
         
     #     return sheet
 

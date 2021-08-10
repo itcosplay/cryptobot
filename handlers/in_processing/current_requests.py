@@ -1,3 +1,5 @@
+import traceback
+
 from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.dispatcher import FSMContext
 
@@ -32,7 +34,8 @@ async def show_current_requests(message:Message, state:FSMContext):
         sheet.get_numbs_processing_and_ready_requests()
 
     except Exception as e:
-        print(e)
+        traceback.print_exc()
+        # traceback.print_exception()
         await message.answer_sticker (
             sticker['not_connection']
         )
