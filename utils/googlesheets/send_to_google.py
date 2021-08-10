@@ -10,7 +10,6 @@ from data import config
 
 
 class DataFromSheet:
-
     def get_google_sheet(self):
         CREDENTIALS_FILE = config.GOOGLE_CREDENTIALS_FILE
 
@@ -25,74 +24,55 @@ class DataFromSheet:
             CREDENTIALS_FILE,
             scope
         )
-        
+
         client = gspread.authorize(creds)
         sheet = client.open(config.SHEET_NAME).sheet1
         
         return sheet
 
-
-    # def get_google_sheet(self):
-    #     CREDENTIALS_FILE = 'sms.json'
-
-    #     scope = [
-    #         "https://spreadsheets.google.com/feeds",
-    #         'https://www.googleapis.com/auth/spreadsheets',
-    #         "https://www.googleapis.com/auth/drive.file",
-    #         "https://www.googleapis.com/auth/drive"
-    #     ]
-
-    #     creds = ServiceAccountCredentials.from_json_keyfile_name (
-    #         CREDENTIALS_FILE,
-    #         scope
-    #     )
-    #     client = gspread.authorize(creds)
-
-    #     sheet_name = 'VTL учёт'
-    #     # sheet_name = 'test_bot_sheet'
-    #     sheet = client.open(sheet_name).sheet1
-        
-    #     return sheet
-
-
-
-
-
     
     def get_google_sheet_card_balance(self):
-        CREDENTIALS_FILE = 'creds.json'
+        CREDENTIALS_FILE = 'sms.json'
+
         scope = [
             "https://spreadsheets.google.com/feeds",
             'https://www.googleapis.com/auth/spreadsheets',
             "https://www.googleapis.com/auth/drive.file",
             "https://www.googleapis.com/auth/drive"
         ]
+
         creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'sms.json',
+            CREDENTIALS_FILE,
             scope
         )
+
         client = gspread.authorize(creds)
-        # sheet = client.open("test_bot_sheet").sheet1  # test spreadsheet
-        # sheet = client.open("test_bot_sheet").sheet1  # The real spreadsheet
         sheet = client.open("Учёт Оператора").sheet1
-        # sheet = client.open_by_url()
+ 
         return sheet
 
 
     def get_google_sheet_replenishment(self):
-        CREDENTIALS_FILE = 'creds.json'
+        CREDENTIALS_FILE = 'sms.json'
+
         scope = [
             "https://spreadsheets.google.com/feeds",
             'https://www.googleapis.com/auth/spreadsheets',
             "https://www.googleapis.com/auth/drive.file",
             "https://www.googleapis.com/auth/drive"
         ]
+
         creds = ServiceAccountCredentials.from_json_keyfile_name (
-            'sms.json',
+            CREDENTIALS_FILE,
             scope
         )
+
         client = gspread.authorize(creds)
-        sheet = client.open_by_url('https://docs.google.com/spreadsheets/d/1HJunr_sZhzqKSRQGUKN8fmrE-C-IpE_6iPN8dWl-ZDI/edit#gid=22421902')
+
+        sheet = client.open_by_url (
+            'https://docs.google.com/spreadsheets/' +
+            'd/1HJunr_sZhzqKSRQGUKN8fmrE-C-IpE_6iPN8dWl-ZDI/edit#gid=22421902'
+        )
 
         return sheet
 
@@ -372,12 +352,6 @@ class DataFromSheet:
 
 
     def send_to_google(self, state, creator_name):
-
-        # print('#######')
-        # print('')
-        # print(state)
-        # print('')
-        # print('#######')
         sheet = self.get_google_sheet() 
         numb_of_last_row = len(sheet.col_values(1))
 
