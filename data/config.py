@@ -7,18 +7,24 @@
 # BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 from bt import BOT_TOKEN
+from bt import SUPER_ADMINS
+from bt import GROUP_CHAT
+from bt import SHEET_NAME
 
 BOT_TOKEN = BOT_TOKEN
+SHEET_NAME = SHEET_NAME
 
-super_admins = [
-    59677456, # itcosplay
-    684931753 # marcofive
-]
+# super_admins = [
+#     59677456, # itcosplay
+#     # 684931753 # marcofive
+# ]
 
+super_admins = SUPER_ADMINS
 
 # group_chat = '-1001185491120' # test chat
-group_chat = '-404213737' # real chat
+# group_chat = '-404213737' # real chat
 
+group_chat = GROUP_CHAT
 sms_chat = '-580332170'
 
 
