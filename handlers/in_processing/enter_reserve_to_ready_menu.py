@@ -11,7 +11,6 @@ from utils import notify_in_group_chat
 from keyboards import cb_what_sum
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_what_sum_correct
-# from keyboards import main_menu
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_what_blue
 
@@ -45,9 +44,10 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'confirm_sum':
         data_state = await state.get_data()
+
         chosen_request = data_state['chosen_request']
         
-        # Проверка для синих купюр если рублевая заявка
+        # if request with RUB than the first char will be '-'
         if chosen_request[5][0] == '-':
             chosen_request[12] = chosen_request[5]
 
@@ -84,39 +84,47 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
 
         chosen_request[16] = '0' # тут синих быть не должно
 
-        try:
-            result = await call.message.answer_sticker (
-                sticker['go_to_table']
-            )
-            sheet.replace_row(chosen_request)
-
-        except Exception as e:
-            print(e)
-            await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
-            await call.message.answer_sticker (
-                sticker['not_connection']
-            )
-            await call.message.answer (
-                text='Не удалось соединиться с гугл таблицей',
-                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
-            )
-            await state.finish()
-            
-            return
-
-        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
-
         text = get_data_chosen_request(chosen_request)
 
-        await notify_someone(text, 'admin', 'changer', 'executor')
-        await notify_in_group_chat(text)
-
-        request_id = chosen_request[2]
         await call.message.answer (
-            text=f'Заявка #N{request_id} отложена на выдачу',
-            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            text = text
         )
-        await state.finish()
+
+        # try:
+        #     result = await call.message.answer_sticker (
+        #         sticker['go_to_table']
+        #     )
+        #     sheet.replace_row(chosen_request)
+
+        # except Exception as e:
+        #     print(e)
+        #     await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+        #     await call.message.answer_sticker (
+        #         sticker['not_connection']
+        #     )
+        #     await call.message.answer (
+        #         text='Не удалось соединиться с гугл таблицей',
+        #         reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        #     )
+        #     await state.finish()
+            
+        #     return
+
+        # await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+
+        # text = get_data_chosen_request(chosen_request)
+
+        # await notify_someone(text, 'admin', 'changer', 'executor')
+        # await notify_in_group_chat(text)
+
+        # request_id = chosen_request[2]
+
+        # await call.message.answer (
+        #     text=f'Заявка #N{request_id} отложена на выдачу',
+        #     reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        # )
+
+        # await state.finish()
 
         return
 

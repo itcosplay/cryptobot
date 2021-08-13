@@ -16,7 +16,7 @@ from keyboards import create_kb_coustom_main_menu
 @dp.message_handler(isExecutor_and_higher(), text='в работе')
 async def show_current_requests(message:Message, state:FSMContext):
     '''
-    Обрабатывает команду "в работе" и отображает список текущих
+    Обрабатывает команду (button) "в работе" и отображает список текущих
     заявок в виде кнопок с номером и суммами. Если текущих заявок
     нет, то отвечает - "Все заявки исполненны."
     '''
@@ -35,35 +35,46 @@ async def show_current_requests(message:Message, state:FSMContext):
 
     except Exception as e:
         traceback.print_exc()
-        # traceback.print_exception()
+
         await message.answer_sticker (
             sticker['not_connection']
         )
+
         await message.answer (
             text='Не удалось получить данные с гугл таблицы',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
+
         await state.finish()
 
         return
 
-    await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+    await bot.delete_message (
+        chat_id=message.chat.id, message_id=result.message_id
+    )
+
     await state.update_data(current_requests=current_requests)
 
     if len(in_processing_requests) == 0 and len(ready_to_give_requests) == 0:
+
         await message.answer (
-            text='=====================\nВсе заявки исполненны\n=====================',
+            text='Все заявки исполненны.',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
+
         await state.finish()
         
     else:
+
         await message.answer (
             'Текущие заявки:',
+
             reply_markup=create_kb_current_requests (
                 in_processing_requests,
                 ready_to_give_requests
             )
+
         )
+        
         await Processing.chosen_request.set()
         

@@ -4,7 +4,6 @@ from data import all_emoji
 
 
 def get_data_chosen_request(request):
-    print(request)
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]
@@ -113,7 +112,6 @@ def get_data_chosen_request(request):
 
 
 def get_data_finished_request(request):
-    print('get_data_finished_request')
     id_request = request[2]
     date_request = request[0]
     operation_type_request = request[3]

@@ -53,6 +53,7 @@ async def message_processing(call:CallbackQuery, state:FSMContext):
 
         await notify_someone(text, 'admin', 'changer', 'executor')
         await notify_in_group_chat(text)
+
         await state.finish()
 
         return
@@ -140,10 +141,12 @@ async def message_processing(call:CallbackQuery, state:FSMContext):
         return
 
     if data_btn['type_btn'] == 'back__main_menu':
+
         await call.message.answer (
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
         await state.finish()
 
         return
@@ -157,6 +160,7 @@ async def set_other_message(message:Message, state:FSMContext):
         chat_id=message.chat.id,
         message_id=data_state['message_to_delete']
     )
+
     await bot.delete_message (
         chat_id=message.chat.id,
         message_id=message.message_id
@@ -164,7 +168,6 @@ async def set_other_message(message:Message, state:FSMContext):
 
     persone = all_emoji['персона']
     user = '@' + message.chat.username
-    
     text = data_state['other_message'] + message.text + '\n'
     text = text + persone + user
 

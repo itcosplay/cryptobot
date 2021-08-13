@@ -39,9 +39,13 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
         if data_btn['id'] == request[1]:
             await state.update_data(chosen_request=request)
 
-            # this can be deleted
+            # this can to delete
+            print('')
+            print('')
+            print('CHOSEN REQUEST:')
+            print('')
             print(request)
-            # this can to deleted
+            # this can to delete
 
             break
 
