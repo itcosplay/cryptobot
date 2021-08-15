@@ -2,6 +2,7 @@ from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
 from data import all_emoji
+import data
 from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
@@ -37,7 +38,14 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     '''
     await call.answer()
     await call.message.delete()
-    await state.update_data(enter_chosen_request_menu='+')
+
+    data_state = await state.get_data()
+
+    chosen_request = data_state['chosen_request']
+
+    await state.update_data(changed_request=chosen_request)
+    await state.update_data(is_changed=False)
+    
 
     data_btn = cb_chosen_requests.parse(call.data)
 
@@ -135,12 +143,18 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'change_request':
         data_state = await state.get_data()
-        chosen_request = data_state['chosen_request']
+
+        changed_request = data_state['changed_request']
+        is_changed = data_state['is_changed']
+
+        text = get_data_chosen_request(changed_request) + \
+        '\n\n Выберите изменение:'
         
         await call.message.answer (
-            text='Выберите изменение',
-            reply_markup=create_kb_change_request(chosen_request)
+            text,
+            reply_markup=create_kb_change_request(changed_request, is_changed)
         )
+
         await Processing.change_request_menu.set()
 
         return

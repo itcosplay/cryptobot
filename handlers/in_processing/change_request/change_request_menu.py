@@ -7,11 +7,13 @@ from data import sticker
 from data import all_emoji
 from keyboards import cb_change_request
 from keyboards import create_kb_change_date
+from keyboards import create_kb_chosen_request
 from keyboards import create_kb_new_request_type
 from keyboards import create_kb_which_sum_close
 from keyboards import create_kb_another_currecy_add
-from loader import dp, bot, sheet
+from loader import dp, bot, sheet, permit
 from states import Processing
+from utils import get_data_chosen_request
 from utils import notify_in_group_chat
 from utils import notify_someone
 
@@ -20,26 +22,30 @@ from utils import notify_someone
 async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
     '''
     keyboards/inline/in_processin/change_request_keyboards.create_kb_change_request
-    > иная дата             another_data
+    > новая дата            new_date
     > новый номер           new_id
     > переопределить тип    change_type
     > изменить сумму        update_sum
     > другая валюта         more_currency
-    > добавить коментарий   add_comment
-    > назад - главное меню  back__main_menu
+    > СОХРАНИТЬ ИЗМЕНЕНИЯ   save_changes
+    > назад                 back
+    > главное меню          main_menu
     '''
     await call.answer()
     await call.message.delete()
-    await state.update_data(change_request_menu='+')
 
+    data_state = await state.get_data()
     data_btn = cb_change_request.parse(call.data)
 
-    if data_btn['type_btn'] == 'another_data':
+    if data_btn['type_btn'] == 'new_date':
         await call.message.answer (
-            text='Выберите дату',
+            text='Выберите дату:',
             reply_markup=create_kb_change_date()
         )
+        
         await Processing.select_date.set()
+
+        return
 
     elif data_btn['type_btn'] == 'new_id':
         result = await call.message.answer (
@@ -94,15 +100,88 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
         return
 
-    elif data_btn['type_btn'] == 'add_comment':
+    elif data_btn['type_btn'] == 'save_changes':
+        data_state = await state.get_data()
+
+        changed_request = data_state['changed_request']
+
+        try:
+            result = await call.message.answer_sticker (
+                sticker['go_to_table']
+            )
+            # permit.change_permit_date(request_id, old_date, tomorrow_date)
+            sheet.replace_row(changed_request)
+
+        except Exception as e:
+            print(e)
+            await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            return
+
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+
+        await state.update_data(chosen_request=changed_request)
+
+        text = get_data_chosen_request(changed_request)
+        
         await call.message.answer (
-            text='Введите коментарий'
+            text=text,
+            reply_markup=create_kb_chosen_request(changed_request)
+            # > принято частично (для приема кэша, снятия с карт, обмена)
+            # > отложить на выдачу (для доставки, кэшина, обмена)
+            # > закрыть заявку
+            # > сообщение
+            # > изменить заявку
+            # > добавить коментарий
+            # > отменить заявку
+            # > назад главное меню
         )
-        await Processing.add_another_comment.set()
+
+        await Processing.enter_chosen_request_menu.set()
 
         return
 
-    elif data_btn['type_btn'] == 'back__main_menu':
+    elif data_btn['type_btn'] == 'back':
+        data_state = await state.get_data()
+        
+        current_requests = data_state['current_requests']
+        chosen_request = data_state['chosen_request']
+        request_id = chosen_request[2]
+
+        for request in current_requests:
+
+            if request_id == request[2]:
+                await state.update_data(chosen_request=request)
+
+                break
+
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+        text = get_data_chosen_request(chosen_request)
+
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_chosen_request(request)
+            # > принято частично (для приема кэша, снятия с карт, обмена)
+            # > отложить на выдачу (для доставки, кэшина, обмена)
+            # > закрыть заявку
+            # > сообщение
+            # > изменить заявку
+            # > отменить заявку
+            # > назад главное меню
+        )   
+        await Processing.enter_chosen_request_menu.set()
+
+        return  
+
+    elif data_btn['type_btn'] == 'main_menu':
         await call.message.answer (
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
@@ -122,7 +201,6 @@ async def add_another_comment(message:Message, state:FSMContext):
 
     else:
         comment = ''
-    
 
     comment = comment + message.text
     chosen_request[8] = comment

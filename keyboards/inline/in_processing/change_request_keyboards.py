@@ -1,6 +1,6 @@
 from datetime import datetime
 from datetime import timedelta
-import keyboards
+# import keyboards
 
 from data import all_emoji
 
@@ -10,14 +10,13 @@ from aiogram.utils.callback_data import CallbackData
 
 
 cb_change_request = CallbackData('cb_mk', 'type_btn')
-def create_kb_change_request(request):
-    emo_snail = all_emoji['back__main_menu']
-    
+def create_kb_change_request(request, is_changed):
     keyboard = InlineKeyboardMarkup()
+
     keyboard.add (
         InlineKeyboardButton (
-            text = 'иная дата',
-            callback_data = cb_change_request.new(type_btn='another_data')
+            text = 'новая дата',
+            callback_data = cb_change_request.new(type_btn='new_date')
         )
     )
     keyboard.add (
@@ -47,17 +46,24 @@ def create_kb_change_request(request):
             )
         )
 
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'добавить коментарий',
-            callback_data = cb_change_request.new(type_btn='add_comment')
+    if is_changed:
+        keyboard.add (
+            InlineKeyboardButton (
+                text = 'СОХРАНИТЬ ИЗМЕНЕНИЯ',
+                callback_data = cb_change_request.new(type_btn='save_changes')
+            )
         )
-    )
 
     keyboard.add (
         InlineKeyboardButton (
-            text = f'назад {emo_snail} главное меню',
-            callback_data = cb_change_request.new(type_btn='back__main_menu')
+            text = 'назад',
+            callback_data = cb_change_request.new(type_btn='back')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'главное меню',
+            callback_data = cb_change_request.new(type_btn='main_menu')
         )
     )
 
@@ -65,12 +71,13 @@ def create_kb_change_request(request):
 
 
 def create_kb_change_date():
-    emo_snail = all_emoji['back__main_menu']
-    # current_date = datetime.today().strftime('%d.%m')
     tomorrow_date =  (datetime.now() + timedelta(days=1)).strftime("%d.%m")
-    after_tomorrow_date = (datetime.now() + timedelta(days=2)).strftime("%d.%m")
+    after_tomorrow_date = (
+        datetime.now() + timedelta(days=2)
+    ).strftime("%d.%m")
 
     keyboard = InlineKeyboardMarkup()
+    
     keyboard.add (
         InlineKeyboardButton (
             text = f'на завтра ({tomorrow_date})',
@@ -91,14 +98,14 @@ def create_kb_change_date():
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'вернуться к заявке',
-            callback_data = 'back_to_request'
+            text = 'назад',
+            callback_data = 'back'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = f'отменить {emo_snail} главное меню',
-            callback_data = 'back__main_menu'
+            text = f'главное меню',
+            callback_data = 'main_menu'
         )
     )
 

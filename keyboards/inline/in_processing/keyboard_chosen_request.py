@@ -8,7 +8,6 @@ cb_chosen_requests = CallbackData('cb_chr', 'type_btn')
 
 
 def create_kb_chosen_request(request):
-    emo_snail = all_emoji['back__main_menu']
     keyboard = InlineKeyboardMarkup()
 
     if request[3] == 'выдача' or request[3] == 'кэшин' or request[3] == 'обмен':
@@ -53,6 +52,12 @@ def create_kb_chosen_request(request):
     )
     keyboard.add (
         InlineKeyboardButton (
+            text = 'добавить коментарий',
+            callback_data=cb_chosen_requests.new(type_btn='add_comment')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text = 'распаковать',
             callback_data=cb_chosen_requests.new(type_btn='unpack')
         )
@@ -65,8 +70,15 @@ def create_kb_chosen_request(request):
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = f'назад {emo_snail} главное меню',
-            callback_data=cb_chosen_requests.new(type_btn='back_main_menu')
+            text = f'назад',
+            callback_data=cb_chosen_requests.new(type_btn='back')
+        )
+    )
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text = f'главное меню',
+            callback_data=cb_chosen_requests.new(type_btn='main_menu')
         )
     )
 

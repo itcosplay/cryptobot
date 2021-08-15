@@ -90,41 +90,41 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
             text = text
         )
 
-        # try:
-        #     result = await call.message.answer_sticker (
-        #         sticker['go_to_table']
-        #     )
-        #     sheet.replace_row(chosen_request)
+        try:
+            result = await call.message.answer_sticker (
+                sticker['go_to_table']
+            )
+            sheet.replace_row(chosen_request)
 
-        # except Exception as e:
-        #     print(e)
-        #     await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
-        #     await call.message.answer_sticker (
-        #         sticker['not_connection']
-        #     )
-        #     await call.message.answer (
-        #         text='Не удалось соединиться с гугл таблицей',
-        #         reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
-        #     )
-        #     await state.finish()
+        except Exception as e:
+            print(e)
+            await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+            await state.finish()
             
-        #     return
+            return
 
-        # await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
-        # text = get_data_chosen_request(chosen_request)
+        text = get_data_chosen_request(chosen_request)
 
-        # await notify_someone(text, 'admin', 'changer', 'executor')
-        # await notify_in_group_chat(text)
+        await notify_someone(text, 'admin', 'changer', 'executor')
+        await notify_in_group_chat(text)
 
-        # request_id = chosen_request[2]
+        request_id = chosen_request[2]
 
-        # await call.message.answer (
-        #     text=f'Заявка #N{request_id} отложена на выдачу',
-        #     reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
-        # )
+        await call.message.answer (
+            text=f'Заявка #N{request_id} отложена на выдачу',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
 
-        # await state.finish()
+        await state.finish()
 
         return
 
@@ -161,10 +161,12 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'back_main_menu':
+
         await call.message.answer (
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+        
         await state.finish()
 
         return
