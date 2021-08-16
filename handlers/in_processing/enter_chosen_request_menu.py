@@ -142,6 +142,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         await state.update_data(changed_request=chosen_request)
         await state.update_data(is_changed=is_changed)
+        await state.update_data(all_changes_data=[])
 
         text = get_data_chosen_request(chosen_request) + \
         '\n\n Выберите изменение:'

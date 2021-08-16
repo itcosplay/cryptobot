@@ -3,6 +3,7 @@ from aiogram.dispatcher.filters.state import StatesGroup, State
 
 class Processing(StatesGroup):
     is_changed = State() # mark of change request
+    all_changes_data = State()
     changed_request = State()
 
     current_requests = State()

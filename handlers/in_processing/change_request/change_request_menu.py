@@ -50,7 +50,7 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'new_id':
         result = await call.message.answer (
-            text='Введите новый четырех значный номер заявки'
+            text='Введите новый номер заявки'
         )
         
         await state.update_data(message_to_delete=result.message_id)
@@ -105,14 +105,22 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
 
         changed_request = data_state['changed_request']
+        
         changed_request_id = changed_request[1]
+        changed_request_date = changed_request[0]
+        changed_request_numb = changed_request[2]
 
         try:
             result = await call.message.answer_sticker (
                 sticker['go_to_table']
             )
-            # permit.change_permit_date(request_id, old_date, tomorrow_date)
             sheet.replace_row(changed_request)
+
+            if 'date' in data_state['all_changes_data']:
+                permit.change_permit_date(changed_request_id, changed_request_date)
+
+            if 'numb' in data_state['all_changes_data']:
+                permit.change_permit_numb(changed_request_id, changed_request_numb)
 
             current_requests,\
             in_processing_requests,\

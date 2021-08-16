@@ -206,8 +206,6 @@ class DataPermits:
         last_row = 50 # max row in permit table
 
         for i in range(1, last_row):
-            # old_permit_id = sheet.cell(row=i, column=1).value
-            # old_permit_date = sheet.cell(row=i, column=3).value
             permit_id = sheet.cell(row=i, column=1).value
 
             if permit_id == request_id:
@@ -217,14 +215,13 @@ class DataPermits:
         return
 
 
-    def change_permit_date(self, request_id, old_request_date, new_request_date):
+    def change_permit_date(self, request_id, new_request_date):
         wb = load_workbook('permits.xlsx')
         sheet = wb['Лист1']
         last_row = 50 # max row in permit table
 
         for i in range(1, last_row):
             permit_id = sheet.cell(row=i, column=1).value
-            # old_permit_date = sheet.cell(row=i, column=4).value
 
             if permit_id == request_id:
                 sheet.cell(row=i, column=4).value = new_request_date

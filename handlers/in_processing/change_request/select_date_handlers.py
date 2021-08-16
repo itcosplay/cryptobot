@@ -38,6 +38,12 @@ async def set_date_from_buttons (
         await state.update_data(is_changed=is_changed)
         await state.update_data(changed_request=changed_request)
 
+        all_changes_data = data_state['all_changes_data']
+
+        if 'date' not in all_changes_data:
+            all_changes_data.append('date')
+            await state.update_data(all_changes_data=all_changes_data)
+
         text = get_data_chosen_request(changed_request) + \
         '\n\n Выберите изменение:'
 
@@ -62,6 +68,12 @@ async def set_date_from_buttons (
 
         await state.update_data(is_changed=is_changed)
         await state.update_data(changed_request=changed_request)
+
+        all_changes_data = data_state['all_changes_data']
+
+        if 'date' not in all_changes_data:
+            all_changes_data.append('date')
+            await state.update_data(all_changes_data=all_changes_data)
 
         text = get_data_chosen_request(changed_request) + \
         '\n\n Выберите изменение:'
@@ -138,6 +150,12 @@ async def set_date_from_text(message:Message, state:FSMContext):
 
         await state.update_data(is_changed=is_changed)
         await state.update_data(changed_request=changed_request)
+
+        all_changes_data = data_state['all_changes_data']
+
+        if 'date' not in all_changes_data:
+            all_changes_data.append('date')
+            await state.update_data(all_changes_data=all_changes_data)
 
         text = get_data_chosen_request(changed_request) + \
         '\n\n Выберите изменение:'

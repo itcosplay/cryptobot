@@ -3,11 +3,11 @@ import re
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 
-from data import all_emoji
-from data import sticker
+from keyboards import create_kb_change_request
 from keyboards import create_kb_coustom_main_menu
-from loader import bot, dp, sheet, permit
+from loader import bot, dp
 from states import Processing
+from utils import get_data_chosen_request
 from utils import notify_in_group_chat
 from utils import notify_someone
 
@@ -25,56 +25,44 @@ async def set_date_from_text(message:Message, state:FSMContext):
         message_id=message.message_id
     )
 
-    chosen_request = data_state['chosen_request']
-    request_id = chosen_request[1]
-    old_request_numb = chosen_request[2]
-    request_type_emoji = all_emoji[chosen_request[3]]
-    persone = all_emoji['персона']
+    match = re.fullmatch(r'\d\d\d\d', message.text)
     
-    # match = re.fullmatch(r'\d\d\d\d', message.text)
-    
-    # if match:
-    username = message.chat.username
-    new_request_numb = message.text
-    chosen_request[2] = new_request_numb
-    # request_date = chosen_request[0]
-    text = f'{request_type_emoji} #N{old_request_numb}\nизменен номер заявки\nN#{old_request_numb} 👉 N#{new_request_numb}\n{persone} @{username}'
-    print(chosen_request)
-    try:
-        result = await message.answer_sticker (
-            sticker['go_to_table']
-        )
-        sheet.update_id_row(request_id, old_request_numb, new_request_numb)
-        permit.change_permit_numb(request_id, new_request_numb)
+    if match:
+        changed_request = data_state['changed_request']
 
-    except Exception as e:
-        print(e)
-        await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
-        await message.answer_sticker (
-            sticker['not_connection']
-        )
+        is_changed = True
+        new_numb = message.text
+
+        changed_request[10] = message.chat.username
+        changed_request[2] = new_numb
+
+        await state.update_data(is_changed=is_changed)
+        await state.update_data(changed_request=changed_request)
+
+        all_changes_data = data_state['all_changes_data']
+
+        if 'numb' not in all_changes_data:
+            all_changes_data.append('numb')
+            await state.update_data(all_changes_data=all_changes_data)
+
+        text = get_data_chosen_request(changed_request) + \
+        '\n\n Выберите изменение:'
+
         await message.answer (
-            text='Не удалось соединиться с гугл таблицей',
-            reply_markup=create_kb_coustom_main_menu(message.chat.id)
+            text,
+            reply_markup=create_kb_change_request(changed_request, is_changed)
         )
+
+        await Processing.change_request_menu.set()
 
         return
 
-    await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+    else:
+        result = await message.answer (
+            'Неправильный формат номера заявки.' +  ' ' +
+            'Попробуйте еще раз ввести в формате XXXX.\n(Например: 1546)'
+        )
+        await state.update_data(message_to_delete=result.message_id)
+        await Processing.new_request_id.set()
 
-    await message.answer (
-        text='Номер заявки изменен',
-        reply_markup=create_kb_coustom_main_menu(message.chat.id)
-    )
-    
-    await notify_someone(text, 'admin', 'changer', 'executor')
-    await notify_in_group_chat(text)
-
-    await state.finish()
-    # else:
-    #     result = await message.answer('Неправильный формат номера заявки. Попробуйте еще раз ввести в формате XXXX.\n(Например: 1546)')
-    #     await state.update_data(message_to_delete=result.message_id)
-    #     await Processing.new_request_id.set()
-    #     # to THIS HANDLER
-
-    #     return
+        return
