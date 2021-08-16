@@ -17,6 +17,7 @@ from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
 from keyboards import create_kb_confirm_close_request
+from keyboards import create_kb_current_requests
 from keyboards import create_kb_sum_correct_chunk
 from keyboards import create_kb_message_keyboard
 from keyboards import create_kb_change_request
@@ -38,14 +39,6 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     '''
     await call.answer()
     await call.message.delete()
-
-    data_state = await state.get_data()
-
-    chosen_request = data_state['chosen_request']
-
-    await state.update_data(changed_request=chosen_request)
-    await state.update_data(is_changed=False)
-    
 
     data_btn = cb_chosen_requests.parse(call.data)
 
@@ -144,15 +137,18 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     elif data_btn['type_btn'] == 'change_request':
         data_state = await state.get_data()
 
-        changed_request = data_state['changed_request']
-        is_changed = data_state['is_changed']
+        chosen_request = data_state['chosen_request']
+        is_changed = False
 
-        text = get_data_chosen_request(changed_request) + \
+        await state.update_data(changed_request=chosen_request)
+        await state.update_data(is_changed=is_changed)
+
+        text = get_data_chosen_request(chosen_request) + \
         '\n\n Выберите изменение:'
         
         await call.message.answer (
             text,
-            reply_markup=create_kb_change_request(changed_request, is_changed)
+            reply_markup=create_kb_change_request(chosen_request, is_changed)
         )
 
         await Processing.change_request_menu.set()
@@ -251,7 +247,25 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         
         return
 
-    else:
+    elif data_btn['type_btn'] == 'back':
+        data_state = await state.get_data()
+
+        in_processing_requests = data_state['in_processing_requests']        
+        ready_to_give_requests = data_state['ready_to_give_requests']        
+
+        await call.message.answer (
+            'Текущие заявки:',
+            reply_markup=create_kb_current_requests (
+                in_processing_requests,
+                ready_to_give_requests
+            )
+        )
+        
+        await Processing.chosen_request.set()
+
+        return
+
+    elif data_btn['type_btn'] == 'main_menu':
         await call.message.answer (
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)

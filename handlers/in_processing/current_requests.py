@@ -54,6 +54,8 @@ async def show_current_requests(message:Message, state:FSMContext):
     )
 
     await state.update_data(current_requests=current_requests)
+    await state.update_data(in_processing_requests=in_processing_requests)
+    await state.update_data(ready_to_give_requests=ready_to_give_requests)
 
     if len(in_processing_requests) == 0 and len(ready_to_give_requests) == 0:
 

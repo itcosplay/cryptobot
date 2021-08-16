@@ -6,7 +6,10 @@ class Processing(StatesGroup):
     changed_request = State()
 
     current_requests = State()
+    in_processing_requests = State()
+    ready_to_give_requests = State()
     chosen_request = State()
+    
     reserve_to_ready__currency = State()
     reserve_to_ready__sum = State()
     close__currency = State()

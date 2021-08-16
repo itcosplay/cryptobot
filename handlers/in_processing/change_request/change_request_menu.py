@@ -1,3 +1,4 @@
+import data
 from keyboards.default.admin_keyboard import create_kb_coustom_main_menu
 from aiogram.types import Message
 from aiogram.types import CallbackQuery
@@ -104,6 +105,7 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
 
         changed_request = data_state['changed_request']
+        changed_request_id = changed_request[1]
 
         try:
             result = await call.message.answer_sticker (
@@ -112,12 +114,22 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
             # permit.change_permit_date(request_id, old_date, tomorrow_date)
             sheet.replace_row(changed_request)
 
+            current_requests,\
+            in_processing_requests,\
+            ready_to_give_requests =\
+            sheet.get_numbs_processing_and_ready_requests()
+
         except Exception as e:
             print(e)
-            await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+            await bot.delete_message (
+                chat_id=call.message.chat.id,
+                message_id=result.message_id
+            )
+
             await call.message.answer_sticker (
                 sticker['not_connection']
             )
+
             await call.message.answer (
                 text='Не удалось соединиться с гугл таблицей',
                 reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
@@ -125,9 +137,21 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
             return
 
-        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+        await bot.delete_message (
+            chat_id=call.message.chat.id,
+            message_id=result.message_id
+        )
 
-        await state.update_data(chosen_request=changed_request)
+        await state.update_data(current_requests=current_requests)
+        await state.update_data(in_processing_requests=in_processing_requests)
+        await state.update_data(ready_to_give_requests=ready_to_give_requests)
+
+        for request in current_requests:
+
+            if changed_request_id == request[1]:
+                await state.update_data(chosen_request=request)
+
+                break
 
         text = get_data_chosen_request(changed_request)
         
@@ -150,25 +174,14 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'back':
         data_state = await state.get_data()
-        
-        current_requests = data_state['current_requests']
+
         chosen_request = data_state['chosen_request']
-        request_id = chosen_request[2]
 
-        for request in current_requests:
-
-            if request_id == request[2]:
-                await state.update_data(chosen_request=request)
-
-                break
-
-        data_state = await state.get_data()
-        chosen_request = data_state['chosen_request']
         text = get_data_chosen_request(chosen_request)
-
+        
         await call.message.answer (
             text=text,
-            reply_markup=create_kb_chosen_request(request)
+            reply_markup=create_kb_chosen_request(chosen_request)
             # > принято частично (для приема кэша, снятия с карт, обмена)
             # > отложить на выдачу (для доставки, кэшина, обмена)
             # > закрыть заявку
@@ -176,16 +189,17 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
             # > изменить заявку
             # > отменить заявку
             # > назад главное меню
-        )   
+        )
         await Processing.enter_chosen_request_menu.set()
 
-        return  
+        return
 
     elif data_btn['type_btn'] == 'main_menu':
         await call.message.answer (
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
         await state.finish()
         
         return
