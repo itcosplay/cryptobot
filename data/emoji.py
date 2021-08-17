@@ -1,7 +1,6 @@
 from emoji import emojize
 
 
-issuing_office = emojize(':office:', use_aliases=True)    
 issuing_office = '🤽🏼‍♂️'
 cash_recive = emojize(':chart_with_upwards_trend:', use_aliases=True)
 delivery = emojize(':steam_locomotive:', use_aliases=True)
@@ -47,6 +46,7 @@ black_ready = '✔️'
 all_emoji = {
     'прием': cash_recive,
     'выдача': issuing_office,
+    'доставка': delivery,
     'обмен': exchange,
     'кэшин': cash_in,
     'снятие с карт': cash_out,

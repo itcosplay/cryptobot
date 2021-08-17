@@ -113,37 +113,36 @@ def create_kb_change_date():
 
 
 def create_kb_new_request_type(request_type):
-    emo_snail = all_emoji['back__main_menu']
     keyboard = InlineKeyboardMarkup()
 
     all_request_types = {
-        'выдача в офисе': 'issuing_office',
-        'прием кэша': 'cash_recive',
+        'выдача': 'issuing_office',
+        'прием': 'cash_recive',
         'доставка': 'delivery',
         'обмен': 'exchange',
         'кэшин': 'cash_in',
-        'снятие с карт': 'cash_out'
+        'снятие с карт': 'cash_out',
+        'документы': 'documents'
     }
 
     for key in all_request_types.keys():
-        if key != request_type:
-            keyboard.add (
-                InlineKeyboardButton (
-                    text = key,
-                    callback_data = all_request_types[key]
-                )
+        keyboard.add (
+            InlineKeyboardButton (
+                text = key,
+                callback_data = all_request_types[key]
             )
+        )
 
     keyboard.add (
         InlineKeyboardButton (
-            text = 'вернуться к заявке',
-            callback_data = 'back_to_request'
+            text = 'назад',
+            callback_data = 'back'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = f'отменить {emo_snail} главное меню',
-            callback_data = 'back__main_menu'
+            text = f'главное меню',
+            callback_data = 'main_menu'
         )
     )
 

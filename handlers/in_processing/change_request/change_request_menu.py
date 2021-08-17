@@ -60,11 +60,11 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'change_type':
         data_state = await state.get_data()
-        chosen_request = data_state['chosen_request']
+        changed_request = data_state['chosen_request']
 
         await call.message.answer (
             text='Выберите новый тип заявки',
-            reply_markup=create_kb_new_request_type(chosen_request[3])
+            reply_markup=create_kb_new_request_type(changed_request[3])
         )
         await Processing.new_request_type.set()
 
@@ -102,14 +102,16 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'save_changes':
+        username = call.message.chat.username
         data_state = await state.get_data()
 
         changed_request = data_state['changed_request']
+        changed_request[10] = username
         
         changed_request_id = changed_request[1]
         changed_request_date = changed_request[0]
         changed_request_numb = changed_request[2]
-
+        
         try:
             result = await call.message.answer_sticker (
                 sticker['go_to_table']
