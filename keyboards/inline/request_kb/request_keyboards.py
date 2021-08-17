@@ -86,7 +86,7 @@ def create_kb_choose_card():
 
 def create_kb_choose_currency():
     keyboard = InlineKeyboardMarkup()
-    emo_snail = emojize(':snail:', use_aliases=True)
+    
     keyboard.add (
         InlineKeyboardButton (
             text = 'рубли',
@@ -103,12 +103,6 @@ def create_kb_choose_currency():
         InlineKeyboardButton (
             text = 'евро',
             callback_data = 'eur'
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = f'отменить {emo_snail} главное меню',
-            callback_data = 'exit'
         )
     )
 

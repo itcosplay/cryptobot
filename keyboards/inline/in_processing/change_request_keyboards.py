@@ -1,6 +1,5 @@
 from datetime import datetime
 from datetime import timedelta
-# import keyboards
 
 from data import all_emoji
 
@@ -15,6 +14,12 @@ def create_kb_change_request(request, is_changed):
 
     keyboard.add (
         InlineKeyboardButton (
+            text = 'переопределить тип',
+            callback_data = cb_change_request.new(type_btn='change_type')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text = 'новая дата',
             callback_data = cb_change_request.new(type_btn='new_date')
         )
@@ -27,24 +32,10 @@ def create_kb_change_request(request, is_changed):
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'переопределить тип',
-            callback_data = cb_change_request.new(type_btn='change_type')
-        )
-    )
-    keyboard.add (
-        InlineKeyboardButton (
-            text = 'изменить сумму',
+            text = 'изменить/добавить сумму',
             callback_data = cb_change_request.new(type_btn='update_sum')
         )
     )
-
-    if request[5] == '0' or request[6] == '0' or request[7] == '0':
-        keyboard.add (
-            InlineKeyboardButton (
-                text = 'другая валюта',
-                callback_data = cb_change_request.new(type_btn='more_currency')
-            )
-        )
 
     if is_changed:
         keyboard.add (
@@ -112,7 +103,7 @@ def create_kb_change_date():
     return keyboard
 
 
-def create_kb_new_request_type(request_type):
+def create_kb_new_request_type():
     keyboard = InlineKeyboardMarkup()
 
     all_request_types = {
@@ -227,6 +218,78 @@ def create_kb_choose_give_recive_change():
             text=f'назад {emo_snail} главное меню',
             callback_data='back__main_menu'
             
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_another_currecy_add(request):
+    from utils import get_values_FGH
+    
+    keyboard = InlineKeyboardMarkup()
+    rub, usd, eur = get_values_FGH(request)
+
+    if rub == '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='RUB',
+                callback_data = cb_anoter_currency_add.new (
+                    curr='rub',
+                    type_btn='add_curr'
+                )
+            )
+        )
+
+    if usd == '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='USD',
+                callback_data = cb_anoter_currency_add.new (
+                    curr='usd',
+                    type_btn='add_curr'
+                )
+            )
+        )
+
+    if eur == '':
+        keyboard.add (
+            InlineKeyboardButton (
+                text='EUR',
+                callback_data = cb_anoter_currency_add.new (
+                    curr='eur',
+                    type_btn='add_curr'
+                )
+            )
+        )
+
+    emo_snail = all_emoji['back__main_menu']
+    keyboard.add (
+        InlineKeyboardButton (
+            text=f'назад {emo_snail} главное меню',
+            callback_data=cb_anoter_currency_add.new (
+                curr='-',
+                type_btn='back__main_menu'
+            )
+        )
+    )
+
+    return keyboard
+
+
+def create_kb_plus_or_minus_sum():
+    keyboard = InlineKeyboardMarkup()
+
+    keyboard.add (
+        InlineKeyboardButton (
+            text='+',
+            callback_data='plus'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text='-',
+            callback_data='minus'
         )
     )
 

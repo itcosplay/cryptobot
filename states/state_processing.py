@@ -46,8 +46,9 @@ class Processing(StatesGroup):
     new_request_id = State()
     new_request_type = State()
 
-    which_sum_change = State()
+    which_sum_change__sign = State()
     which_sum_change__currency = State()
+    which_sum_change__ask = State()
     which_sum_change__amount = State()
 
     another_currency_add_menu = State()

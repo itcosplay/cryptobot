@@ -48,6 +48,7 @@ from .change_request_keyboards import cb_change_request
 from .change_request_keyboards import create_kb_change_date
 from .change_request_keyboards import create_kb_new_request_type
 from .change_request_keyboards import create_kb_choose_give_recive_change
+from .change_request_keyboards import create_kb_plus_or_minus_sum
 
 from .change_request_keyboards import create_kb_another_currecy_add
 from .change_request_keyboards import cb_anoter_currency_add

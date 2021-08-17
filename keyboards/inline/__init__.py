@@ -29,6 +29,7 @@ from .in_processing import create_kb_new_request_type
 from .in_processing import create_kb_another_currecy_add
 from .in_processing import create_kb_choose_give_recive_change
 from .in_processing import create_kb_confirm_cancel_request
+from .in_processing import create_kb_plus_or_minus_sum
 
 from .in_processing import cb_current_requests
 from .in_processing import cb_chosen_requests

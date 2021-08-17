@@ -1,4 +1,3 @@
-import data
 from keyboards.default.admin_keyboard import create_kb_coustom_main_menu
 from aiogram.types import Message
 from aiogram.types import CallbackQuery
@@ -10,8 +9,8 @@ from keyboards import cb_change_request
 from keyboards import create_kb_change_date
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_new_request_type
-from keyboards import create_kb_which_sum_close
 from keyboards import create_kb_another_currecy_add
+from keyboards import create_kb_choose_currency
 from loader import dp, bot, sheet, permit
 from states import Processing
 from utils import get_data_chosen_request
@@ -64,40 +63,18 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text='Выберите новый тип заявки',
-            reply_markup=create_kb_new_request_type(changed_request[3])
+            reply_markup=create_kb_new_request_type()
         )
         await Processing.new_request_type.set()
 
         return
 
     elif data_btn['type_btn'] == 'update_sum':
-        data_state = await state.get_data()
-        chosen_request = data_state['chosen_request']
-
         await call.message.answer (
-            text='Какая сумма будет изменена?',
-            reply_markup=create_kb_which_sum_close(chosen_request)
+            text='Выберите валюту',
+            reply_markup=create_kb_choose_currency()
         )
-        await Processing.which_sum_change.set()
-
-        return
-
-    elif data_btn['type_btn'] == 'more_currency':
-        data_state = await state.get_data()
-        chosen_request = data_state['chosen_request']
-
-        if chosen_request[5] == '0' or chosen_request[6] == '0' or chosen_request[7] == '0':
-            await call.message.answer (
-                text='Выберите валюту, которую необходимо добавить?',
-                reply_markup=create_kb_another_currecy_add(chosen_request)
-            )
-            await Processing.another_currency_add_menu.set()        
-        else:
-            await call.message.answer (
-                text='Невозможно добавить другую валюту... Выход в главное меню',
-                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
-            )
-            await state.finish()
+        await Processing.which_sum_change__currency.set()
 
         return
 
@@ -123,6 +100,7 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 
             if 'numb' in data_state['all_changes_data']:
                 permit.change_permit_numb(changed_request_id, changed_request_numb)
+
 
             current_requests,\
             in_processing_requests,\
@@ -213,7 +191,7 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         await state.finish()
         
         return
-    
+
 
 @dp.message_handler(state=Processing.add_another_comment)
 async def add_another_comment(message:Message, state:FSMContext):

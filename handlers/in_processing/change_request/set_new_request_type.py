@@ -78,14 +78,14 @@ async def set_date_from_buttons(call:CallbackQuery, state:FSMContext):
     changed_request = data_state['changed_request']
     
     changed_request[3] = new_request_type
-    changed_request[5] = '0'
-    changed_request[6] = '0'
-    changed_request[7] = '0'
-    changed_request[11] = 'В обработке'
-    changed_request[12] = '0'
-    changed_request[13] = '0'
-    changed_request[14] = '0'
-    changed_request[16] = '0'
+    # changed_request[5] = '0'
+    # changed_request[6] = '0'
+    # changed_request[7] = '0'
+    # changed_request[11] = 'В обработке'
+    # changed_request[12] = '0'
+    # changed_request[13] = '0'
+    # changed_request[14] = '0'
+    # changed_request[16] = '0'
 
     await state.update_data(is_changed=is_changed)
     await state.update_data(changed_request=changed_request)
