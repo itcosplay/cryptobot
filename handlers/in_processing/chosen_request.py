@@ -48,13 +48,17 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
     await call.message.answer (
         text=text,
         reply_markup=create_kb_chosen_request(request)
-        # > принято частично (для приема кэша, снятия с карт, обмена)
         # > отложить на выдачу (для доставки, кэшина, обмена)
+        # > принято частично (для приема кэша, снятия с карт, обмена)
         # > закрыть заявку
         # > сообщение
         # > изменить заявку
+        # > добавить пропуск
+        # > добавить комментарий
+        # > распаковать
         # > отменить заявку
-        # > назад главное меню
+        # > назад
+        # > главное меню
     )
 
     await Processing.enter_chosen_request_menu.set()

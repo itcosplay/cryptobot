@@ -197,6 +197,15 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
 async def add_another_comment(message:Message, state:FSMContext):
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
+
+    await bot.delete_message (
+        chat_id=message.chat.id,
+        message_id=data_state['message_to_delete']
+    )
+    await bot.delete_message (
+        chat_id=message.chat.id,
+        message_id=message.message_id
+    )
     
     if chosen_request[8] != '0':
         comment = chosen_request[8] + ' * '

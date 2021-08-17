@@ -1,12 +1,8 @@
-from data import all_emoji
-
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.utils.callback_data import CallbackData
 
 
 cb_chosen_requests = CallbackData('cb_chr', 'type_btn')
-
-
 def create_kb_chosen_request(request):
     keyboard = InlineKeyboardMarkup()
 
@@ -46,7 +42,7 @@ def create_kb_chosen_request(request):
     )
     keyboard.add (
         InlineKeyboardButton (
-            text = 'добавить данные пропуска',
+            text = 'добавить пропуск',
             callback_data=cb_chosen_requests.new(type_btn='add_permit')
         )
     )
@@ -74,7 +70,6 @@ def create_kb_chosen_request(request):
             callback_data=cb_chosen_requests.new(type_btn='back')
         )
     )
-
     keyboard.add (
         InlineKeyboardButton (
             text = f'главное меню',

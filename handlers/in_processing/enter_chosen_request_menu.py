@@ -29,13 +29,17 @@ from keyboards import create_kb_chosen_request
 @dp.callback_query_handler(state=Processing.enter_chosen_request_menu)
 async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
     '''
-    Обрабатывает нажатие на кнопки меню:
-    > отложить на выдачу
+    > отложить на выдачу (для доставки, кэшина, обмена)
+    > принято частично (для приема кэша, снятия с карт, обмена)
     > закрыть заявку
+    > сообщение
     > изменить заявку
-    > добавить данные пропуска
+    > добавить пропуск
+    > добавить комментарий
+    > распаковать
     > отменить заявку
-    > назад главное меню
+    > назад
+    > главное меню
     '''
     await call.answer()
     await call.message.delete()
@@ -163,6 +167,16 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await state.update_data(message_to_delete=result.message_id)
         await Processing.add_permit.set()
         # ---> add_permit_message_handler <---
+
+    elif data_btn['type_btn'] == 'add_comment':
+        result = await call.message.answer (
+            'Введите комментарий'
+        )
+        await state.update_data(message_to_delete=result.message_id)
+        await Processing.add_another_comment.set()
+        # ---> ./change_request/change_request_menu
+
+        return
 
     elif data_btn['type_btn'] == 'unpack':
         data_state = await state.get_data()
