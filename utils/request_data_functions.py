@@ -299,3 +299,33 @@ def get_text_message_to(request):
     text = f'Какое сообщение по заявке {request_type_emoji} #N{request_id} c суммами:\n{rub}{usd}{eur}хотите отправить?'
 
     return text
+
+
+def get_text_after_change_request(old_request, changed_request):
+    # ['01.09', '16152t5', '8888', 'прием', 'change', '500', '0', '-500', 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
+    # ['02.09', '16152t5', '8888', 'прием', 'change',  500 , '0',  -500 , 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
+    text = 'Изменение в заявке!\n'
+
+    if old_request[0] != changed_request[0]:
+        text = text + '-новая дата-\n'
+        text = text + old_request[0] + '->' + changed_request[0]
+        text = text + '\n'
+    
+    if old_request[2] != changed_request[2]:
+        text = text + '-новый номер-\n'
+        text = text + old_request[2] + '->' + changed_request[2]
+        text = text + '\n'
+
+    if old_request[3] != changed_request[3]:
+        text = text + '-новый тип-\n'
+        text = text + old_request[3] + '->' + changed_request[3]
+        text = text + '\n'
+
+    if old_request[5] != changed_request[5] or \
+       old_request[6] != changed_request[6] or \
+       old_request[7] != changed_request[7]:
+       text = text + '-изменение в суммах-\n'
+    # 'numb'
+    # 'sum'
+
+    return text

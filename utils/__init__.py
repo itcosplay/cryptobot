@@ -14,6 +14,7 @@ from .request_data_functions import get_text_before_close_request
 from .request_data_functions import get_text_message_to
 from .request_data_functions import get_text_after_close_request
 from .request_data_functions import get_data_request_unpack
+from .request_data_functions import get_text_after_change_request
 from .notify_about_new_permit import notify_about_permit_to_order
 from .notify_universal import notify_someone
 from .get_minuses_sum_FGH import get_minus_FGH
@@ -27,6 +28,7 @@ from .get_values_FGH_MNO import get_minus_MNO
 from .get_values_FGH_MNO import get_value_for_reports
 from .get_values_FGH_MNO import get_values_MNO_or_FGH_ifMNO_is_empty
 from .notify_chat import notify_in_group_chat
+from .notify_universal import notify_someone_except_user
 
 
 from .googlesheets import send_to_google

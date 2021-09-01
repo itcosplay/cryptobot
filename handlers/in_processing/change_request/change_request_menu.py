@@ -16,6 +16,8 @@ from states import Processing
 from utils import get_data_chosen_request
 from utils import notify_in_group_chat
 from utils import notify_someone
+from utils import notify_someone_except_user
+from utils import get_text_after_change_request
 
 
 @dp.callback_query_handler(state=Processing.change_request_menu)
@@ -157,6 +159,22 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         )
 
         await Processing.enter_chosen_request_menu.set()
+
+        user_id = call.message.chat.id
+
+        change_info_text = get_text_after_change_request (
+            data_state['chosen_request'],
+            changed_request
+        )
+
+        await notify_someone_except_user (
+            change_info_text, 
+            user_id,
+            'admin',
+            'changer',
+            'executor'
+        )
+        await notify_in_group_chat(change_info_text)
 
         return
 
