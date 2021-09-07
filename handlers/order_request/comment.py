@@ -26,7 +26,27 @@ async def comment(message:types.Message, state:FSMContext):
     result_data_to_show, keyboard = get_data_to_show(request_data)
 
     await message.answer(text=result_data_to_show, reply_markup=keyboard)
+
     await Request.type_end.set()
     # to final_step_ordering.py
+
+    return
+
+
+@dp.callback_query_handler(state=Request.comment)
+async def comment_back(call:types.CallbackQuery, state:FSMContext):
+    await call.answer()
+    await call.message.delete()
+
+    request_data = await state.get_data()
+
+    result_data_to_show, keyboard = get_data_to_show(request_data)
+
+    await call.message.answer(text=result_data_to_show, reply_markup=keyboard)
+
+    await Request.type_end.set()
+    # to final_step_ordering.py
+
+    return
 
     

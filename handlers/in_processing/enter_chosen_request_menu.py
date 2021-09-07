@@ -23,6 +23,7 @@ from keyboards import create_kb_message_keyboard
 from keyboards import create_kb_change_request
 from keyboards import create_kb_confirm_cancel_request
 from keyboards import create_kb_chosen_request
+from keyboards import create_kb_back_button
 
 
 # <--- show_chosen_request.py --->
@@ -170,9 +171,12 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
     elif data_btn['type_btn'] == 'add_comment':
         result = await call.message.answer (
-            'Введите комментарий'
+            text='Напишите коментарий:',
+            reply_markup=create_kb_back_button()
+
         )
         await state.update_data(message_to_delete=result.message_id)
+        
         await Processing.add_another_comment.set()
         # ---> ./change_request/change_request_menu
 

@@ -273,3 +273,35 @@ async def add_another_comment(message:Message, state:FSMContext):
     await state.finish()
 
     return
+
+
+@dp.callback_query_handler(state=Processing.add_another_comment)
+async def add_another_comment_back(call:CallbackQuery, state:FSMContext):
+    await call.answer()
+    await call.message.delete()
+
+    data_state = await state.get_data()
+
+    request = data_state['chosen_request']
+
+    text = get_data_chosen_request(request)
+
+    await call.message.answer (
+        text=text,
+        reply_markup=create_kb_chosen_request(request)
+        # > отложить на выдачу (для доставки, кэшина, обмена)
+        # > принято частично (для приема кэша, снятия с карт, обмена)
+        # > закрыть заявку
+        # > сообщение
+        # > изменить заявку
+        # > добавить пропуск
+        # > добавить комментарий
+        # > распаковать
+        # > отменить заявку
+        # > назад
+        # > главное меню
+    )
+
+    await Processing.enter_chosen_request_menu.set()
+
+    return

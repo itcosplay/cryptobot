@@ -14,6 +14,7 @@ from utils import get_data_chosen_request
 from keyboards import create_kb_plus_minus
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_choose_date
+from keyboards import create_kb_back_button
 
 
 # from currency__how_much.py
@@ -97,8 +98,14 @@ async def set_type_of_end(call:types.CallbackQuery, state:FSMContext):
 
     elif call.data == 'comment':
         await state.update_data(type_end=call.data)
-        result = await call.message.answer('Напишите коментарий:')
+
+        result = await call.message.answer (
+            text='Напишите коментарий:',
+            reply_markup=create_kb_back_button()
+        )
+
         await state.update_data(_del_message = result.message_id)
+        
         await Request.comment.set()
 
     elif call.data == 'change_date':

@@ -47,6 +47,7 @@ from .inline import create_kb_change_fin_request
 from .inline import create_kb_another_currecy_add_fin
 from .inline import create_kb_change_sum_finished_req
 from .inline import create_kb_plus_or_minus_sum
+from .inline import create_kb_back_button
 
 from .inline import cb_current_requests
 from .inline import cb_chosen_requests
