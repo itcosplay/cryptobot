@@ -29,6 +29,7 @@ from .get_values_FGH_MNO import get_value_for_reports
 from .get_values_FGH_MNO import get_values_MNO_or_FGH_ifMNO_is_empty
 from .notify_chat import notify_in_group_chat
 from .notify_universal import notify_someone_except_user
+from .get_beauty_sum import get_beauty_sum
 
 
 from .googlesheets import send_to_google

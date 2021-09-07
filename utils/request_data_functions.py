@@ -1,6 +1,8 @@
 from utils import set_minus_and_plus_currences
 from utils.get_values_FGH_MNO import get_single_value
+from utils.get_beauty_sum import get_beauty_sum
 from data import all_emoji
+
 
 
 def get_data_chosen_request(request):
@@ -304,28 +306,60 @@ def get_text_message_to(request):
 def get_text_after_change_request(old_request, changed_request):
     # ['01.09', '16152t5', '8888', 'прием', 'change', '500', '0', '-500', 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
     # ['02.09', '16152t5', '8888', 'прием', 'change',  500 , '0',  -500 , 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
-    text = 'Изменение в заявке!\n'
+    text = f'❗ Изменение в заявке #N{old_request[2]} ❗'
 
     if old_request[0] != changed_request[0]:
-        text = text + '-новая дата-\n'
-        text = text + old_request[0] + '->' + changed_request[0]
-        text = text + '\n'
+        text = text + '\n\n🗓️ новая дата 🗓️\n'
+        text = text + old_request[0] + ' 👉 ' + changed_request[0]
     
     if old_request[2] != changed_request[2]:
-        text = text + '-новый номер-\n'
-        text = text + old_request[2] + '->' + changed_request[2]
-        text = text + '\n'
+        text = text + '\n\n#️⃣ новый номер #️⃣\n'
+        text = text + '#N' + old_request[2] + ' 👉 ' + '#N' + changed_request[2]
 
     if old_request[3] != changed_request[3]:
-        text = text + '-новый тип-\n'
-        text = text + old_request[3] + '->' + changed_request[3]
-        text = text + '\n'
+        text = text + '\n\n🚻 новый тип 🚻\n'
+        text = text + old_request[3] + ' 👉 ' + changed_request[3]
 
-    if old_request[5] != changed_request[5] or \
-       old_request[6] != changed_request[6] or \
-       old_request[7] != changed_request[7]:
-       text = text + '-изменение в суммах-\n'
-    # 'numb'
-    # 'sum'
+    if str(old_request[5]) != str(changed_request[5]) \
+    or str(old_request[6]) != str(changed_request[6]) \
+    or str(old_request[7]) != str(changed_request[7]):
+        text = text + '\n\n⚠️ изменение в суммах ⚠️'
+       
+        if str(old_request[5]) != str(changed_request[5]):
+            old_rub = str(old_request[5])
+            new_rub = str(changed_request[5])
+
+            old_rub = get_beauty_sum(old_rub)
+            new_rub = get_beauty_sum(new_rub)
+
+            text = text + '\n'
+            text = text + old_rub + '₽' + ' 👉 ' + new_rub + '₽'
+
+        if str(old_request[6]) != str(changed_request[6]):
+            old_usd = str(old_request[6])
+            new_usd = str(changed_request[6])
+
+            old_usd = get_beauty_sum(old_usd)
+            new_usd = get_beauty_sum(new_usd)
+
+            text = text + '\n'
+            text = text + old_usd + '$' + ' 👉 ' + new_usd + '$'
+
+        if str(old_request[7]) != str(changed_request[7]):
+            old_eur = str(old_request[7])
+            new_eur = str(changed_request[7])
+
+            old_eur = get_beauty_sum(old_eur)
+            new_eur = get_beauty_sum(new_eur)
+
+            text = text + '\n'
+            text = text + old_eur + '€' + ' 👉 ' + new_eur + '€'
 
     return text
+
+# old_req = ['01.09', '16152t5', '8888', 'прием', 'change', '60000', '0', '-500', 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
+# new_req = ['02.09', '16152t5', '8888', 'прием', 'change',  50000 , '0',  -600 , 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
+
+# text = get_text_after_change_request(old_req, new_req)
+
+# print(text)
