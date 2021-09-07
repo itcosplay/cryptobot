@@ -355,6 +355,8 @@ def get_text_after_change_request(old_request, changed_request):
             text = text + '\n'
             text = text + old_eur + '€' + ' 👉 ' + new_eur + '€'
 
+    text = text + '\n\n' + '👤' + '@' + changed_request[10]
+
     return text
 
 # old_req = ['01.09', '16152t5', '8888', 'прием', 'change', '60000', '0', '-500', 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
