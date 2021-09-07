@@ -33,7 +33,7 @@ async def create_request(message:types.Message, state:FSMContext):
     await state.update_data(sum_give_EUR='')
 
     await state.update_data(comment='')
-    await state.update_data(permit='')
+    await state.update_data(permit='данных нет...')
     await state.update_data(data_request=datetime.datetime.today().strftime('%d.%m'))
 
     result = await message.answer('Введите номер заявки')
