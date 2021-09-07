@@ -91,6 +91,14 @@ def create_kb_for_what_waste(who_waste):
                 )
             )
         )
+        keyboard.add (
+            InlineKeyboardButton (
+                text='Транспорт',
+                callback_data=cb_for_what_waste.new (
+                    type_btn='Транспорт'
+                )
+            )
+        )
     back__main_menu = all_emoji['back__main_menu']
     keyboard.add (
         InlineKeyboardButton (
