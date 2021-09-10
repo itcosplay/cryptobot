@@ -289,12 +289,12 @@ def get_values_MNO_or_FGH_ifMNO_is_empty(request):
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = all_emoji['минус'] + usd + '₽'
+            usd = all_emoji['минус'] + usd + '$'
         else:
             usd = int(usd)
             usd = f'{usd:,}'
             usd = usd.replace(',', '.')
-            usd = all_emoji['плюс'] + usd + '₽'
+            usd = all_emoji['плюс'] + usd + '$'
     else:      
         if request[6] != '0':
             usd = request[6]
@@ -305,12 +305,12 @@ def get_values_MNO_or_FGH_ifMNO_is_empty(request):
                 usd = int(usd)
                 usd = f'{usd:,}'
                 usd = usd.replace(',', '.')
-                usd = all_emoji['минус'] + usd + '₽'
+                usd = all_emoji['минус'] + usd + '$'
             else:
                 usd = int(usd)
                 usd = f'{usd:,}'
                 usd = usd.replace(',', '.')
-                usd = all_emoji['плюс'] + usd + '₽'
+                usd = all_emoji['плюс'] + usd + '$'
 
         else:
             usd = ''
@@ -325,12 +325,12 @@ def get_values_MNO_or_FGH_ifMNO_is_empty(request):
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = all_emoji['минус'] + eur + '₽'
+            eur = all_emoji['минус'] + eur + '€'
         else:
             eur = int(eur)
             eur = f'{eur:,}'
             eur = eur.replace(',', '.')
-            eur = all_emoji['плюс'] + eur + '₽'
+            eur = all_emoji['плюс'] + eur + '€'
     else:      
         if request[7] != '0':
             eur = request[7]
@@ -341,12 +341,12 @@ def get_values_MNO_or_FGH_ifMNO_is_empty(request):
                 eur = int(eur)
                 eur = f'{eur:,}'
                 eur = eur.replace(',', '.')
-                eur = all_emoji['минус'] + eur + '₽'
+                eur = all_emoji['минус'] + eur + '€'
             else:
                 eur = int(eur)
                 eur = f'{eur:,}'
                 eur = eur.replace(',', '.')
-                eur = all_emoji['плюс'] + eur + '₽'
+                eur = all_emoji['плюс'] + eur + '€'
 
         else:
             eur = ''

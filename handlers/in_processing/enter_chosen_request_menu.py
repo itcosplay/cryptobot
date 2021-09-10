@@ -109,7 +109,6 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         text = get_text_before_close_request(chosen_request)
         # text = get_values_MNO_or_FGH_ifMNO_is_empty(chosen_request)
-        print
 
 
         await call.message.answer (

@@ -112,7 +112,7 @@ async def delete_permit(call:CallbackQuery, state:FSMContext):
         permit_notify = f'#N{permit_numb} пропуск удален @{username}'
 
         await notify_someone(permit_notify, 'admin', 'changer', 'executor')
-        await notify_in_group_chat(permit_notify)
+        # await notify_in_group_chat(permit_notify)
 
         text = f'Все оповещены о том, что по заявке #N{permit_numb} {permit_warning}'
 

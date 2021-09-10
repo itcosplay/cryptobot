@@ -108,7 +108,8 @@ async def message_processing(call:CallbackQuery, state:FSMContext):
         text = text + persone + user
 
         await call.message.answer (
-            text='сообщение отправлено!'
+            text='сообщение отправлено!',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
 
         await notify_someone(text, 'admin', 'changer', 'executor')
