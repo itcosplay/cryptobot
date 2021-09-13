@@ -1,5 +1,9 @@
+from .error_handler import dp
+
 from .ban import dp
+
 from .start import dp
+
 from .rights_users import dp
 
 from .order_request import dp

@@ -10,13 +10,18 @@ from keyboards.default import admin_keyboard
 from keyboards import create_kb_coustom_main_menu
 from utils import notify_someone
 
+
 @dp.message_handler(CommandStart(), user_id=super_admins)
 async def bot_start(message:types.Message):
     user_id = message.from_user.id
     text = 'Здравствуйте, Владыка!'
 
-    await bot.send_message(chat_id=user_id, text=text, reply_markup=create_kb_coustom_main_menu(user_id))
-
+    await bot.send_message (
+        chat_id=user_id, 
+        text=text, 
+        reply_markup=create_kb_coustom_main_menu(user_id)
+    )
+    
 
 @dp.message_handler(CommandStart())
 async def bot_start(message:types.Message):
