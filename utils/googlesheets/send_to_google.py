@@ -1,6 +1,7 @@
 import datetime
-from os import name
-from traceback import print_exception
+import json
+# from os import name
+# from traceback import print_exception
 
 import gspread
 from operator import itemgetter
@@ -386,7 +387,7 @@ class DataFromSheet:
             'sum_minus': '',
             'ok': ''
         }
-        # print('WWWWWWWWWWWWWW')
+
         D__type_of_operation = translate_values_request[state['operation_type']]
         E__applicant = translate_values_request[state['applicant']]
 
@@ -440,11 +441,9 @@ class DataFromSheet:
             if state['sum_give_USD'] != '':
                 G__sum = 0 - int(state['sum_give_USD'])
             if state['sum_give_EUR'] != '':
-                H__sum = 0 - int(state['sum_give_EUR'])    
-        # elif state['operation_type'] == 'cache_atm': # sing +
-        #     pass
+                H__sum = 0 - int(state['sum_give_EUR'])
 
-        J__remain = '0'
+        J__log_data = '0'
         K__executor = creator_name
         L__status = 'В обработке'
         M__fact_RUB = '0'
@@ -452,7 +451,7 @@ class DataFromSheet:
         O__fact_EUR = '0'
         P__end_time = '0'
         Q__total_blue = '0'
-        
+
         inserRow = []
         inserRow.append(A__current_date)
         inserRow.append(B__request_id)
@@ -463,7 +462,7 @@ class DataFromSheet:
         inserRow.append(G__sum)
         inserRow.append(H__sum)
         inserRow.append(I__comment)
-        inserRow.append(J__remain)
+        inserRow.append(J__log_data)
         inserRow.append(K__executor)
         inserRow.append(L__status)
         inserRow.append(M__fact_RUB)
@@ -472,9 +471,20 @@ class DataFromSheet:
         inserRow.append(P__end_time)
         inserRow.append(Q__total_blue)
 
-        # number_of_empty_row = len(sheet.col_values(1)) + 1
-        # print(inserRow)
-        # sheet.insert_row(inserRow, numb_of_last_row + 1)
+        log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
+        # dt_object1 = datetime.strptime(dt_string, "%d/%m/%Y %H:%M:%S")
+
+        log_data = [{
+            'action_name': 'create_request',
+            'action_date': log_time,
+            'user_name': creator_name,
+            'entire_request': inserRow
+        }]
+
+        log_data = json.dumps(log_data, ensure_ascii=False)
+
+        inserRow[9] = log_data
+
         numb_empty_row = numb_of_last_row + 1
         sheet.update(f'A{numb_empty_row}:Q{numb_empty_row}', [inserRow])
 
