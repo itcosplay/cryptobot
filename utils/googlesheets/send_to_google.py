@@ -472,7 +472,6 @@ class DataFromSheet:
         inserRow.append(Q__total_blue)
 
         log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
-        # dt_object1 = datetime.strptime(dt_string, "%d/%m/%Y %H:%M:%S")
 
         log_data = [{
             'action_name': 'create_request',
