@@ -35,7 +35,10 @@ async def show_balances_menu(message:Message, state:FSMContext):
 
     time.sleep(0.75)
 
-    await bot.delete_message(chat_id=message.chat.id, message_id=result.message_id)
+    await bot.delete_message (
+        chat_id=message.chat.id, 
+        message_id=result.message_id
+    )
 
     await message.answer (
         text='Какие балансы отобразить?',
@@ -64,7 +67,6 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
             ready_to_give_requests = sheet.get_ready_to_give_requests()
 
         except Exception as e:
-            print(e)
             await call.message.answer_sticker (
                 sticker['not_connection']
             )

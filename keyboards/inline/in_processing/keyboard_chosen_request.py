@@ -66,6 +66,12 @@ def create_kb_chosen_request(request):
     )
     keyboard.add (
         InlineKeyboardButton (
+            text = 'посмотреть историю',
+            callback_data=cb_chosen_requests.new(type_btn='show_log')
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text = f'назад',
             callback_data=cb_chosen_requests.new(type_btn='back')
         )

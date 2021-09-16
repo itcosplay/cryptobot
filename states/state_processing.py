@@ -61,3 +61,5 @@ class Processing(StatesGroup):
     add_permit = State()
 
     confirm_cancel_request = State()
+
+    request_log = State()

@@ -57,6 +57,7 @@ async def show_chosen_request(call:CallbackQuery, state:FSMContext):
         # > добавить комментарий
         # > распаковать
         # > отменить заявку
+        # > посмотреть историю
         # > назад
         # > главное меню
     )

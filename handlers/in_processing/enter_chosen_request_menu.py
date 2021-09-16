@@ -2,12 +2,10 @@ from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
 from data import all_emoji
-import data
 from loader import dp, sheet, bot
 from states import Processing
 from utils import get_minus_FGH
 from utils import get_text_before_close_request
-# from utils import get_values_MNO_or_FGH_ifMNO_is_empty
 from utils import get_text_message_to
 from utils import get_data_chosen_request
 from utils import notify_someone
@@ -192,8 +190,6 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         chosen_request[14] = '0'
         chosen_request[16] = '0'
         req_id = chosen_request[1]
-        request_numb = chosen_request[2]
-
 
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
@@ -254,7 +250,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await Processing.enter_chosen_request_menu.set()
 
         return
-        
+
     elif data_btn['type_btn'] == 'cancel_request':
         await call.message.answer (
             text='Отменить заявку?',
@@ -263,6 +259,13 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         await Processing.confirm_cancel_request.set()
         # to confirm_cancel_requeest.py
         
+        return
+
+    elif data_btn['type_btn'] == 'show_log':
+        await call.message.answer (
+            text='here will be log'
+        )
+
         return
 
     elif data_btn['type_btn'] == 'back':
