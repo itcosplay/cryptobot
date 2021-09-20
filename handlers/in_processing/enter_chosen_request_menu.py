@@ -262,9 +262,17 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'show_log':
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+
+        data_log = chosen_request[9]
+
         await call.message.answer (
-            text='here will be log'
+            text=data_log,
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
+        await state.finish()
 
         return
 
@@ -291,6 +299,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
         await state.finish()
 
         return
