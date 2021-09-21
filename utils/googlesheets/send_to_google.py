@@ -7,7 +7,9 @@ import gspread
 from operator import itemgetter
 
 from oauth2client.service_account import ServiceAccountCredentials
+
 from data import config
+from .. import log_processor
 
 
 class DataFromSheet:
@@ -472,13 +474,10 @@ class DataFromSheet:
         inserRow.append(Q__total_blue)
 
         log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
-
-        entire_request = json.dumps(inserRow, ensure_ascii=False)
-        entire_request = entire_request.replace('"', r'\"')
-        print(entire_request)
+        entire_request = log_processor.get_request_as_string(inserRow)
 
         log_data = [{
-            'action_name': 'create_request',
+            'ACTION_NAME': 'CREATE_REQUEST',
             'action_date': log_time,
             'user_name': creator_name,
             'entire_request': entire_request

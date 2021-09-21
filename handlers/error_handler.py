@@ -86,5 +86,6 @@ async def errors_handler(update, exception):
         return True
 
     print('==ERROR==\nOther Error\n==ERROR==')
+    print(exception)
 
     return True

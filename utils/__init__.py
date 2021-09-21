@@ -31,6 +31,7 @@ from .notify_chat import notify_in_group_chat
 from .notify_universal import notify_someone_except_user
 from .get_beauty_sum import get_beauty_sum
 
+from .log_processor import get_request_as_string
 
 from .googlesheets import send_to_google
 from .googlesheets import DataFromSheet

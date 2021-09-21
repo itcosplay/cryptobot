@@ -12,6 +12,7 @@ from loader import dp, bot
 from states import Processing
 from loader import sheet
 from utils import get_data_chosen_request
+from utils import get_request_as_string
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_what_bluе
 from keyboards import create_kb_confirm_blue
@@ -180,23 +181,23 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'confirm':
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
+        print(chosen_request)
         chosen_request[10] = call.message.chat.username
         chosen_request[11] = 'Готово к выдаче'
 
         log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
+        entire_request = get_request_as_string(chosen_request)
+        
         log_data = {
-            'action_name': 'reserve',
+            'ACTION_NAME': 'RESERVE',
             'action_date': log_time,
             'user_name': call.message.chat.username,
-            'entire_request': chosen_request
+            'entire_request': entire_request
         }
-
-        log_data = json.dumps(log_data, ensure_ascii=False)
 
         full_log_data = chosen_request[9]
         full_log_data = json.loads(full_log_data)
         full_log_data.append(log_data)
-
         full_log_data = json.dumps(full_log_data,  ensure_ascii=False)
 
         chosen_request[9] = full_log_data
