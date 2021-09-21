@@ -71,6 +71,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
             # > вернуться к заявке
             # > назад - главное меню
         )
+        
         await Processing.enter_reserve_to_ready_menu.set()
 
         return

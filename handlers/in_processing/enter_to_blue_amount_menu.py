@@ -1,6 +1,8 @@
+import datetime
+import json
+
 from utils.notify_chat import notify_in_group_chat
 from utils.notify_universal import notify_someone
-from emoji import emojize
 
 from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext
@@ -97,10 +99,12 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         return
 
     elif data_btn['type_btn'] == 'back_main_menu':
+
         await call.message.answer (
             text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
             reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
         )
+
         await state.finish()
 
         return
@@ -120,17 +124,17 @@ async def set_blue_amount(message:Message, state:FSMContext):
 
     try:
         chosen_request = data_state['chosen_request']
-        print('REQUEST IN SET BLUE AMOUNT')
-        print(chosen_request)
         blue_amount = int(message.text)
         blue_amount = str(blue_amount)
         
     except Exception as e:
         print(e)
+
         await message.answer (
             text='Изменение заявки отменено. Неправильный формат синих.',
             reply_markup=create_kb_coustom_main_menu(message.chat.id)
         )
+
         await state.finish()
         
         return
@@ -178,6 +182,24 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
         chosen_request = data_state['chosen_request']
         chosen_request[10] = call.message.chat.username
         chosen_request[11] = 'Готово к выдаче'
+
+        log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
+        log_data = {
+            'action_name': 'reserve',
+            'action_date': log_time,
+            'user_name': call.message.chat.username,
+            'entire_request': chosen_request
+        }
+
+        log_data = json.dumps(log_data, ensure_ascii=False)
+
+        full_log_data = chosen_request[9]
+        full_log_data = json.loads(full_log_data)
+        full_log_data.append(log_data)
+
+        full_log_data = json.dumps(full_log_data,  ensure_ascii=False)
+
+        chosen_request[9] = full_log_data
         
         try:
             result = await call.message.answer_sticker (

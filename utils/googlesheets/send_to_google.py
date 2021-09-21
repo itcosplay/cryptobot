@@ -473,11 +473,15 @@ class DataFromSheet:
 
         log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
 
+        entire_request = json.dumps(inserRow, ensure_ascii=False)
+        entire_request = entire_request.replace('"', r'\"')
+        print(entire_request)
+
         log_data = [{
             'action_name': 'create_request',
             'action_date': log_time,
             'user_name': creator_name,
-            'entire_request': inserRow
+            'entire_request': entire_request
         }]
 
         log_data = json.dumps(log_data, ensure_ascii=False)
