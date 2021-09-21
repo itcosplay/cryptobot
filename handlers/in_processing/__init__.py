@@ -12,5 +12,6 @@ from .add_permit_message_handler import dp
 from .chunk_reciving import dp
 from .close_request import dp
 from .change_request import dp
+from .request_log import dp
 
 __all__ = ['dp']

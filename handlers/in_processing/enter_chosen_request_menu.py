@@ -22,6 +22,7 @@ from keyboards import create_kb_change_request
 from keyboards import create_kb_confirm_cancel_request
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_back_button
+from keyboards import create_kb_under_log
 
 
 # <--- show_chosen_request.py --->
@@ -269,10 +270,10 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
 
         await call.message.answer (
             text=data_log,
-            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            reply_markup=create_kb_under_log()
         )
 
-        await state.finish()
+        await Processing.request_log.set()
 
         return
 
