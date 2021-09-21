@@ -19,6 +19,9 @@ def updating_log (
     user:str,
     request:str
 ):
+    '''
+    Returns updated log for current action.
+    '''
     log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
     updated_request = get_request_as_string(request)
 

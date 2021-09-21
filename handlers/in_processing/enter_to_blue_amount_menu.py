@@ -184,22 +184,6 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
         user = call.message.chat.username
         chosen_request[10] = user
         chosen_request[11] = 'Готово к выдаче'
-
-        # log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
-        # entire_request = get_request_as_string(chosen_request)
-        
-        # log_data = {
-        #     'ACTION_NAME': 'RESERVE',
-        #     'action_date': log_time,
-        #     'user_name': call.message.chat.username,
-        #     'entire_request': entire_request
-        # }
-
-        # full_log_data = chosen_request[9]
-        # full_log_data = json.loads(full_log_data)
-        # full_log_data.append(log_data)
-        # full_log_data = json.dumps(full_log_data,  ensure_ascii=False)
-
         chosen_request[9] = updating_log('RESERVE', user, chosen_request)
         
         try:
