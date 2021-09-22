@@ -1,6 +1,3 @@
-import datetime
-import json
-
 from utils.notify_chat import notify_in_group_chat
 from utils.notify_universal import notify_someone
 

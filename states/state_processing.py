@@ -21,6 +21,7 @@ class Processing(StatesGroup):
     chunk_recive__currency = State()
     chunk_recive__sum = State()
     other_message = State()
+    log_text = State()
 
     enter_chosen_request_menu = State()
     enter_reserve_to_ready_menu = State()

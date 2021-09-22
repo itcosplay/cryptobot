@@ -17,7 +17,8 @@ def get_request_as_string(request):
 def updating_log (
     update_type:str,
     user:str,
-    request:str
+    request:str,
+    update_data:str=''
 ):
     '''
     Returns updated log for current action.
@@ -30,8 +31,21 @@ def updating_log (
         'action_date': log_time,
         'user_name': user,
         'entire_request': updated_request,
-        'additional data': 'empty'
+        'additional_data': 'empty'
     }
+
+    # update_type = update_type.split(':')
+
+    # if update_type[0] == 'MESSAGE':
+    #     log_data['additional_data'] = {
+    #         'text_message': update_type[1]
+    #     }
+
+    if update_type == 'MESSAGE':
+        log_data['additional_data'] = {
+            'text_message': update_data
+        }
+
 
     full_log_data = request[9]
     full_log_data = json.loads(full_log_data)

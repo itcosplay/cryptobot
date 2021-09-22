@@ -494,7 +494,7 @@ class DataFromSheet:
                 'action_date': log_time,
                 'user_name': creator_name,
                 'entire_request': entire_request,
-                'additional data': {
+                'additional_data': {
                     'permit_action': 'create_permit',
                     'permit_data': permit_text
                 }
