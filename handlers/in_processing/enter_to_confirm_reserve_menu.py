@@ -8,6 +8,7 @@ from states import Processing
 from utils import get_data_chosen_request
 from utils import notify_someone
 from utils import notify_in_group_chat
+from utils import updating_log
 from keyboards import cb_confirm_reserve
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
@@ -32,7 +33,10 @@ async def confirm_reserve_menu_handler(call:CallbackQuery, state:FSMContext):
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
         chosen_request[11] = 'Готово к выдаче'
-        chosen_request[10] = call.message.chat.username
+        user = call.message.chat.username
+        chosen_request[10] = user
+
+        chosen_request[9] = updating_log('RESERVE', user, chosen_request)
 
         try:
             result = await call.message.answer_sticker (

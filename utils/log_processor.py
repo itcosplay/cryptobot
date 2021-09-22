@@ -29,7 +29,8 @@ def updating_log (
         'ACTION_NAME': update_type,
         'action_date': log_time,
         'user_name': user,
-        'entire_request': updated_request
+        'entire_request': updated_request,
+        'additional data': 'empty'
     }
 
     full_log_data = request[9]

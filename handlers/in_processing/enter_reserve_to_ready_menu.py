@@ -8,6 +8,7 @@ from loader import sheet
 from utils import get_data_chosen_request
 from utils import notify_someone
 from utils import notify_in_group_chat
+from utils import updating_log
 from keyboards import cb_what_sum
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_what_sum_correct
@@ -74,7 +75,8 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         ###############################################
 
         chosen_request[11] = 'Готово к выдаче'
-        chosen_request[10] = call.message.chat.username
+        user = call.message.chat.username
+        chosen_request[10] = user
 
         if chosen_request[6][0] == '-':
             chosen_request[13] = chosen_request[6]
@@ -89,6 +91,8 @@ async def choose_currency(call:CallbackQuery, state:FSMContext):
         await call.message.answer (
             text = text
         )
+
+        chosen_request[9] = updating_log('RESERVE', user, chosen_request)
 
         try:
             result = await call.message.answer_sticker (

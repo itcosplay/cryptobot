@@ -12,6 +12,7 @@ from utils import get_text_before_close_request
 from utils import get_text_after_close_request
 from utils import notify_someone
 from utils import notify_in_group_chat
+from utils import updating_log
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_chosen_request
 from keyboards import create_kb_confirm_close_request
@@ -60,7 +61,8 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
             initial_com = initial_com + ' || ' + 'изначальная сумма EUR:' + initial_eur
 
         chosen_request[8] = initial_com
-        chosen_request[10] = call.message.chat.username
+        user = call.message.chat.username
+        chosen_request[10] = user
         chosen_request[11] = 'Исполнено'
 
         if chosen_request[12] != '0': chosen_request[5] = chosen_request[12]
@@ -79,7 +81,7 @@ async def blue_amount_menu(call:CallbackQuery, state:FSMContext):
         time_close=datetime.today().strftime('%H:%M (%d.%m)')
         chosen_request[15] = time_close
 
-        print(chosen_request)
+        chosen_request[9] = updating_log('CLOSE', user, chosen_request)
 
         text=get_text_after_close_request(chosen_request, initial_rub, initial_usd, initial_eur)
 

@@ -18,6 +18,7 @@ from utils import notify_in_group_chat
 from utils import notify_someone
 from utils import notify_someone_except_user
 from utils import get_text_after_change_request
+from utils import updating_log
 
 
 @dp.callback_query_handler(state=Processing.change_request_menu)
@@ -90,6 +91,8 @@ async def change_request_menu_handler(call:CallbackQuery, state:FSMContext):
         changed_request_id = changed_request[1]
         changed_request_date = changed_request[0]
         changed_request_numb = changed_request[2]
+
+        changed_request[9] = updating_log('CHANGE', username, changed_request)
         
         try:
             result = await call.message.answer_sticker (

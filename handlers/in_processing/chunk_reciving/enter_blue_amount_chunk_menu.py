@@ -9,6 +9,7 @@ from loader import dp, bot
 from states import Processing
 from loader import sheet
 from utils import get_data_chosen_request
+from utils import updating_log
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_what_bluе
 from keyboards import create_kb_confirm_blue
@@ -171,7 +172,10 @@ async def confirm_blue_amount(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'confirm':
         data_state = await state.get_data()
         chosen_request = data_state['chosen_request']
-        chosen_request[10] = call.message.chat.username
+
+        user = call.message.chat.username
+        chosen_request[10] = user
+        chosen_request[9] = updating_log('RECIVE', user, chosen_request)
         
         try:
             result = await call.message.answer_sticker (

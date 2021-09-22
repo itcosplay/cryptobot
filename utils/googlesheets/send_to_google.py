@@ -476,12 +476,32 @@ class DataFromSheet:
         log_time = datetime.datetime.today().strftime("%H:%M %d/%m/%y")
         entire_request = log_processor.get_request_as_string(inserRow)
 
+        
+
         log_data = [{
             'ACTION_NAME': 'CREATE_REQUEST',
             'action_date': log_time,
             'user_name': creator_name,
-            'entire_request': entire_request
+            'entire_request': entire_request,
+            'additional data': 'empty'
         }]
+
+        permit_text = state['permit']
+
+        if permit_text != 'данных нет...':
+            permit_log = {
+                'ACTION_NAME': 'PERMIT',
+                'action_date': log_time,
+                'user_name': creator_name,
+                'entire_request': entire_request,
+                'additional data': {
+                    'permit_action': 'create_permit',
+                    'permit_data': permit_text
+                }
+            }
+
+            log_data.append(permit_log)
+
 
         log_data = json.dumps(log_data, ensure_ascii=False)
 
@@ -491,8 +511,6 @@ class DataFromSheet:
         sheet.update(f'A{numb_empty_row}:Q{numb_empty_row}', [inserRow])
 
         self.sort_table_data()
-
-        permit_text = state['permit']
 
         return B__request_id, C__request_numb, permit_text, inserRow
 

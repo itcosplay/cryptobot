@@ -119,8 +119,6 @@ async def recive_chunk__sum_set(message:Message, state:FSMContext):
 
         await state.update_data(chosen_request=chosen_request)
 
-        print('CHUNK:')
-        print(chosen_request)
         text = get_data_chosen_request(chosen_request)
 
         await message.answer (
