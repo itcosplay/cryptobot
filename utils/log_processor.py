@@ -54,6 +54,10 @@ def updating_log (
         }
 
     full_log_data = request[9]
+    
+    if full_log_data == '0' or full_log_data == 0:
+        full_log_data = '[]'
+
     full_log_data = json.loads(full_log_data)
     full_log_data.append(log_data)
     full_log_data = json.dumps(full_log_data,  ensure_ascii=False)
