@@ -488,6 +488,19 @@ class DataFromSheet:
 
         permit_text = state['permit']
 
+        if I__comment != '0':
+            permit_log = {
+                'ACTION_NAME': 'COMMENT',
+                'action_date': log_time,
+                'user_name': creator_name,
+                'entire_request': entire_request,
+                'additional_data': {
+                    'comment_text': I__comment
+                }
+            }
+
+            log_data.append(permit_log)
+
         if permit_text != 'данных нет...':
             permit_log = {
                 'ACTION_NAME': 'PERMIT',
@@ -495,8 +508,7 @@ class DataFromSheet:
                 'user_name': creator_name,
                 'entire_request': entire_request,
                 'additional_data': {
-                    'permit_action': 'create_permit',
-                    'permit_data': permit_text
+                    'permit_status': 'Добавлен пропуск'
                 }
             }
 

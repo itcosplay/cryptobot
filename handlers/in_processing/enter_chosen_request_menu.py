@@ -11,6 +11,7 @@ from utils import get_data_chosen_request
 from utils import notify_someone
 from utils import notify_in_group_chat
 from utils import get_data_request_unpack
+from utils import updating_log
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
@@ -192,6 +193,7 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         chosen_request[14] = '0'
         chosen_request[16] = '0'
         req_id = chosen_request[1]
+        chosen_request[9] = updating_log('UNPACK', username, chosen_request)
 
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'

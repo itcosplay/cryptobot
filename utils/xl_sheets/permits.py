@@ -171,7 +171,7 @@ class DataPermits:
                 some_date = datetime.strptime(some_date, '%d.%m').date()
                 delta_time = current_date - some_date
 
-                if delta_time.days >= 2:
+                if delta_time.days >= 1:
                     
                     sheet.cell(row=i, column=1).value = ''
                     sheet.cell(row=i, column=2).value = ''

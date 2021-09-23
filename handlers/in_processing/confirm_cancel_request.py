@@ -12,6 +12,7 @@ from keyboards import create_kb_chosen_request
 from utils import get_data_chosen_request
 from utils import notify_in_group_chat
 from utils import notify_someone
+from utils import updating_log
 
 
 # from chosen_request_menu (btn: cancel_request)
@@ -19,14 +20,12 @@ from utils import notify_someone
 async def cancel_request(call:CallbackQuery, state:FSMContext):
     await call.answer()
     await call.message.delete()
-    await state.update_data(confirm_cancel_request='+')
 
     if call.data == 'cancel':
+        username = call.message.chat.username
         data_state = await state.get_data()
+
         request = data_state['chosen_request']
-        old_comment = request[8]
-        new_comment = f'{old_comment} суммы FGH до отмены: {request[5]} {request[6]} {request[7]}'
-        request[8] = new_comment
         request[5] = '0'
         request[6] = '0'
         request[7] = '0'
@@ -35,6 +34,7 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         request[13] = '0'
         request[14] = '0'
         request_id = request[1]
+        request[9] = updating_log('CANCEL', username, request)
 
         result = await call.message.answer_sticker (
             'CAACAgIAAxkBAAL9pmBTBOfTdmX0Vi66ktpCQjUQEbHZAAIGAAPANk8Tx8qi9LJucHYeBA'
@@ -59,7 +59,6 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
         
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
-        username = call.message.chat.username
         request[10] = username
         request_type_emoji = all_emoji[request[3]]
         request_id = request[2]
@@ -74,7 +73,6 @@ async def cancel_request(call:CallbackQuery, state:FSMContext):
 
         await notify_someone(text, 'admin', 'changer', 'executor')
         await notify_in_group_chat(text)
-
 
         await state.finish()
 

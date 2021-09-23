@@ -5,9 +5,10 @@ from aiogram.types import CallbackQuery, Message
 from aiogram.dispatcher import FSMContext
 
 from data import sticker
-from loader import dp, bot
-from states import Processing
+from loader import dp
+from loader import bot
 from loader import sheet
+from states import Processing
 from utils import get_data_chosen_request
 from utils import updating_log
 from keyboards import create_kb_coustom_main_menu

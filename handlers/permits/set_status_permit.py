@@ -1,12 +1,17 @@
-from aiogram.types import ReplyKeyboardRemove, CallbackQuery
+from aiogram.types import CallbackQuery
 from aiogram.dispatcher import FSMContext
 
-from loader import dp, bot, permit
-from states import Permitstate
 from data import all_emoji
+from data import sticker
+from loader import bot
+from loader import dp
+from loader import permit
+from loader import sheet
+from states import Permitstate
 from utils import notify_someone
 from utils import notify_in_group_chat
 from utils import permit_notify_data
+from utils import updating_log
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_set_status_prmt
 from keyboards import create_kb_confirm_single_permit
@@ -40,15 +45,45 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
     chosen_request = ''
 
     for request in current_requests:
-        
-        if chosen_permit[0] == request[1]:
+    
+        if permit_id == request[1]:
             chosen_request = request
 
             break
 
-
     if data_btn['type_btn'] == 'permit_ordered':
-        permit.update_permit_data(permit_id, 'заказан')
+        user = call.message.chat.username
+        chosen_request[9] = updating_log (
+            'PERMIT',
+            user,
+            chosen_request,
+            update_data='Пропуск заказан'
+        )
+
+        try:
+            result = await call.message.answer_sticker (
+                sticker['go_to_table']
+            )
+            permit.update_permit_data(permit_id, 'заказан')
+            sheet.replace_row(chosen_request)
+
+        except Exception:
+            await bot.delete_message (
+                chat_id=call.message.chat.id,
+                message_id=result.message_id
+            )
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            return
+
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+
         permit_warning = 'пропуск заказан'
         permit_ready = all_emoji['заказан']
         permit_notify = f'{permit_ready} #N{request_numb} пропуск заказан {permit_ready}'
@@ -61,7 +96,38 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
         await notify_in_group_chat(permit_notify)
 
     if data_btn['type_btn'] == 'in_office':
-        permit.update_permit_data(permit_id, 'отработан')
+        user = call.message.chat.username
+        chosen_request[9] = updating_log (
+            'PERMIT',
+            user,
+            chosen_request,
+            update_data='Клиент в офисе'
+        )
+
+        try:
+            result = await call.message.answer_sticker (
+                sticker['go_to_table']
+            )
+            permit.update_permit_data(permit_id, 'отработан')
+            sheet.replace_row(chosen_request)
+
+        except Exception:
+            await bot.delete_message (
+                chat_id=call.message.chat.id,
+                message_id=result.message_id
+            )
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось соединиться с гугл таблицей',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            return
+
+        await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
+
         permit_warning = 'гость прибыл в офис'
         permit_notify = f'⚠️ #N{request_numb} В ОФИСЕ ⚠️'
         ready_or_office = 'office'
@@ -82,14 +148,14 @@ async def set_status_permit(call:CallbackQuery, state:FSMContext):
         await Permitstate.confirm_delete_permit.set()
 
         return
-        
-
+    
     text = f'Все оповещены о том, что по заявке #N{request_numb} {permit_warning}'
     
     await call.message.answer (
         text=text,
         reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
     )
+
     await state.finish()
 
     return
@@ -124,18 +190,6 @@ async def delete_permit(call:CallbackQuery, state:FSMContext):
         await state.finish()
 
         return
-
-
-    # elif call.data == 'edit_numb':
-    #     data_state = await state.get_data()
-    #     permit_numb = data_state['permit_numb']
-    #     result = await call.message.answer(text=f'Старый номер {permit_numb}\nВведите новый номер пропуска')
-
-    #     await state.update_data(message_to_delete=result.message_id)
-    #     await Permitstate.single_permit_numb.set()
-
-    # elif call.data == 'edit_full_name':
-    #     pass
 
     elif call.data == 'back__main_menu':
         await call.message.answer (

@@ -236,6 +236,14 @@ async def add_another_comment(message:Message, state:FSMContext):
 
     comment = comment + message.text
     chosen_request[8] = comment
+    user = message.chat.username
+
+    chosen_request[9] = updating_log (
+        'COMMENT',
+        user,
+        chosen_request,
+        update_data=message.text
+    )
 
     try:
         result = await message.answer_sticker (
