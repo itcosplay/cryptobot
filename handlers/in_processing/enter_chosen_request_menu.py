@@ -271,7 +271,11 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         chosen_request = data_state['chosen_request']
 
         data_log = chosen_request[9]
-        beauty_text_log = beauty_text_log_builder(data_log)
+
+        if data_log == 0 or data_log == '0':
+            beauty_text_log = 'лог для этой заявки отсутствует'
+        else:
+            beauty_text_log = beauty_text_log_builder(data_log)
 
         await call.message.answer (
             text=beauty_text_log,
