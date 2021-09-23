@@ -1,3 +1,5 @@
+import traceback
+
 from aiogram.types import Update
 
 from loader import dp
@@ -87,5 +89,6 @@ async def errors_handler(update, exception):
 
     print('==ERROR==\nOther Error\n==ERROR==')
     print(exception)
-
+    traceback.print_exc()
+    
     return True

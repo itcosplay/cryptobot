@@ -12,6 +12,7 @@ from utils import notify_someone
 from utils import notify_in_group_chat
 from utils import get_data_request_unpack
 from utils import updating_log
+from utils import beauty_text_log_builder
 from keyboards import create_kb_coustom_main_menu
 from keyboards import cb_chosen_requests
 from keyboards import create_kb_what_sum
@@ -270,9 +271,10 @@ async def chosen_request_menu(call:CallbackQuery, state:FSMContext):
         chosen_request = data_state['chosen_request']
 
         data_log = chosen_request[9]
+        beauty_text_log = beauty_text_log_builder(data_log)
 
         await call.message.answer (
-            text=data_log,
+            text=beauty_text_log,
             reply_markup=create_kb_under_log()
         )
 

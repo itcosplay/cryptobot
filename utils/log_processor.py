@@ -2,6 +2,9 @@ import copy
 import datetime
 import json
 
+from data import all_emoji
+
+from .get_values_FGH_MNO import get_values_FGH_sort
 
 
 def get_request_as_string(request):
@@ -56,3 +59,39 @@ def updating_log (
     full_log_data = json.dumps(full_log_data,  ensure_ascii=False)
 
     return full_log_data
+
+
+def beauty_text_log_builder(data_log):
+    text = ''
+    count = 0
+    data_log = json.loads(data_log)
+
+    for event in data_log:
+        count += 1
+        date = event['action_date']
+        user = event['user_name']
+        request = get_request_as_array(event['entire_request'])
+        
+        if event['ACTION_NAME'] == 'CREATE_REQUEST':
+            request_numb = request[2]
+            request_type = request[3]
+            currencies = get_values_FGH_sort(request)
+
+            text += f'⚙️ Создание заявки N{request_numb}\n'
+            text += f'🕑 {date}\n'
+            text += f'{all_emoji[request_type]} {request_type}, суммы:\n'
+            text += f'{currencies[0]}{currencies[1]}{currencies[2]}' 
+            text = text + f'🧑‍🔧 @{user}'
+        
+        # if event['ACTION_NAME'] == 'COMMENT':
+        #     text += '\n'
+        #     text += '📝 Добавлен коментарий'
+
+    return text
+
+
+def get_request_as_array(request:str):
+    request = request.replace('\\\"', r'"')
+    request = json.loads(request)
+
+    return request

@@ -33,6 +33,7 @@ from .get_beauty_sum import get_beauty_sum
 
 from .log_processor import get_request_as_string
 from .log_processor import updating_log
+from .log_processor import beauty_text_log_builder
 
 from .googlesheets import send_to_google
 from .googlesheets import DataFromSheet
