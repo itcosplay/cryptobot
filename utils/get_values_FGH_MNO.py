@@ -1,4 +1,4 @@
-from traceback import print_tb
+from traceback import print_exc, print_tb
 from data import all_emoji
 
 def get_plus_FGH(request):
@@ -138,7 +138,6 @@ def get_values_FGH_sort(request):
             rub = rub.replace(',', '.')
             rub = all_emoji['плюс'] + rub + '₽' + '\n'
 
-        result.append(rub)
     else:
         rub = ''
 
@@ -159,9 +158,7 @@ def get_values_FGH_sort(request):
             usd = usd.replace(',', '.')
             usd = all_emoji['плюс'] + usd + '$' + '\n'
 
-        result.append(usd)
     else:
-
         usd = ''
 
     if request[7] != '0':
@@ -181,9 +178,12 @@ def get_values_FGH_sort(request):
             eur = eur.replace(',', '.')
             eur = all_emoji['плюс'] + eur + '€' + '\n'
 
-        result.append(eur)
     else:
         eur = ''
+
+    result.append(rub)
+    result.append(usd)
+    result.append(eur)
 
     result.sort()
 

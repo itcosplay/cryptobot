@@ -81,15 +81,40 @@ def beauty_text_log_builder(data_log):
             request_type = request[3]
             currencies = get_values_FGH_sort(request)
 
+            for currency in currencies:
+                if currency == '0': currency = ''
+
             text += f'⚙️ Создание заявки N{request_numb}\n'
             text += f'🕑 {date}\n'
             text += f'{all_emoji[request_type]} {request_type}, суммы:\n'
-            text += f'{currencies[0]}{currencies[1]}{currencies[2]}' 
-            text = text + f'🧑‍🔧 @{user}'
+            text += f'{currencies[0]}{currencies[1]}{currencies[2]}'
+            text += f'🧑‍🔧 @{user}'
         
-        # if event['ACTION_NAME'] == 'COMMENT':
-        #     text += '\n'
-        #     text += '📝 Добавлен коментарий'
+        if event['ACTION_NAME'] == 'COMMENT':
+            comment = event['additional_data']['comment_text']
+
+            text += '\n\n\n'
+            text += '📝 Добавлен коментарий\n'
+            text += f'🕑 {date}\n'
+            text += f'✏️ {comment}\n'
+            text += f'👤 @{user}'
+
+        if event['ACTION_NAME'] == 'PERMIT':
+            permit_status = event['additional_data']['permit_status']
+
+            text += '\n\n\n'
+            text += f'🎫 {permit_status}\n'
+            text += f'🕑 {date}\n'
+            text += f'👤 @{user}'
+
+        if event['ACTION_NAME'] == 'MESSAGE':
+            text_message = event['additional_data']['text_message']
+
+            text += '\n\n\n'
+            text += '✉️ Оставлено сообщение\n'
+            text += f'🕑 {date}\n'
+            text += f'📃 {text_message}\n'
+            text += f'👤 @{user}'
 
     return text
 
