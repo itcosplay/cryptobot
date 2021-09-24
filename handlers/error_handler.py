@@ -2,6 +2,7 @@ import traceback
 
 from aiogram.types import Update
 
+from loader import bot
 from loader import dp
 
 
@@ -108,3 +109,5 @@ async def errors_handler(update, exception):
         traceback.print_exc()
 
         return True
+
+    return True
