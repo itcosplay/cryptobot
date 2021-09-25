@@ -2,9 +2,12 @@ import copy
 import datetime
 import json
 
+from aiohttp.client import request
+
 from data import all_emoji
 
 from .get_values_FGH_MNO import get_values_FGH_sort
+from .request_data_functions import get_beauty_sum
 
 
 def get_request_as_string(request):
@@ -15,6 +18,20 @@ def get_request_as_string(request):
     str_request = str_request.replace('"', r'\"')
 
     return str_request
+
+
+def replace_shit_in_string(some_string:str, shit:str):
+    if shit == '\"':
+        some_string = some_string.replace('\\"', r'"')
+
+    return some_string
+
+
+def get_request_as_array(request:str):
+    request = request.replace('\\\"', r'"')
+    request = json.loads(request)
+
+    return request
 
 
 def updating_log (
@@ -63,6 +80,63 @@ def updating_log (
     full_log_data = json.dumps(full_log_data,  ensure_ascii=False)
 
     return full_log_data
+
+
+def get_text_after_change_request_for_log(old_request, changed_request):
+    # ['01.09', '16152t5', '8888', 'прием', 'change', '500', '0', '-500', 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
+    # ['02.09', '16152t5', '8888', 'прием', 'change',  500 , '0',  -500 , 'комментарий', '0', 'proprosh', 'В обработке', '0', '0', '0', '0', '0']
+    text = ''
+
+    if old_request[0] != changed_request[0]:
+        text = text + '\n🗓️ новая дата 🗓️\n'
+        text = text + old_request[0] + ' 👉 ' + changed_request[0]
+    
+    if old_request[2] != changed_request[2]:
+        text = text + '\n#️⃣ новый номер #️⃣\n'
+        text = text + '#N' + old_request[2] + ' 👉 ' + '#N' + changed_request[2]
+
+    if old_request[3] != changed_request[3]:
+        text = text + '\n🚻 новый тип 🚻\n'
+        text = text + old_request[3] + ' 👉 ' + changed_request[3]
+
+    if str(old_request[5]) != str(changed_request[5]) \
+    or str(old_request[6]) != str(changed_request[6]) \
+    or str(old_request[7]) != str(changed_request[7]):
+        text = text + '\n⚠️ изменение в суммах ⚠️'
+       
+        if str(old_request[5]) != str(changed_request[5]):
+            old_rub = str(old_request[5])
+            new_rub = str(changed_request[5])
+
+            old_rub = get_beauty_sum(old_rub)
+            new_rub = get_beauty_sum(new_rub)
+
+            text = text + '\n'
+            text = text + old_rub + '₽' + ' 👉 ' + new_rub + '₽'
+
+        if str(old_request[6]) != str(changed_request[6]):
+            old_usd = str(old_request[6])
+            new_usd = str(changed_request[6])
+
+            old_usd = get_beauty_sum(old_usd)
+            new_usd = get_beauty_sum(new_usd)
+
+            text = text + '\n'
+            text = text + old_usd + '$' + ' 👉 ' + new_usd + '$'
+
+        if str(old_request[7]) != str(changed_request[7]):
+            old_eur = str(old_request[7])
+            new_eur = str(changed_request[7])
+
+            old_eur = get_beauty_sum(old_eur)
+            new_eur = get_beauty_sum(new_eur)
+
+            text = text + '\n'
+            text = text + old_eur + '€' + ' 👉 ' + new_eur + '€'
+
+    text += '\n'
+
+    return text
 
 
 def beauty_text_log_builder(data_log):
@@ -116,11 +190,28 @@ def beauty_text_log_builder(data_log):
             text += f'📃 {text_message}\n'
             text += f'👤 @{user}'
 
+        if event['ACTION_NAME'] == 'CHANGE':
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            curr_request_condition = event['entire_request']
+            curr_request_condition = replace_shit_in_string (
+                curr_request_condition,
+                '\"'
+            )
+            curr_request_condition = json.loads(curr_request_condition)
+
+            text += '\n\n\n'
+            text += '↔️ Изменение в заявке\n'
+            text += f'🕑 {date}'
+            text += get_text_after_change_request_for_log (
+                prev_request_condition,
+                curr_request_condition
+            )
+            text += f'👤 @{user}'
+            
     return text
-
-
-def get_request_as_array(request:str):
-    request = request.replace('\\\"', r'"')
-    request = json.loads(request)
-
-    return request
