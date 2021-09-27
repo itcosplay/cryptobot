@@ -14,6 +14,10 @@
 
 при клонировани репозитория на другой компьютер или сервер:  
 `python -m venv venv`
+`virtualenv venv -p python3` - for mac
+
 `source venv/Scripts/activate`
+`source venv/bin/activate` - for mac
+
 `pip install -r requirements.txt`
 
