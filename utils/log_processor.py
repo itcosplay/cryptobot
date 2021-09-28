@@ -2,8 +2,6 @@ import copy
 import datetime
 import json
 
-from aiohttp.client import request
-
 from data import all_emoji
 
 from .get_values_FGH_MNO import get_values_FGH_sort
