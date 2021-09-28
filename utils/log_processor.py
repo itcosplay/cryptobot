@@ -290,7 +290,6 @@ def get_text_after_close_for_log(old_request, changed_request):
 
     if str(old_request[6]) != str(changed_request[6]) \
     and str(changed_request[6]) != '0':
-        print('we heere')
         old_usd = str(old_request[6])
         new_usd = str(changed_request[6])
 
@@ -330,6 +329,77 @@ def get_text_after_close_for_log(old_request, changed_request):
 
             text += '\n'
             text += new_eur + '€'
+
+    text += '\n'
+
+    return text
+
+
+def get_text_after_unpack_request_for_log(old_request, changed_request):
+    text = ''
+    
+    text = text + '💰 Распакованые суммы:'
+    
+    if str(old_request[12]) != str(changed_request[12]):
+        old_rub = str(old_request[12])
+        new_rub = str(changed_request[12])
+        blue_rub = get_beauty_blue(changed_request)
+
+        old_rub = get_beauty_sum(old_rub)
+        new_rub = get_beauty_sum(new_rub)
+
+        text += '\n'
+        text += f'{new_rub}₽{blue_rub} 👈 {old_rub}₽'
+
+    if str(old_request[13]) != str(changed_request[13]): 
+        old_usd = str(old_request[13])
+        new_usd = str(changed_request[13])
+
+        old_usd = get_beauty_sum(old_usd)
+        new_usd = get_beauty_sum(new_usd)
+
+        text += '\n'
+        text += f'{new_usd}$ 👈 {old_usd}$'
+
+    if str(old_request[14]) != str(changed_request[14]): 
+        old_eur = str(old_request[14])
+        new_eur = str(changed_request[14])
+
+        old_eur = get_beauty_sum(old_eur)
+        new_eur = get_beauty_sum(new_eur)
+
+        text += '\n'
+        text += f'{new_eur}€ 👈 {old_eur}€'
+
+    text += '\n'
+
+    return text
+
+
+def get_text_after_cancel_request_for_log(request):
+    text = ''
+    text = text + '💰 Суммы:'
+    
+    if str(request[5]) != '0':
+        old_rub = str(request[5])
+        old_rub = get_beauty_sum(old_rub)
+
+        text += '\n'
+        text += f'{old_rub}₽'
+
+    if str(request[6]) != '0':
+        old_usd = str(request[6])
+        old_usd = get_beauty_sum(old_usd)
+
+        text += '\n'
+        text += f'{old_usd}$'
+
+    if str(request[7]) != '0':
+        old_eur = str(request[7])
+        old_eur = get_beauty_sum(old_eur)
+
+        text += '\n'
+        text += f'{old_eur}€'
 
     text += '\n'
 
@@ -484,9 +554,41 @@ def beauty_text_log_builder(data_log):
             text += f'🧑‍🔧 @{user}'
 
         if event['ACTION_NAME'] == 'UNPACK':
-            pass
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            curr_request_condition = event['entire_request']
+            curr_request_condition = replace_shit_in_string (
+                curr_request_condition,
+                '\"'
+            )
+            curr_request_condition = json.loads(curr_request_condition)
+
+            text += '\n\n\n'
+            text += '📤 Заявка распакована\n'
+            text += f'🕑 {date}\n'
+            text += get_text_after_unpack_request_for_log (
+                prev_request_condition,
+                curr_request_condition
+            )
+            text += f'🧑‍🔧 @{user}'
 
         if event['ACTION_NAME'] == 'CANCEL':
-            pass
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            text += '\n\n\n'
+            text += '🗑️ Заявка отменена\n'
+            text += f'🕑 {date}\n'
+            text += get_text_after_cancel_request_for_log(prev_request_condition)
+            text += f'👤 @{user}'
     
     return text
