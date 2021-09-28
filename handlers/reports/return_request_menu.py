@@ -13,12 +13,14 @@ from keyboards import cb_finished_requests
 from keyboards import create_kb_change_fin_request
 from keyboards import create_kb_another_currecy_add_fin
 from keyboards import cb_anoter_currency_add_fin
+from keyboards import create_kb_under_log
 from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import notify_in_group_chat
 from utils import notify_someone
 from utils import notify_in_group_chat
 from utils import get_data_finished_request
+from utils import beauty_text_log_builder
 
 
 @dp.callback_query_handler(state=Reportsstate.return_request_menu)
@@ -72,6 +74,24 @@ async def change_menu_finished_req(call:CallbackQuery, state:FSMContext):
     data_state = await state.get_data()
     chosen_request = data_state['chosen_request']
 
+    if call.data == 'show_history':
+        data_log = chosen_request[9]
+
+        if data_log == 0 or data_log == '0':
+            beauty_text_log = 'лог для этой заявки отсутствует'
+        else:
+            beauty_text_log = beauty_text_log_builder(data_log)
+            # beauty_text_log = 'here will be full log'
+
+        await call.message.answer (
+            text=beauty_text_log,
+            reply_markup=create_kb_under_log()
+        )
+
+        await Reportsstate.request_log.set()
+
+        return
+
     if call.data == 'add_another_curr':
         await call.message.answer (
             text='Выберите вылюту, которую хотите добавить',
@@ -81,7 +101,6 @@ async def change_menu_finished_req(call:CallbackQuery, state:FSMContext):
         await Reportsstate.set_new_curr.set()
 
         return
-
 
     if call.data == 'change_sum':
         await call.message.answer (
@@ -392,3 +411,47 @@ async def set_change_sum_return(message:Message, state:FSMContext):
     await state.finish()
 
     return
+
+
+# from return_request_menu.py/type_btn == show_log
+@dp.callback_query_handler(state=Reportsstate.request_log)
+async def log_message_handler(call:CallbackQuery, state:FSMContext):
+    await call.answer()
+    await call.message.delete()
+
+    if call.data == 'back_to_request':
+        data_state = await state.get_data()
+        chosen_request = data_state['chosen_request']
+
+        text = get_data_finished_request(chosen_request)
+        
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_change_fin_request()
+        )
+
+        await Reportsstate.change_fin_request.set()
+
+        return
+
+    elif call.data == 'back_to_main_menu':
+
+        await call.message.answer (
+            text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+
+        await state.finish()
+        
+        return
+
+    else:
+        
+        await call.message.answer (
+            text='Выход из меню "В РАБОТЕ". Используйте главное меню.',
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+
+        await state.finish()
+        
+        return

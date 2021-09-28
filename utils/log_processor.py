@@ -34,6 +34,30 @@ def get_request_as_array(request:str):
     return request
 
 
+def get_beauty_blue(request):
+    sum = str(request[16])
+
+    if sum == '0':
+
+        return ''
+
+    if sum[0] == '-':
+        sum = sum[1:]
+        sum = int(sum)
+        sum = f'{sum:,}'
+        sum = sum.replace(',', '.')
+        sum = '-' + sum
+        sum = all_emoji['синих'] + sum
+        
+    else:
+        sum = int(sum)
+        sum = f'{sum:,}'
+        sum = sum.replace(',', '.')
+        sum = all_emoji['синих'] + sum
+
+    return str(sum)
+
+
 def updating_log (
     update_type:str,
     user:str,
@@ -88,21 +112,21 @@ def get_text_after_change_request_for_log(old_request, changed_request):
     text = ''
 
     if old_request[0] != changed_request[0]:
-        text = text + '\n🗓️ новая дата 🗓️\n'
+        text = text + '\n🗓️ Новая дата:\n'
         text = text + old_request[0] + ' 👉 ' + changed_request[0]
     
     if old_request[2] != changed_request[2]:
-        text = text + '\n#️⃣ новый номер #️⃣\n'
+        text = text + '\n#️⃣ Новый номер:\n'
         text = text + '#N' + old_request[2] + ' 👉 ' + '#N' + changed_request[2]
 
     if old_request[3] != changed_request[3]:
-        text = text + '\n🚻 новый тип 🚻\n'
+        text = text + '\n🚻 Переопределен тип:\n'
         text = text + old_request[3] + ' 👉 ' + changed_request[3]
 
     if str(old_request[5]) != str(changed_request[5]) \
     or str(old_request[6]) != str(changed_request[6]) \
     or str(old_request[7]) != str(changed_request[7]):
-        text = text + '\n⚠️ изменение в суммах ⚠️'
+        text = text + '\n💰 Изменение в суммах:'
        
         if str(old_request[5]) != str(changed_request[5]):
             old_rub = str(old_request[5])
@@ -133,6 +157,169 @@ def get_text_after_change_request_for_log(old_request, changed_request):
 
             text = text + '\n'
             text = text + old_eur + '€' + ' 👉 ' + new_eur + '€'
+
+    text += '\n'
+
+    return text
+
+
+def get_text_after_reserve_for_log(old_request, changed_request):
+    text = ''
+
+    if str(old_request[12]) != str(changed_request[12]) \
+    or str(old_request[13]) != str(changed_request[13]) \
+    or str(old_request[14]) != str(changed_request[14]):
+        text = text + '💰 Сумма:'
+       
+        if str(old_request[12]) != str(changed_request[12]) \
+        and str(changed_request[12])[0] == '-':
+            # old_rub = str(old_request[5])
+            new_rub = str(changed_request[12])
+
+            # old_rub = get_beauty_sum(old_rub)
+            new_rub = get_beauty_sum(new_rub)
+
+            text += '\n'
+            text += new_rub + '₽'
+            text += get_beauty_blue(changed_request)
+            
+
+        if str(old_request[13]) != str(changed_request[13]) \
+        and str(changed_request[13])[0] == '-':
+            # old_usd = str(old_request[6])
+            new_usd = str(changed_request[13])
+
+            # old_usd = get_beauty_sum(old_usd)
+            new_usd = get_beauty_sum(new_usd)
+
+            text += '\n'
+            text += new_usd + '$'
+
+        if str(old_request[14]) != str(changed_request[14]) \
+        and str(changed_request[14])[0] == '-':
+            # old_eur = str(old_request[7])
+            new_eur = str(changed_request[14])
+
+            # old_eur = get_beauty_sum(old_eur)
+            new_eur = get_beauty_sum(new_eur)
+
+            text += '\n'
+            text += new_eur + '€'
+
+    text += '\n'
+
+    return text
+
+
+def get_text_after_recive_for_log(old_request, changed_request):
+    text = ''
+
+    if str(old_request[12]) != str(changed_request[12]) \
+    or str(old_request[13]) != str(changed_request[13]) \
+    or str(old_request[14]) != str(changed_request[14]):
+        text = text + '💰 Сумма:'
+       
+        if str(old_request[12]) != str(changed_request[12]) \
+        and str(changed_request[12])[0] != '-':
+            # old_rub = str(old_request[5])
+            new_rub = str(changed_request[12])
+
+            # old_rub = get_beauty_sum(old_rub)
+            new_rub = get_beauty_sum(new_rub)
+
+            text += '\n'
+            text += new_rub + '₽'
+            text += get_beauty_blue(changed_request)
+            
+
+        if str(old_request[13]) != str(changed_request[13]) \
+        and str(changed_request[13])[0] != '-':
+            # old_usd = str(old_request[6])
+            new_usd = str(changed_request[13])
+
+            # old_usd = get_beauty_sum(old_usd)
+            new_usd = get_beauty_sum(new_usd)
+
+            text += '\n'
+            text += new_usd + '$'
+
+        if str(old_request[14]) != str(changed_request[14]) \
+        and str(changed_request[14])[0] != '-':
+            # old_eur = str(old_request[7])
+            new_eur = str(changed_request[14])
+
+            # old_eur = get_beauty_sum(old_eur)
+            new_eur = get_beauty_sum(new_eur)
+
+            text += '\n'
+            text += new_eur + '€'
+
+    text += '\n'
+
+    return text
+
+
+def get_text_after_close_for_log(old_request, changed_request):
+    text = ''
+    
+    text = text + '💰 Суммы:'
+    
+    if str(old_request[5]) != str(changed_request[5]):
+        old_rub = str(old_request[5])
+        new_rub = str(changed_request[5])
+        blue_rub = get_beauty_blue(changed_request)
+
+        old_rub = get_beauty_sum(old_rub)
+        new_rub = get_beauty_sum(new_rub)
+
+        text += '\n'
+        # text += old_rub + '₽' + ' 👈 ' + new_rub + '₽'
+        text += f'{new_rub}₽{blue_rub} 👈 {old_rub}₽'
+
+    else:
+        new_rub = str(changed_request[5])
+        new_rub = get_beauty_sum(new_rub)
+
+        text += '\n'
+        text += new_rub + '₽'
+        text += get_beauty_blue(changed_request)
+ 
+
+    if str(old_request[6]) != str(changed_request[6]):
+        old_usd = str(old_request[6])
+        new_usd = str(changed_request[6])
+
+        old_usd = get_beauty_sum(old_usd)
+        new_usd = get_beauty_sum(new_usd)
+
+        text += '\n'
+        # text += old_usd + '$' + ' 👉 ' + new_usd + '$'
+        text += f'{new_usd}$ 👈 {old_usd}$'
+
+    else:
+        new_usd = str(changed_request[6])
+        new_usd = get_beauty_sum(new_usd)
+
+        text += '\n'
+        text += new_usd + '$'
+
+    if str(old_request[7]) != str(changed_request[7]):
+        old_eur = str(old_request[7])
+        new_eur = str(changed_request[7])
+
+        old_eur = get_beauty_sum(old_eur)
+        new_eur = get_beauty_sum(new_eur)
+
+        text += '\n'
+        # text += old_eur + '€' + ' 👉 ' + new_eur + '€'
+        text += f'{new_eur}€ 👈 {old_eur}€'
+
+    else:
+        new_eur = str(changed_request[7])
+        new_eur = get_beauty_sum(new_eur)
+
+        text += '\n'
+        text += new_eur + '€'
 
     text += '\n'
 
@@ -206,12 +393,90 @@ def beauty_text_log_builder(data_log):
             curr_request_condition = json.loads(curr_request_condition)
 
             text += '\n\n\n'
-            text += '↔️ Изменение в заявке\n'
+            text += '⚠️ Изменение в заявке\n'
             text += f'🕑 {date}'
             text += get_text_after_change_request_for_log (
                 prev_request_condition,
                 curr_request_condition
             )
             text += f'👤 @{user}'
-            
+
+        if event['ACTION_NAME'] == 'RESERVE':
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            curr_request_condition = event['entire_request']
+            curr_request_condition = replace_shit_in_string (
+                curr_request_condition,
+                '\"'
+            )
+            curr_request_condition = json.loads(curr_request_condition)
+
+            text += '\n\n\n'
+            text += '💸 Отложено к выдаче\n'
+            text += f'🕑 {date}\n'
+            text += get_text_after_reserve_for_log (
+                prev_request_condition,
+                curr_request_condition
+            )
+            text += f'👤 @{user}'
+
+        if event['ACTION_NAME'] == 'RECIVE':
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            curr_request_condition = event['entire_request']
+            curr_request_condition = replace_shit_in_string (
+                curr_request_condition,
+                '\"'
+            )
+            curr_request_condition = json.loads(curr_request_condition)
+
+            text += '\n\n\n'
+            text += '💵 Принято частично\n'
+            text += f'🕑 {date}\n'
+            text += get_text_after_recive_for_log (
+                prev_request_condition,
+                curr_request_condition
+            )
+            text += f'👤 @{user}'
+
+        if event['ACTION_NAME'] == 'CLOSE':
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            curr_request_condition = event['entire_request']
+            curr_request_condition = replace_shit_in_string (
+                curr_request_condition,
+                '\"'
+            )
+            curr_request_condition = json.loads(curr_request_condition)
+
+            text += '\n\n\n'
+            text += '✅ Заявка закрыта\n'
+            text += f'🕑 {date}\n'
+            text += get_text_after_close_for_log (
+                prev_request_condition,
+                curr_request_condition
+            )
+            text += f'🧑‍🔧 @{user}'
+
+        if event['ACTION_NAME'] == 'UNPACK':
+            pass
+
+        if event['ACTION_NAME'] == 'CANCEL':
+            pass
+    
     return text

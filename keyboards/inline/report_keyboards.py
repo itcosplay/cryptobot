@@ -203,13 +203,19 @@ def create_kb_change_fin_request():
     
     keyboard.add (
         InlineKeyboardButton (
-            text='добавить другую валюту',
+            text='посмотреть историю',
+            callback_data='show_history'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
+            text='добавить валюту с возвратом в работу',
             callback_data='add_another_curr'
         )
     )
     keyboard.add (
         InlineKeyboardButton (
-            text='изменить сумму',
+            text='изменить сумму с возвратом в работу',
             callback_data='change_sum'
         )
     )

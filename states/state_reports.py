@@ -1,4 +1,5 @@
 from aiogram.dispatcher.filters.state import StatesGroup, State
+from aiohttp.client import request
 
 
 class Reportsstate(StatesGroup):
@@ -22,5 +23,6 @@ class Reportsstate(StatesGroup):
     new_curr_sign = State()
     add_curr_amount = State()
     daily_report_text = State()
+    request_log = State()
 
     
