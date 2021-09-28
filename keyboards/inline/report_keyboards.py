@@ -221,6 +221,12 @@ def create_kb_change_fin_request():
     )
     keyboard.add (
         InlineKeyboardButton (
+            text='назад к заявкам',
+            callback_data='back_to_requests'
+        )
+    )
+    keyboard.add (
+        InlineKeyboardButton (
             text=f'назад {back__main_menu} главное меню',
             callback_data='back__main_menu'
         )

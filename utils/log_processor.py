@@ -264,7 +264,8 @@ def get_text_after_close_for_log(old_request, changed_request):
     
     text = text + '💰 Суммы:'
     
-    if str(old_request[5]) != str(changed_request[5]):
+    if str(old_request[5]) != str(changed_request[5]) \
+    and str(changed_request[5]) != '0':
         old_rub = str(old_request[5])
         new_rub = str(changed_request[5])
         blue_rub = get_beauty_blue(changed_request)
@@ -278,14 +279,18 @@ def get_text_after_close_for_log(old_request, changed_request):
 
     else:
         new_rub = str(changed_request[5])
-        new_rub = get_beauty_sum(new_rub)
+        
+        if new_rub != '0':
+            new_rub = get_beauty_sum(new_rub)
 
-        text += '\n'
-        text += new_rub + '₽'
-        text += get_beauty_blue(changed_request)
+            text += '\n'
+            text += new_rub + '₽'
+            text += get_beauty_blue(changed_request)
  
 
-    if str(old_request[6]) != str(changed_request[6]):
+    if str(old_request[6]) != str(changed_request[6]) \
+    and str(changed_request[6]) != '0':
+        print('we heere')
         old_usd = str(old_request[6])
         new_usd = str(changed_request[6])
 
@@ -298,12 +303,15 @@ def get_text_after_close_for_log(old_request, changed_request):
 
     else:
         new_usd = str(changed_request[6])
-        new_usd = get_beauty_sum(new_usd)
 
-        text += '\n'
-        text += new_usd + '$'
+        if new_usd != '0':
+            new_usd = get_beauty_sum(new_usd)
 
-    if str(old_request[7]) != str(changed_request[7]):
+            text += '\n'
+            text += new_usd + '$'
+
+    if str(old_request[7]) != str(changed_request[7]) \
+    and str(changed_request[7]) != '0':
         old_eur = str(old_request[7])
         new_eur = str(changed_request[7])
 
@@ -316,10 +324,12 @@ def get_text_after_close_for_log(old_request, changed_request):
 
     else:
         new_eur = str(changed_request[7])
-        new_eur = get_beauty_sum(new_eur)
+        
+        if new_eur != '0':
+            new_eur = get_beauty_sum(new_eur)
 
-        text += '\n'
-        text += new_eur + '€'
+            text += '\n'
+            text += new_eur + '€'
 
     text += '\n'
 

@@ -14,6 +14,7 @@ from keyboards import create_kb_change_fin_request
 from keyboards import create_kb_another_currecy_add_fin
 from keyboards import cb_anoter_currency_add_fin
 from keyboards import create_kb_under_log
+from keyboards import create_kb_finished_requests
 from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import notify_in_group_chat
@@ -92,7 +93,7 @@ async def change_menu_finished_req(call:CallbackQuery, state:FSMContext):
 
         return
 
-    if call.data == 'add_another_curr':
+    elif call.data == 'add_another_curr':
         await call.message.answer (
             text='Выберите вылюту, которую хотите добавить',
             reply_markup=create_kb_another_currecy_add_fin(chosen_request)
@@ -102,13 +103,26 @@ async def change_menu_finished_req(call:CallbackQuery, state:FSMContext):
 
         return
 
-    if call.data == 'change_sum':
+    elif call.data == 'change_sum':
         await call.message.answer (
             text='Выберите cумму, которую хотите изменить',
             reply_markup=create_kb_change_sum_finished_req(chosen_request)
         )
 
         await Reportsstate.set_change_curr.set()
+
+        return
+
+    elif call.data == 'back_to_requests':
+        data_state = await state.get_data()
+        finished_requests = data_state['finished_requests']
+
+        await call.message.answer (
+            text='Завершенные заявки:',
+            reply_markup=create_kb_finished_requests(finished_requests)
+        )
+
+        await Reportsstate.return_request_menu.set()
 
         return
 
@@ -121,6 +135,7 @@ async def change_menu_finished_req(call:CallbackQuery, state:FSMContext):
         await state.finish()
 
         return
+
 
 # ДОБАВЛЯЕМ НОВУЮ ВАЛЮТУ
 @dp.callback_query_handler(state=Reportsstate.set_new_curr)
@@ -166,6 +181,7 @@ async def set_new_curr_finished_req(call:CallbackQuery, state:FSMContext):
         await state.finish()
         
         return
+
 
 # ДОБАВЛЯЕМ НОВУЮ ВАЛЮТУ
 @dp.message_handler(state=Reportsstate.add_curr_amount)
@@ -413,7 +429,7 @@ async def set_change_sum_return(message:Message, state:FSMContext):
     return
 
 
-# from return_request_menu.py/type_btn == show_log
+# show_history
 @dp.callback_query_handler(state=Reportsstate.request_log)
 async def log_message_handler(call:CallbackQuery, state:FSMContext):
     await call.answer()
