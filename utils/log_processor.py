@@ -404,6 +404,36 @@ def get_text_after_cancel_request_for_log(request):
     return text
 
 
+def get_text_after_return_request(request):
+    text = ''
+    text = text + '💰 Суммы:'
+    
+    if str(request[5]) != '0':
+        old_rub = str(request[5])
+        old_rub = get_beauty_sum(old_rub)
+
+        text += '\n'
+        text += f'{old_rub}₽'
+
+    if str(request[6]) != '0':
+        old_usd = str(request[6])
+        old_usd = get_beauty_sum(old_usd)
+
+        text += '\n'
+        text += f'{old_usd}$'
+
+    if str(request[7]) != '0':
+        old_eur = str(request[7])
+        old_eur = get_beauty_sum(old_eur)
+
+        text += '\n'
+        text += f'{old_eur}€'
+
+    text += '\n'
+
+    return text
+
+
 def beauty_text_log_builder(data_log):
     text = ''
     count = 0
@@ -573,6 +603,27 @@ def beauty_text_log_builder(data_log):
                 prev_request_condition,
                 curr_request_condition
             )
+            text += f'🧑‍🔧 @{user}'
+
+        if event['ACTION_NAME'] == 'RETURN':
+            prev_request_condition = data_log[count - 2]['entire_request']
+            prev_request_condition = replace_shit_in_string (
+                prev_request_condition,
+                '\"'
+            )
+            prev_request_condition = json.loads(prev_request_condition)
+
+            curr_request_condition = event['entire_request']
+            curr_request_condition = replace_shit_in_string (
+                curr_request_condition,
+                '\"'
+            )
+            curr_request_condition = json.loads(curr_request_condition)
+
+            text += '\n\n\n'
+            text += '⚙️ Возвращена в работу\n'
+            text += f'🕑 {date}\n'
+            text += get_text_after_return_request(curr_request_condition)
             text += f'🧑‍🔧 @{user}'
 
         if event['ACTION_NAME'] == 'CANCEL':

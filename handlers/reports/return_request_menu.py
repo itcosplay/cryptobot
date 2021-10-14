@@ -1,5 +1,3 @@
-import data
-import traceback
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
 from aiogram.types import CallbackQuery
@@ -17,11 +15,14 @@ from keyboards import create_kb_under_log
 from keyboards import create_kb_finished_requests
 from loader import dp, sheet, bot
 from states import Reportsstate
+from utils import beauty_text_log_builder
+from utils import get_data_finished_request
 from utils import notify_in_group_chat
 from utils import notify_someone
 from utils import notify_in_group_chat
-from utils import get_data_finished_request
-from utils import beauty_text_log_builder
+from utils import updating_log
+
+
 
 
 @dp.callback_query_handler(state=Reportsstate.return_request_menu)
@@ -235,9 +236,7 @@ async def set_sum_return(message:Message, state:FSMContext):
     chosen_request[16] = '0'
     username = message.chat.username
     chosen_request[10] = username
-
-    old_comment = chosen_request[8]
-    chosen_request[8] = old_comment + f' * возвращена в обработку с новой валютой ({new_curr})'
+    chosen_request[9] = updating_log('RETURN', username, chosen_request)
 
     try:
         result = await message.answer_sticker (
@@ -383,9 +382,7 @@ async def set_change_sum_return(message:Message, state:FSMContext):
     chosen_request[16] = '0'
     username = message.chat.username
     chosen_request[10] = username
-
-    old_comment = chosen_request[8]
-    chosen_request[8] = old_comment + f' * возвращена в обработку с измененной суммой'
+    chosen_request[9] = updating_log('RETURN', username, chosen_request)
 
     try:
         result = await message.answer_sticker (
