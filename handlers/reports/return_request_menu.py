@@ -23,8 +23,6 @@ from utils import notify_in_group_chat
 from utils import updating_log
 
 
-
-
 @dp.callback_query_handler(state=Reportsstate.return_request_menu)
 async def show_finished_request(call:CallbackQuery, state:FSMContext):
     await call.answer()
@@ -298,14 +296,14 @@ async def set_new_curr_finished_req(call:CallbackQuery, state:FSMContext):
     if data_btn['type_btn'] == 'change_sum':
         await state.update_data(set_change_curr=data_btn['curr'])
 
-        data_state = await state.get_data()
-        chosen_request = data_state['chosen_request']
+        # data_state = await state.get_data()
+        # chosen_request = data_state['chosen_request']
 
-        if chosen_request[3] == 'выдача в офисе' or chosen_request[3] == 'доставка' or chosen_request[3] == 'кэшин':
-            await state.update_data(new_curr_sign='-')
+        # if chosen_request[3] == 'выдача в офисе' or chosen_request[3] == 'доставка' or chosen_request[3] == 'кэшин':
+        #     await state.update_data(new_curr_sign='-')
 
-        else:
-            await state.update_data(new_curr_sign='')
+        # else:
+        #     await state.update_data(new_curr_sign='')
 
         result = await call.message.answer (
             text='Введите новую сумму'
@@ -360,24 +358,28 @@ async def set_change_sum_return(message:Message, state:FSMContext):
 
         return
 
-    new_curr = data_state['set_change_curr']
-    new_curr_sign = data_state['new_curr_sign']
-    full_new_sum = new_curr_sign + message.text
+    set_change_curr = data_state['set_change_curr']
     chosen_request = data_state['chosen_request']
 
-    if new_curr == 'rub':
-        chosen_request[5] = full_new_sum
-        chosen_request[12] = '0'
+    if set_change_curr == 'rub':
+        if chosen_request[5][0] == '-':
+            chosen_request[5] = str(0 - int(sum_amount))
+        else: chosen_request[5] = sum_amount
 
-    if new_curr == 'usd':
-        chosen_request[6] = full_new_sum
-        chosen_request[13] = '0'
+    if set_change_curr == 'usd':
+        if chosen_request[6][0] == '-':
+            chosen_request[6] = str(0 - int(sum_amount))
+        else: chosen_request[6] = sum_amount
 
-    if new_curr == 'eur':
-        chosen_request[7] = full_new_sum
-        chosen_request[14] = '0'
+    if set_change_curr == 'eur':
+        if chosen_request[7][0] == '-':
+            chosen_request[7] = str(0 - int(sum_amount))
+        else: chosen_request[7] = sum_amount
 
     chosen_request[11] = 'В обработке'
+    chosen_request[12] = '0'
+    chosen_request[13] = '0'
+    chosen_request[14] = '0'
     chosen_request[15] = '0'
     chosen_request[16] = '0'
     username = message.chat.username

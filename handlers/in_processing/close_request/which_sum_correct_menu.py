@@ -28,7 +28,7 @@ async def set_currency_to_correct(call:CallbackQuery, state:FSMContext):
 
     if data_btn['type_btn'] == 'change_curr':
         await state.update_data(close__currency=data_btn['curr'])
-        data_state = await state.get_data()
+        # data_state = await state.get_data()
 
         result = await call.message.answer (
             text='C какой суммой хотите закрыть?'
@@ -85,17 +85,17 @@ async def close__sum_set(message:Message, state:FSMContext):
     correct_sum = data_state['close__sum']
 
     if correct_currency == 'rub':
-        if chosen_request[12][0] == '-':
+        if chosen_request[5][0] == '-':
             chosen_request[12] = str(0 - int(correct_sum))
         else: chosen_request[12] = correct_sum
 
     if correct_currency == 'usd':
-        if chosen_request[13][0] == '-':
+        if chosen_request[6][0] == '-':
             chosen_request[13] = str(0 - int(correct_sum))
         else: chosen_request[13] = correct_sum
 
     if correct_currency == 'eur':
-        if chosen_request[14][0] == '-':
+        if chosen_request[7][0] == '-':
             chosen_request[14] = str(0 - int(correct_sum))
         else: chosen_request[14] = correct_sum
 
