@@ -11,6 +11,7 @@ from loader import dp, sheet, bot
 from states import Reportsstate
 from utils import get_value_for_reports
 from utils import get_values_FGH
+from utils import get_minus_MNO
 
 
 @dp.callback_query_handler(state=Reportsstate.date_daily_report)
@@ -102,7 +103,7 @@ async def show_daily_report(call:CallbackQuery, state:FSMContext):
             ready_req = 'Отложены к выдаче:\n'
 
             for request in requests_ready_to_give:
-                rub, usd, eur = get_values_FGH(request)
+                rub, usd, eur = get_minus_MNO(request)
                 if usd != '' or eur != '': rub = rub + ', '
                 if eur != '': usd = usd + ', '
                 if rub == ', ': rub = ''

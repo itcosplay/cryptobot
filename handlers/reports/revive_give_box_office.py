@@ -71,7 +71,7 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
                 ready_req = '\nОтложены к выдаче:\n'
 
                 for request in requests_ready_to_give:
-                    rub, usd, eur = get_values_FGH(request)
+                    rub, usd, eur = get_minus_MNO(request)
                     if usd != '' or eur != '': rub = rub + ', '
                     if eur != '': usd = usd + ', '
                     if rub == ', ': rub = ''
@@ -166,7 +166,7 @@ async def show_reports_menu(call:CallbackQuery, state:FSMContext):
                 ready_req = '\nОтложены к выдаче:\n'
 
                 for request in requests_ready_to_give:
-                    rub, usd, eur = get_values_FGH(request)
+                    rub, usd, eur = get_minus_MNO(request)
                     if usd != '' or eur != '': rub = rub + ', '
                     if eur != '': usd = usd + ', '
                     if rub == ', ': rub = ''
