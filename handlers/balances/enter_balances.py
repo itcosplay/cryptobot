@@ -193,7 +193,8 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
 
         try:
             # C1A, C1T, C1D, S1V, total = sheet.get_card_balances()
-            C1A, C1T, C1D, C1DV, C1AB, total = sheet.get_card_balances()
+            # C1A, C1T, C1D, C1DV, C1AB, total = sheet.get_card_balances()
+            C1T, C1D, C1DV, total = sheet.get_card_balances()
 
         except Exception as e:
             print(e)
@@ -210,22 +211,23 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
 
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
-        C1A = float(C1A)
-        C1A = get_single_value_float(C1A, 'rub')
+        # C1A = float(C1A)
+        # C1A = get_single_value_float(C1A, 'rub')
         C1T = float(C1T)
         C1T = get_single_value_float(C1T, 'rub')
         C1D = float(C1D)
         C1D = get_single_value_float(C1D, 'rub')
         C1DV = float(C1DV)
         C1DV = get_single_value_float(C1DV, 'rub')
-        C1AB = float(C1AB)
-        C1AB = get_single_value_float(C1AB, 'rub')
+        # C1AB = float(C1AB)
+        # C1AB = get_single_value_float(C1AB, 'rub')
         # S1V = float(S1V)
         # S1V = get_single_value_float(S1V, 'rub')
         total = float(total)
         total = get_single_value_float(total, 'rub')
         # text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nСПВ: {S1V}\n\nВсего на картах: {total}'
-        text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\nС1АВ: {C1AB}\n\nВсего на картах: {total}'
+        # text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\nС1АВ: {C1AB}\n\nВсего на картах: {total}'
+        text = f'Балансы на карах:\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\n\nВсего на картах: {total}'
 
         await call.message.answer (
             text=text,

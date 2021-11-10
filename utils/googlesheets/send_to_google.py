@@ -295,8 +295,8 @@ class DataFromSheet:
         sheet = self.get_google_sheet_card_balance()
         data = sheet.batch_get(['B5:B9'])[0]
 
-        C1A = data[0][0]
-        C1A = C1A.replace(',', '.')
+        # C1A = data[0][0]
+        # C1A = C1A.replace(',', '.')
 
         C1T = data[1][0]
         C1T = C1T.replace(',', '.')
@@ -307,18 +307,20 @@ class DataFromSheet:
         C1DV = data[3][0]
         C1DV = C1DV.replace(',', '.')
 
-        C1AB = data[4][0]
-        C1AB = C1AB.replace(',', '.')
+        # C1AB = data[4][0]
+        # C1AB = C1AB.replace(',', '.')
 
         # S1V = data[3][0]
         # S1V = S1V.replace(',', '.')
 
         # total = float(C1A) + float(C1T) + float(C1D) + float(S1V)
-        total = float(C1A) + float(C1T) + float(C1D) + float(C1DV) + float(C1AB)
+        # total = float(C1A) + float(C1T) + float(C1D) + float(C1DV) + float(C1AB)
+        total = float(C1T) + float(C1D) + float(C1DV)
         total = f"{total:.{2}f}"
 
         # return C1A, C1T, C1D, S1V, total
-        return C1A, C1T, C1D, C1DV, C1AB, total
+        # return C1A, C1T, C1D, C1DV, C1AB, total
+        return C1T, C1D, C1DV, total
 
 
     def sort_table_data(self):
