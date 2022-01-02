@@ -13,10 +13,10 @@
 `pip freeze > requirements.txt`
 
 при клонировани репозитория на другой компьютер или сервер:  
-`python -m venv venv`
-`virtualenv venv -p python3` - for mac
+`python -m venv venv`  
+`python3 -m venv venv` - for mac
 
-`source venv/Scripts/activate`
+`source venv/Scripts/activate`  
 `source venv/bin/activate` - for mac
 
 `pip install -r requirements.txt`
