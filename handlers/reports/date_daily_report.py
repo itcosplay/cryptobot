@@ -146,7 +146,8 @@ async def show_daily_report(call:CallbackQuery, state:FSMContext):
 
     repl_text = f'Пополнений на карты за {date}: {replenishment}\n\n'
 
-    text = deal_amount_text + up_text + down_text + remain + repl_text  + current_req + requests + ready_req
+    # text = deal_amount_text + up_text + down_text + remain + repl_text  + current_req + requests + ready_req
+    text = deal_amount_text + up_text + down_text + remain + current_req + requests + ready_req
 
     await state.update_data(daily_report_text=text)
 
