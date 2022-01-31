@@ -227,7 +227,7 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
         total = get_single_value_float(total, 'rub')
         # text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nСПВ: {S1V}\n\nВсего на картах: {total}'
         # text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\nС1АВ: {C1AB}\n\nВсего на картах: {total}'
-        text = f'Балансы на карах:\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\n\nВсего на картах: {total}'
+        text = f'Балансы на картах:\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\n\nВсего на картах: {total}'
 
         await call.message.answer (
             text=text,
