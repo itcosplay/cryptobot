@@ -26,6 +26,7 @@ class SmsInfoSheet:
 
         return sheet
 
+
     def check_sms(self, sms_numb):
         sheet = self.get_google_sheet()
 
@@ -37,6 +38,7 @@ class SmsInfoSheet:
         else:
 
             return False
+
 
     def push_data(self, state, user):
         sheet = self.get_google_sheet()
@@ -70,7 +72,16 @@ class SmsInfoSheet:
         return operation_type, card, sms_numb, who_waste, for_what_waste, note_waste
 
 
+    def get_box_office_data(self):
+        sheet = self.get_google_sheet()
+        numb_of_last_row = len(sheet.col_values(3))
+        box_office_data = sheet.get(f'A{numb_of_last_row}:S{numb_of_last_row}')[0]
+
+        return box_office_data
+
 # test = SmsInfoSheet()
+# test.get_box_office_data()
+
 
 # state = {'message_to_delete': 8334, 'sms_numb': '1995', 'for_what_waste': 'Посуда', 'note_waste': 'Ебаная заметка', 'who_waste': 'Личные Кэт'}
 # print(test.push_data(state))

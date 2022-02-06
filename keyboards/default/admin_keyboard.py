@@ -15,7 +15,7 @@ def create_kb_coustom_main_menu(user_id):
 
     if user_status == 'admin':
         keyboard.add(KeyboardButton(text='права пользователей'))
-        keyboard.insert(KeyboardButton(text='информация о смс'))
+        # keyboard.insert(KeyboardButton(text='информация о смс'))
 
         keyboard.add(KeyboardButton(text='создать заявку'))
         keyboard.insert(KeyboardButton(text='в работе'))
@@ -40,7 +40,7 @@ def create_kb_coustom_main_menu(user_id):
         keyboard.add(KeyboardButton(text='отчетность'))
 
     elif user_status == 'secretary':
-        keyboard.add(KeyboardButton(text='информация о смс'))
+        # keyboard.add(KeyboardButton(text='информация о смс'))
         keyboard.add(KeyboardButton(text='пропуска'))
         keyboard.add(KeyboardButton(text='создать пропуск'))
     

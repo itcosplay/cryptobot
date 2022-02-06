@@ -11,7 +11,7 @@ from data import all_emoji
 from filters import isExecutor_and_higher
 from keyboards import create_kb_coustom_main_menu
 from keyboards import create_kb_what_balance_to_show
-from loader import dp, sheet, bot
+from loader import dp, sheet, bot, smsinfo
 from states import Balancestate
 from utils import get_single_value_float
 from utils import get_single_value_int
@@ -192,8 +192,6 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
         )
 
         try:
-            # C1A, C1T, C1D, S1V, total = sheet.get_card_balances()
-            # C1A, C1T, C1D, C1DV, C1AB, total = sheet.get_card_balances()
             C1T, C1D, C1DV, total = sheet.get_card_balances()
 
         except Exception as e:
@@ -211,23 +209,83 @@ async def show_balance(call:CallbackQuery, state:FSMContext):
 
         await bot.delete_message(chat_id=call.message.chat.id, message_id=result.message_id)
 
-        # C1A = float(C1A)
-        # C1A = get_single_value_float(C1A, 'rub')
         C1T = float(C1T)
         C1T = get_single_value_float(C1T, 'rub')
         C1D = float(C1D)
         C1D = get_single_value_float(C1D, 'rub')
         C1DV = float(C1DV)
         C1DV = get_single_value_float(C1DV, 'rub')
-        # C1AB = float(C1AB)
-        # C1AB = get_single_value_float(C1AB, 'rub')
-        # S1V = float(S1V)
-        # S1V = get_single_value_float(S1V, 'rub')
+
         total = float(total)
         total = get_single_value_float(total, 'rub')
-        # text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nСПВ: {S1V}\n\nВсего на картах: {total}'
-        # text = f'Балансы на карах:\nC1A: {C1A}\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\nС1АВ: {C1AB}\n\nВсего на картах: {total}'
+
         text = f'Балансы на картах:\nC1Т: {C1T}\nC1Д: {C1D}\nС1ДВ: {C1DV}\n\nВсего на картах: {total}'
+
+        await call.message.answer (
+            text=text,
+            reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+        )
+        await state.finish()
+
+        return
+
+    if call.data == 'box_offices_2_3':
+        result = await call.message.answer_sticker (
+            sticker['go_to_table'],
+            reply_markup=ReplyKeyboardRemove()
+        )
+        try:
+            box_office_data = smsinfo.get_box_office_data()
+
+        except Exception as e:
+            print(e)
+            traceback.print_exc()
+
+            await call.message.answer_sticker (
+                sticker['not_connection']
+            )
+            await call.message.answer (
+                text='Не удалось получить данные с гугл таблицы',
+                reply_markup=create_kb_coustom_main_menu(call.message.chat.id)
+            )
+
+            return
+        
+        await bot.delete_message(
+            chat_id=call.message.chat.id,
+            message_id=result.message_id
+        )
+
+        box_office_2_J = box_office_data[9]
+        box_office_2_J = box_office_2_J.replace(',', '.')
+        box_office_2_J = float(box_office_2_J)
+        box_office_2_J = get_single_value_float(box_office_2_J, 'rub')
+
+        box_office_3_P = box_office_data[15]
+        box_office_3_P = box_office_3_P.replace(',', '.')
+        box_office_3_P = float(box_office_3_P)
+        box_office_3_P = get_single_value_float(box_office_3_P, 'rub')
+
+        total_Q = box_office_data[16]
+        total_Q = total_Q.replace(',', '.')
+        total_Q = float(total_Q)
+        total_Q = get_single_value_float(total_Q, 'rub')
+
+        card_R = box_office_data[17]
+        card_R = card_R.replace(',', '.')
+        card_R = float(card_R)
+        card_R = get_single_value_float(card_R, 'rub')
+
+        cash_S = box_office_data[18]
+        cash_S = cash_S.replace(',', '.')
+        cash_S = float(cash_S)
+        cash_S = get_single_value_float(cash_S, 'rub')
+
+        text = f'Касса 2(офис): {box_office_2_J}'
+        text += f'\n\nКасса 3(личные): {box_office_3_P}'
+        text += f'\n\nВСЕГО: {total_Q}'
+        text += f'\nКАРТА: {card_R}'
+        text += f'\nНАЛ: {cash_S}'
 
         await call.message.answer (
             text=text,

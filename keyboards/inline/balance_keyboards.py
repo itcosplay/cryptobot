@@ -14,10 +14,16 @@ def create_kb_what_balance_to_show():
             callback_data='office_balance'
         )
     )
+    # keyboard.add (
+    #     InlineKeyboardButton (
+    #         text='карты',
+    #         callback_data='cards_balance'
+    #     )
+    # )
     keyboard.add (
         InlineKeyboardButton (
-            text='карты',
-            callback_data='cards_balance'
+            text='Кассы 2 и 3',
+            callback_data='box_offices_2_3'
         )
     )
     
