@@ -53,24 +53,3 @@ def create_kb_coustom_main_menu(user_id):
     keyboard.one_time_keyboard = True
 
     return keyboard
-
-
-
-# main_menu = ReplyKeyboardMarkup (
-
-#     keyboard = [
-#         [
-#             KeyboardButton(text='права пользователей'),
-#             KeyboardButton(text='информация о смс')
-#         ],
-#         [
-#             KeyboardButton(text='создать заявку'),
-#             KeyboardButton(text='в работе')
-#         ],
-#         [
-#             KeyboardButton(text='пропуска'),
-#         ]
-#     ],
-#     resize_keyboard=True,
-#     one_time_keyboard=True
-# )

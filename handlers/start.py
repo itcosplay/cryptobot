@@ -6,7 +6,6 @@ import sqlite3
 from loader import dp, db, bot
 from data.config import super_admins
 
-from keyboards.default import admin_keyboard
 from keyboards import create_kb_coustom_main_menu
 from utils import notify_someone
 
@@ -16,7 +15,7 @@ async def bot_start(message:types.Message):
     user_id = message.from_user.id
     text = 'Здравствуйте, Владыка!'
 
-    await bot.send_message (
+    await bot.send_message(
         chat_id=user_id, 
         text=text, 
         reply_markup=create_kb_coustom_main_menu(user_id)
