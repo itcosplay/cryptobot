@@ -137,3 +137,5 @@ permits.xlsx
 bot_users.db
 
 bt.py
+.DS_Store
+.idea/
